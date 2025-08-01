@@ -121,3 +121,26 @@ select {
 .goog-te-gadget span {
   display: none !important;
 }
+
+/* sport board */
+.single-product-wrap .details .team-name {
+    font-size: .65rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+.single-product-wrap .title {
+    font-size: .65rem;
+    font-weight: 400;
+    color: var(--heading-color, #101010);
+}
+
+.single-product-wrap .betting-wrap .btn {
+    font-size: .65rem;
+    font-weight: 600;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 18px;
+    margin-top: 10px;
+}
