@@ -61,6 +61,8 @@ export const routes: Routes = [
     path: 'invite-rewards',
     component: InviteRewardsComponent,
     title: 'Invite-Rewards',
+    canActivate: [authGuard]
+
   },
 
   // wallet
