@@ -1,0 +1,64 @@
+<app-spinner></app-spinner>
+
+<div class="container mt-4">
+    <div class="align-items-center d-flex justify-content-center vh-100">
+        <div class="register-page">
+          <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+            <h3>Create an Account</h3>
+            <p *ngIf="invitedBy" class="text-success">You've been invited by {{invitedBy}}</p>
+            <div id="google_translate_element" class="custom-google-select text-warning">Change Language</div>
+
+            <form  [formGroup]="form" (ngSubmit)="onSubmit()"  class="default-form-wrap">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="single-input-wrap">
+                            <label><img src="assets/img/icon/profile.svg" alt="img"></label>
+                            <input autocomplete="additional-name" formControlName="username" type="text" class="form-control" placeholder="Enter your name">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="single-input-wrap">
+                            <label><img src="assets/img/icon/message.svg" alt="img"></label>
+                            <input autocomplete formControlName="email" type="email" class="form-control" placeholder="Enter a valid email address">
+                            <!-- <small *ngIf="f.email.errors?.['email']">Enter a valid email.</small> -->
+
+
+                        </div>
+                        <!-- <small *ngIf="form.get('email')?.errors?.['required']">Email is required.</small> -->
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="single-input-wrap">
+                            <label><img src="assets/img/icon/password.svg" alt="img"></label>
+                            <input
+                             formControlName="password"
+                             [type]="showPassword ? 'text' : 'password'"
+                               class="form-control" placeholder="Password">
+                            <span   (click)="togglePassword()"  class="show-pass-btn">
+                              <img *ngIf="showPassword" src="assets/img/icon/eye.svg" alt="img">
+                              <img *ngIf="!showPassword" src="assets/img/icon/eye-open.svg" alt="img">
+                            </span>
+                        </div>
+                    </div>
+                    <!-- <div class="text-end"><a href="forget-pass.html">Forgot password?</a></div> -->
+                </div>
+                <button class="btn btn-base w-100">Register</button>
+            </form>
+            <!-- <div class="text-center">
+                <div class="or-border"><span>Or Sign Up With</span></div>
+                <ul class="social-area">
+                    <li><a href="https://www.facebook.com/"><img src="assets/img/icon/facebook.svg" alt="img"></a></li>
+                    <li><a href="https://www.apple.com/"><img src="assets/img/icon/apple.svg" alt="img"></a></li>
+                    <li><a href="https://www.google.com/"><img src="assets/img/icon/google.svg" alt="img"></a></li>
+                </ul>
+            </div> -->
+
+            <span class="another-way-link">Already have an account? <a routerLink='/login' >Sign In</a></span>
+        </div>
+    </div>
+</div>
+
+<!-- back-to-top end -->
+<div class="back-to-top">
+    <span class="back-top"><i class="fas fa-angle-double-up"></i></span>
+</div>

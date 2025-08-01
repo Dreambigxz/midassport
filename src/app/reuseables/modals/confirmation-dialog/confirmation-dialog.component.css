@@ -1,0 +1,3 @@
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: var(--white-color, #fff) !important; // or any color you want
+}

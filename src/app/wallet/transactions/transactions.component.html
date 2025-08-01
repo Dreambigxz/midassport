@@ -1,0 +1,124 @@
+<app-spinner></app-spinner>
+<div *ngIf="storeData.store['wallet'] as walletData" class="single-page-area">
+
+  <div class="title-area">
+      <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+      <h3>Records</h3>
+      <div translate="no" class="balance">
+        {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+        <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+      </div>
+  </div>
+
+  <div class="container">
+      <div class="wallet-ballance-card">
+          <ul>
+              <li>
+                  <span>Deposited</span>
+                  <h5>${{walletData.history.deposit}}</h5>
+              </li>
+              <li>
+                  <span>Withdrawn</span>
+                  <h5>${{walletData.history.withdraw}}</h5>
+              </li>
+          </ul>
+      </div>
+      <div class="wallet-btn-wrap btn-wrap mt-4">
+          <a class="btn btn-base" routerLink="/wallet/deposit">Deposit</a>
+          <a class="btn btn-border" routerLink="/wallet/withdraw">Withdraw</a>
+      </div>
+  </div>
+  <div class="transaction-wrap">
+      <div class="header-wrap">
+          <div class="container">
+              <div class="media">
+                  <h5>Transactions</h5>
+                  <select id="filterSelect" [(ngModel)]="selectedType" (change)="applyFilter()" class="single-select">
+                      <option value="All">All</option>
+                      <option value="deposit">Deposit</option>
+                      <option value="withdraw">Withdrawal</option>
+                      <!-- <option value="bonus">Referral </option>
+                      <option value="charge">Referral </option> -->
+                  </select>
+              </div>
+          </div>
+      </div>
+      <ul *ngFor="let tx of filteredTransactions" class="transaction-list">
+          <li class="{{tx.type|lowercase}}">
+              <button class="icon" data-bs-toggle="modal" data-bs-target="#deposit-modal"><i class="ri-arrow-right-up-line"></i></button>
+              <div class="details">
+                  <h6>{{tx.type|uppercase}}</h6>
+                  <span> {{tx.sessionID}}</span>
+                  <br>
+                  <span class="text-{{tx.status}}">{{tx.status}}</span>
+                  <!-- {{tx.inia}} -->
+              </div>
+              <div class="amount-details">
+                  <h6>${{tx.amount|number:"1.2-2"}}</h6>
+                  <span>{{tx.timestamp|date:'mediumDate'}}</span>
+              </div>
+          </li>
+      </ul>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade filter-modal-popup" id="deposit-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container">
+                <div class="modal-card-wrap deposit-modal-wrap">
+                    <h3 class="title">Deposit</h3>
+                    <ul>
+                        <li>Transaction ID <span>:</span><span> 25365451</span></li>
+                        <li>Amount <span>:</span><span> $3,000.00</span></li>
+                        <li>Payment Method <span>:</span><span> PayPal</span></li>
+                        <li>Date <span>:</span><span> 06 jun 2024</span></li>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade filter-modal-popup" id="withdraw-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container">
+                <div class="modal-card-wrap deposit-modal-wrap">
+                    <h3 class="title">Withdraw</h3>
+                    <ul>
+                        <li>Transaction ID <span>:</span><span> 25365451</span></li>
+                        <li>Amount <span>:</span><span> $500.00</span></li>
+                        <li>Payment Method <span>:</span><span> PayPal</span></li>
+                        <li>Date <span>:</span><span> 06 jun 2024</span></li>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade filter-modal-popup" id="bonus-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container">
+                <div class="modal-card-wrap deposit-modal-wrap">
+                    <h3 class="title">Referral Bonus</h3>
+                    <ul>
+                        <li>Transaction ID <span>:</span><span> 25365451</span></li>
+                        <li>Amount <span>:</span><span> $30.00</span></li>
+                        <li>Payment Method <span>:</span><span> PayPal</span></li>
+                        <li>Date <span>:</span><span> 06 jun 2024</span></li>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

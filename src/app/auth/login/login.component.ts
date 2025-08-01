@@ -1,0 +1,81 @@
+import { Component,inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import {  loadScript , loadExternalScript} from '../../reuseables/helper';
+import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { RequestDataService } from '../../reuseables/http-loader/request-data.service';
+import { StoreDataService } from '../../reuseables/http-loader/store-data.service';
+import { ToastService } from '../../reuseables/toast/toast.service';
+import { SpinnerComponent } from '../../reuseables/http-loader/spinner.component';
+
+import { FormHandlerService } from '../../reuseables/http-loader/form-handler.service';
+import { AuthService } from '../../reuseables/auth/auth.service';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink,SpinnerComponent],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
+
+})
+
+export class LoginComponent  {
+
+  reqServerData = inject(RequestDataService);
+  storeData = inject(StoreDataService);
+  route = inject(ActivatedRoute)
+  router = inject(Router)
+  authService = inject(AuthService)
+
+  window = window;
+
+  formHandler = inject(FormHandlerService);
+  fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    identifier:['',[Validators.required]],
+    password:['',[Validators.required]]
+  })
+
+
+  ngOnInit(): void {
+    // Run JS file
+    loadScript('assets/js/main.js');
+    loadExternalScript()
+    if (this.authService.checkLogin()) {
+      this.router.navigate(['/main']); // or '/dashboard'
+    }
+
+
+  }
+
+  onSubmit(){
+
+    this.formHandler.submitForm(this.form,'login', 'login/?showSpinner',  (res) => {
+      if (res.status==='success') {
+        // login user
+        this.authService.login(res.main.token).subscribe(() => {
+          // ✅ redirect to the page user wanted before login
+         const redirectUrl = localStorage['redirectUrl'] || '/main';
+         this.router.navigate([redirectUrl]);
+         // clear redirectUrl so it doesn’t persist
+         delete localStorage['redirectUrl'];
+        });
+      }
+      // this.showInvoice()
+    });
+
+  }
+
+  showPassword: boolean = false;
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+
+}

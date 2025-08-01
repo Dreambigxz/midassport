@@ -1,0 +1,243 @@
+<app-spinner></app-spinner>
+
+<div class="single-page-area">
+  <div class="title-area wallet">
+      <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+      <h3>Withdraw</h3>
+      <div  (click)="router.navigate(['wallet','transactions','withdraw'])" class="records balance">
+        Records <i class="fa fa-book"></i>
+        <!-- {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}} -->
+        <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
+      </div>
+    </div>
+
+    <div *ngIf="storeData.store['wallet'] as walletData" class="container">
+        <div class="wallet-ballance-card">
+            <ul>
+                <li>
+                    <span>Withdraw Balance</span>
+                    <h5 translate="no">{{walletData['base']['symbol']}}{{walletData['history']['withdraw']|number:'1.1-1'}}</h5>
+                </li>
+                <li>
+                    <span>Current Balance</span>
+                    <h5 translate="no">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}} </h5>
+                </li>
+            </ul>
+          </div>
+
+
+          <div *ngIf="!storeData.store['withdraw']?.length;else pendingWithdrawalBlock" class="component-wrap mt-4">
+              <div class="row flex-row">
+                  <div class="col-xl-6">
+                      <!-- Basic Tabs -->
+                      <div class="widget-header">
+                          <h6>Withdraw With</h6>
+                      </div>
+                      <div class="widget has-shadow">
+                          <div class="widget-body sliding-tabs">
+                              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li *ngIf="payWith&&payWith==='Crypto'||!payWith"  class="nav-item" role="presentation">
+                                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Crypto <i class="fa fa-wallet"></i></button>
+                                </li>
+                                <li *ngIf="payWith&&payWith==='Local'||!payWith" class="nav-item" role="presentation">
+                                  <button class="nav-link {{payWith&&payWith==='Local'?'active':0}}" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Bank Transfer <i class="fa fa-home"></i></button>
+                                </li>
+                              </ul>
+                              <div class="tab-content" id="myTabContent">
+                                <!-- crypto form selector >><< -->
+                                  <div *ngIf="methodView.Crypto as view" class="tab-pane fade {{!payWith?'show active':payWith&&payWith==='Crypto'?'show active':0}}" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                    <form *ngIf="view.form as form" [formGroup]="form">
+                                      <!-- <span class="text-warning">Recommended</span> -->
+                                        <div *ngIf="view.step===1">
+
+                                            <div class="payment-method-card mb-4">
+
+                                                <h6 *ngIf="!storeData.store['hasMethod']">Select Network</h6>
+                                                <div id="Crypto" class="payment-method-select" (click)="onPaymentSelect($event)">
+
+                                                    <div *ngIf="!storeData.store['hasMethod']||storeData.store['hasMethod']&&storeData.store['hasMethod'].code==='USD'" class="form-check form-check-inline">
+                                                      <input  class="form-check-input " type="radio" name="payment_method"  formControlName="payment_method" id="trc20" value="0">
+                                                      <label class="form-check-label" for="trc20"><img src="assets/img/card/usdt.svg" alt="img"></label>
+                                                    </div>
+
+
+                                                    <div *ngIf="!storeData.store['hasMethod']||storeData.store['hasMethod']&&storeData.store['hasMethod'].code==='TRON'" class="form-check form-check-inline">
+                                                      <input class="form-check-input" type="radio" name="payment_method" formControlName="payment_method" id="tron"  value="1">
+                                                      <label class="form-check-label" for="tron"><img src="assets/img/card/tron.svg" alt="img"></label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div *ngIf="methodView.Crypto['paymentMethod'] as crypto">
+                                                <div class="amount-wrap">
+                                                    <div class="title-wrap">
+                                                        <h6>Amount To Withdraw</h6>
+                                                        <span class="text-warning">Minimum: {{crypto.symbol}}{{crypto.minimum_withdraw|number}} </span>
+                                                    </div>
+                                                    <span *ngIf="form.get('amount').valid" class="cvt-amount text-success"> Eqv ≈ ${{crypto.cvtUSD|number:'1.2-2'}} </span>
+
+                                                    <div class="single-input-wrap">
+                                                        <input  (keyup)="onAmountKeyup($event,crypto)" min="{{crypto.minimum_withdraw}}" formControlName="amount" type="number" class="form-control" placeholder="{{crypto.symbol}} {{crypto.minimum_withdraw|number}}">
+                                                        <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{crypto.symbol}}{{crypto.minimum_withdraw|number}} required</small>
+                                                    </div>
+                                                </div>
+                                                  <button (click)="nextStep(view)" *ngIf="form.get('amount')?.valid" class="btn btn-primary w-50">NEXT</button>
+                                              </div>
+                                        </div>
+
+                                        <div *ngIf="view['paymentMethod'] as crypto">
+                                            <div *ngIf="view.step===2" class="">
+
+                                                <div class="single-input-wrap">
+                                                    <input formControlName='account_number'  type="text" class="form-control" placeholder="{{crypto.name==='Dollar'?'USDTRC20':crypto.name}} Address">
+                                                </div>
+
+                                                <div style="display:flex;justify-content:space-between" class="form-btn">
+                                                  <button class="btn btn-secondary w-10" type="button" (click)="prevStep(view,1)">Back</button>
+                                                    <button class="btn btn-primary w-50" type="button" (click)="nextStep(view,3)">Next</button>
+                                                  </div>
+                                                  <!-- <button class="btn btn-base w-50" type="submit" (click)="onSubmit('create_withdraw',form)">Submit</button> -->
+                                            </div>
+                                            <div *ngIf="view.step===3" class="">
+                                                  <div class="d-flex single-input-wrap">
+                                                    <input formControlName='verification_code' class="form-control" type="text" placeholder="Enter verification code" >
+                                                    <button class="btn btn-outline-primary me-2" [disabled]="timer > 0" (click)="openModal()">{{timer == 0?"Get Code":timer}}</button>
+                                                    </div>
+
+                                                <div style="display:flex;justify-content:space-between" class="form-btn">
+                                                  <button class="btn btn-secondary w-10" type="button" (click)="prevStep(view,2)">Back</button>
+                                                    <button class="btn btn-base w-50" type="submit" (click)="onSubmit('create_withdraw',form)">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                  </div>
+                                  <!-- local form -->
+                                  <div  class="tab-pane fade {{payWith&&payWith==='Local'?'show active':0}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                                    <form *ngIf="methodView.Local.form as form"  [formGroup]="form">
+
+                                        <div *ngIf="methodView.Local.step===1">
+
+                                          <div  class="payment-method-card">
+                                              <h6>Currency</h6>
+                                              <div *ngIf="!storeData.store['hasMethod']" class="single-input-wrap">
+                                                <select id="Local" class="single-selec w-100" formControlName='payment_method' (change)="changePaymentMethod($event)" required>
+                                                    <div >
+                                                      <option value="" disabled selected="true">Select</option>
+                                                      <option  *ngFor='let currency of storeData.store["init_currencies"]?.slice(2);let i=index' value="{{i+2}}">{{currency.name}}</option>
+                                                    </div>
+                                                    <!-- <option *ngIf="storeData.store['hasMethod']" [value]="storeData.store['hasMethod']?.code" selected="true">{{storeData.store['hasMethod']?.name}}</option> -->
+
+                                                </select>
+                                              </div>
+
+                                              <div *ngIf="storeData.store['hasMethod']" class="single-input-wrap">
+                                                  <input readonly  formControlName="payment_method" type="text" class="form-control" placeholder="{{storeData.store['hasMethod']?.name}}" value="{{storeData.store['hasMethod']?.name}}">
+                                                  <!-- <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{local.symbol}}{{local.minimum_withdraw|number}} required</small> -->
+                                              </div>
+
+                                          </div>
+
+                                          <div *ngIf="methodView.Local['paymentMethod'] as local">
+                                              <div  class="amount-wrap">
+
+                                                  <div class="title-wrap">
+                                                      <h6>Amount To Withdraw </h6>
+                                                      <span class="text-warning">Minimum: {{local.symbol}}{{local.minimum_withdraw|number}} </span>
+                                                  </div>
+                                                  <span *ngIf="form.get('amount').valid" class="cvt-amount text-success"> Eqv ≈ ${{local.cvtUSD|number:'1.2-2'}} </span>
+
+                                                  <div class="single-input-wrap">
+                                                      <input (keyup)="onAmountKeyup($event,local)" min="{{local.minimum_withdraw}}" formControlName="amount" type="number" class="form-control" placeholder="{{local.symbol}} {{local.minimum_withdraw|number}}">
+                                                      <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{local.symbol}}{{local.minimum_withdraw|number}} required</small>
+
+                                                  </div>
+                                              </div>
+                                              <button (click)="nextStep(methodView.Local)" *ngIf="methodView.Local.form.get('amount')?.valid" class="btn btn-primary w-50">NEXT</button>
+                                          </div>
+                                        </div>
+
+                                        <div *ngIf="methodView.Local.step===2" class="">
+
+                                            <div class="title-wrap">
+                                                <!-- <h6>Address</h6> -->
+                                            </div>
+
+                                            <div class="single-input-wrap">
+                                                <input formControlName='account_number'  type="number" class="form-control" placeholder="Account Number">
+                                            </div>
+                                            <div class="single-input-wrap">
+                                                <input formControlName="account_holder" autocomplete type="text" class="form-control" placeholder="Legal Name">
+                                            </div>
+                                            <div class="single-input-wrap">
+                                                <input formControlName="bank" type="text" class="form-control" placeholder="Bank Name">
+                                            </div>
+
+                                            <div style="display:flex;justify-content:space-between" class="form-btn">
+                                              <button class="btn btn-secondary w-10" type="button" (click)="prevStep(methodView.Local,1)">Back</button>
+                                                <button class="btn btn-primary w-50" type="button" (click)="nextStep(methodView.Local,3)">Next</button>
+                                              </div>
+                                              <!-- <button class="btn btn-base w-50" type="submit" (click)="onSubmit('create_withdraw',form)">Submit</button> -->
+                                        </div>
+                                          <div *ngIf="methodView.Local.step===3" class="">
+                                                <div class="d-flex single-input-wrap">
+                                                  <input formControlName='verification_code' class="form-control" type="text" placeholder="Enter verification code" >
+                                                  <button class="btn btn-outline-primary me-2" [disabled]="timer > 0" (click)="openModal()">{{timer == 0?"Get Code":timer}}</button>
+                                                  </div>
+
+                                              <div style="display:flex;justify-content:space-between" class="form-btn">
+                                                <button class="btn btn-secondary w-10" type="button" (click)="prevStep(methodView.Local,2)">Back</button>
+                                                  <button class="btn btn-base w-50" type="submit" (click)="onSubmit('create_withdraw',form)">Submit</button>
+                                              </div>
+                                          </div>
+
+                                    </form>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- End Basic Tabs -->
+                  </div>
+
+              </div>
+          </div>
+
+          <ng-template #pendingWithdrawalBlock>
+
+              <div *ngIf="storeData.store['withdraw'][0] as pendingPayment" class="container pending-deposit">
+                  <div class="component-wrap mt-4">
+                      <h6>Pending Withdrawal</h6>
+                      <div class="invoice ba-all-page-inner mb-4">
+                          <ul>
+                              <li><a >Invoice <span class="text-warning">#{{pendingPayment.sessionID}}</span></a></li>
+                              <li><a >Amount <span class="text amount">{{pendingPayment.method}}{{pendingPayment.init_amount|number:'1.2-2'}}</span></a></li>
+                              <li><a >Charges <span class="text amount">{{pendingPayment.method}}{{pendingPayment.init_processFee|number:'1.2-2'}}</span></a></li>
+                              <li><a >Created <span class="text-date">{{pendingPayment.timestamp|date:'medium'}}</span></a></li>
+                              <li><a >Payment timer <span class="text-date text-danger">{{ days }}d:{{ hours }}h:{{ minutes }}m:{{ seconds }}s</span></a></li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="action-btn">
+                    <button (click)="CancelPayment('withdraw')"  class="btn btn-base w-100 btn-danger">Cancel Withdrawal</button>
+                  </div>
+              </div>
+          </ng-template>
+      <div class="modal fade" id="methodModal" tabindex="-1" aria-labelledby="methodModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+              <div class="modal-header">
+                <h5 class="modal-title w-100" id="methodModalLabel">Choose Method</h5>
+              </div>
+              <div class="modal-body">
+                <p>How do you want to receive your verification code?</p>
+                <button class="btn btn-secondary w-100 mb-2" (click)="sendCode('telegram')" data-bs-dismiss="modal">Telegram <small>(Recommended)</small></button>
+                <button class="btn btn-primary w-100" (click)="sendCode('email')" data-bs-dismiss="modal">Email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>

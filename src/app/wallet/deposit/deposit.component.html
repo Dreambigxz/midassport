@@ -1,0 +1,237 @@
+<app-spinner></app-spinner>
+
+<div class="single-page-area">
+  <div class="title-area wallet">
+      <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+      <h3>Deposit</h3>
+      <div  (click)="router.navigate(['wallet','transactions','deposit'])" class="records balance">
+        Records <i class="fa fa-book"></i>
+        <!-- {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}} -->
+        <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
+      </div>
+    </div>
+
+    <div *ngIf="storeData.store['wallet'] as walletData" class="container">
+        <div class="wallet-ballance-card">
+            <ul>
+                <li>
+                    <span>Deposit Balance</span>
+                    <h5 translate="no">{{walletData['base']['symbol']}}{{walletData['history']['deposit']|number:'1.2-2'}}</h5>
+                </li>
+                <li>
+                    <span>Current Balance</span>
+                    <h5 translate="no">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}} </h5>
+                </li>
+            </ul>
+        </div>
+
+        <div *ngIf="!storeData.store['deposit']?.length;else pendingDepositBlock">
+
+            <div class="component-wrap mt-4">
+                <div class="row flex-row">
+                    <div class="col-xl-6">
+                        <!-- Basic Tabs -->
+                        <div class="widget-header">
+                            <h6>Pay With</h6>
+                        </div>
+                        <div class="widget has-shadow">
+                            <div class="widget-body sliding-tabs">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                  <li *ngIf="payWith&&payWith==='Crypto'||!payWith" class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Crypto <i class="fa fa-wallet"></i></button>
+                                  </li>
+                                  <li *ngIf="payWith&&payWith==='Local'||!payWith"  class="nav-item" role="presentation">
+                                    <button class="nav-link {{payWith&&payWith==='Local'?'active':0}}" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Bank Transfer <i class="fa fa-home"></i></button>
+                                  </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                  <!-- crypto form selector >><< -->
+                                    <div *ngIf="methodView.Crypto.form as form" class="tab-pane fade {{!payWith?'show active':payWith&&payWith==='Crypto'?'show active':0}}" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                      <i class="text-warning">Takes 0-5 Minutes - <span class="text-success">(Recommended)</span></i>
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit('create_deposit',form)">
+                                          <!-- <span class="text-warning">Recommended</span> -->
+
+                                          <div class="payment-method-card mb-4">
+
+                                              <h6>Select Network</h6>
+                                              <div id="Crypto" class="payment-method-select" (click)="onPaymentSelect($event)">
+                                                  <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="payment_method"  formControlName="payment_method" id="trc20" value="0">
+                                                    <label class="form-check-label" for="trc20"><img src="assets/img/card/usdt.svg" alt="img"></label>
+                                                  </div>
+
+
+                                                  <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="payment_method" formControlName="payment_method" id="tron"  value="1">
+                                                    <label class="form-check-label" for="tron"><img src="assets/img/card/tron.svg" alt="img"></label>
+                                                  </div>
+
+                                              </div>
+                                          </div>
+                                          <div *ngIf="methodView.Crypto['paymentMethod'] as crypto">
+
+                                              <div class="amount-wrap">
+                                                  <div class="title-wrap">
+                                                      <h6>Amount To Deposit</h6>
+                                                      <span class="text-warning">Minimum: {{crypto.symbol}}{{crypto.minimum_deposit|number}} </span>
+                                                  </div>
+                                                  <span *ngIf="form.get('amount').valid" class="cvt-amount text-success"> Eqv ≈ ${{crypto.cvtUSD|number:'1.2-2'}} </span>
+
+                                                  <div class="single-input-wrap">
+                                                      <input  (keyup)="onAmountKeyup($event,crypto)" min="{{crypto.minimum_deposit}}" formControlName="amount" type="number" class="form-control" placeholder="{{crypto.symbol}} {{crypto.minimum_deposit|number}}">
+                                                      <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{crypto.symbol}}{{crypto.minimum_deposit|number}} required</small>
+                                                  </div>
+                                              </div>
+                                              <!-- <input type="hidden" formControlName="processor" value="created_deposit"> -->
+                                              <button *ngIf="form.get('amount')?.valid" class="btn btn-base w-100">Continue</button>
+                                          </div>
+                                        </form>
+                                    </div>
+                                    <!-- local form -->
+                                    <div *ngIf="methodView.Local.form as form" class="tab-pane fade {{payWith&&payWith==='Local'?'show active':0}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                                      <i class="text-warning">Takes 5 - 60 Minutes </i>
+
+                                        <form  [formGroup]="form" (ngSubmit)="onSubmit('create_deposit',form)">
+                                            <div class="payment-method-card">
+                                                <h6>Select Currency</h6>
+                                                <div class="single-input-wrap">
+                                                  <select id="Local" class="single-selec w-100" formControlName='payment_method' (change)="changePaymentMethod($event)" >
+                                                      <option value="" disabled selected="true">Select</option>
+                                                      <option  *ngFor='let currency of storeData.store["init_currencies"].slice(2);let i=index' value="{{i+2}}">{{currency.name}}</option>
+                                                  </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div *ngIf="methodView.Local['paymentMethod'] as local">
+                                                <div class="amount-wrap">
+
+                                                    <div class="title-wrap">
+                                                        <h6>Amount To Deposit </h6>
+                                                        <span class="text-warning">Minimum: {{local.symbol}}{{local.minimum_deposit|number}} </span>
+                                                    </div>
+                                                    <span *ngIf="form.get('amount').valid" class="cvt-amount text-success"> Eqv ≈ ${{local.cvtUSD|number:'1.2-2'}} </span>
+
+                                                    <div class="single-input-wrap">
+                                                        <input (keyup)="onAmountKeyup($event,local)" min="{{local.minimum_deposit}}" formControlName="amount" type="number" class="form-control" placeholder="{{local.symbol}} {{local.minimum_deposit|number}}">
+                                                        <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{local.symbol}}{{local.minimum_deposit|number}} required</small>
+
+                                                    </div>
+                                                </div>
+                                                <button *ngIf="methodView.Local.form.get('amount')?.valid" class="btn btn-base w-100">Continue</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Basic Tabs -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <ng-template #pendingDepositBlock>
+
+            <div *ngIf="pendingDeposit" class="container pending-deposit">
+                <div class="component-wrap mt-4">
+                    <h6>Pending Payment</h6>
+                    <div class="invoice ba-all-page-inner mb-4">
+                        <ul>
+                            <li><a href="#">Invoice <span class="text-warning">#{{pendingDeposit.sessionID}}</span></a></li>
+                            <li><a href="#">Amount <span class="text amount">{{pendingDeposit.method}}{{pendingDeposit.init_amount|number:'1.2-2'}}</span></a></li>
+                            <li><a href="#">Created <span class="text-date">{{pendingDeposit.timestamp|date:'medium'}}</span></a></li>
+                        </ul>
+                    </div>
+
+                    <div *ngIf="isLocalDeposit; else CryptoPaymentBlock" class="local__payment ba-all-page-inne">
+                      <p class="text-warning text-center">{{!pendingDeposit.proof?"Make Payment with any of the banking details bellow to complete your deposit request!":"Awaiting payment confirmation"}}</p>
+
+                      <div *ngIf="!pendingDeposit.proof" class="sports-wrap mt-4">
+                          <div class="sports-slider slider-nav">
+
+                              <div *ngFor="let bank of localBank" class="sports-slider-item">
+                                  <span class="bank-name">{{bank.bank}} Bank</span>
+                                  <svg class="svg-inline--fa fa-credit-card fa-w-18" aria-hidden="true" focusable="false" data-prefix="far" data-icon="credit-card" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"></path></svg>
+                              </div>
+                          </div>
+
+                          <div class="sports-slider-wrap slider-for">
+                              <div *ngFor="let bank of localBank" class="slider-content">
+
+                                <div class="account ba-all-page-inner mb-4">
+                                    <ul>
+                                        <li>
+                                          <a>Account Number
+                                            <span class="text">{{bank.account_number}}
+                                              <svg (click)="copyContent(bank.account_number)" class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                            </span>
+                                          </a>
+
+                                      </li>
+                                        <!-- <li><a href="#">Amount <span class="text">{{pendingDeposit.method}}{{pendingDeposit.init_amount|number:'1.2-2'}}</span></a></li> -->
+                                        <li><a>Account Holder <span class="text">{{bank.account_holder}}</span></a></li>
+                                        <li><a>Bank Name <span class="text">{{bank.bank}}</span></a></li>
+                                    </ul>
+                                </div>
+                              </div>
+
+
+                          </div>
+                      </div>
+                    </div>
+
+                    <ng-template #CryptoPaymentBlock>
+                        <div class="qr-wrapper">
+                          <qrcode
+                            [qrdata]="pendingDeposit.transactionID"
+                            [width]="25"
+                            [errorCorrectionLevel]="'M'">
+                          </qrcode>
+
+                        </div>
+
+                      <div class="invite-wrap mb-4">
+                          <div class="input-wrap">
+                              <input type="text" class="form-control" placeholder="{{pendingDeposit.transactionID}}">
+                              <button (click)='copyContent(pendingDeposit.transactionID)' type="button" class="btn-clipboard"><svg class="svg-inline--fa fa-clone fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="clone" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 0H144c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h320c26.51 0 48-21.49 48-48v-48h48c26.51 0 48-21.49 48-48V48c0-26.51-21.49-48-48-48zM362 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h42v224c0 26.51 21.49 48 48 48h224v42a6 6 0 0 1-6 6zm96-96H150a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h308a6 6 0 0 1 6 6v308a6 6 0 0 1-6 6z"></path></svg><!-- <i class="far fa-clone"></i> Font Awesome fontawesome.com --></button>
+                          </div>
+
+                        </div>
+
+                    </ng-template>
+
+                    <div *ngIf="isLocalDeposit"  class="mb-4">
+                      <!-- Upload Wrapper -->
+                          <div class="upload-wrapper mb-3">
+                            <label for="fileInput">
+                              <img [src]="previewUrl || defaultImage" class="upload-preview" alt="Upload image" />
+                            </label>
+                            <input
+                              type="file"
+                              id="fileInput"
+                              hidden
+                              accept="image/*"
+                              (change)="onImageSelected($event)"
+                            >
+                            <br>
+                          </div>
+
+                          <h6 style="display:flex;justify-content:center" *ngIf="!previewUrl">Upload Receipt</h6>
+
+                    </div>
+                    <div class="action-btn">
+                      <button (click)="CancelPayment('deposit')"  class="btn btn-base w-100 btn-danger">Cancel Deposit</button>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+
+    </div>
+
+</div>

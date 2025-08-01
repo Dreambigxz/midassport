@@ -1,0 +1,16 @@
+.dialog-content {
+  text-align: center;
+  padding: 16px;
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+mat-icon.success {
+  color: #4caf50;
+}
+mat-icon.error {
+  color: #f44336;
+}

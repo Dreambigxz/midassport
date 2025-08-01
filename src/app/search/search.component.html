@@ -1,0 +1,36 @@
+<app-spinner></app-spinner>
+
+<div class="container">
+    <div class="home-search-wrap">
+        <div class="default-form-wrap mb-0">
+            <div class="single-input-wrap mb-0">
+                <label><i class="ri-search-line"></i></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search team,league county..."
+                  [(ngModel)]="searchText"
+                  (keyup)="onSearch()"
+                  >
+            </div>
+        </div>
+        <a (click)="window.history.back()" class="btn back-page-btn" ><i class="ri-close-line"></i></a>
+    </div>
+
+    <div *ngFor="let m of filteredItems">
+        <div class="single-product-wrap">
+            <h6 class="title">{{m.league.name}}</h6>
+            <div class="details">
+                <div class="thumb"><img src="{{m.teams.home.logo}}" alt="img"><h6 class="team-name">{{m.teams.home.name}}</h6></div>
+                <div class="betting-wrap">
+                    <div class="time">
+                        <i class="fa fa-circle"></i>
+                        {{setTime(m.fixture.timestamp)}}
+                    </div>
+                    <a [routerLink]="['/betslip',m.fixture.id]" class="btn btn-base">Bet Now</a>
+                </div>
+                <div class="thumb"><img src="{{m.teams.away.logo}}" alt="img"><h6 class="team-name">{{m.teams.away.name}}</h6></div>
+            </div>
+        </div>
+      </div>
+</div>

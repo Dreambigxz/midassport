@@ -1,0 +1,66 @@
+
+<div class="single-page-area">
+
+        <div class="title-area">
+            <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+            <h3>Users {{diretory}}</h3>
+            <div translate="no" *ngIf="storeData.store['wallet'] as walletData" class="balance">
+              {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+              <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="component-wrap mt-4">
+
+                <div class="ba-all-page-inner mb-4 p-0 border-radius-4">
+                    <div *ngIf="diretory==='pending';else notPendingBlock" class="table-responsive">
+                        <table class="table uikit-table-1">
+                            <thead>
+                                <tr>
+                                    <th scope="col">User ID</th>
+                                    <th scope="col">Amount</th>
+                                    <!-- <th scope="col">Commisson</th> -->
+                                    <th scope="col">Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="storeData.store['promotionLevel_'+diretory] as tables">
+                                <tr *ngFor="let table of tables">
+                                    <th scope="row">{{table.user}}</th>
+                                    <td class="text-danger">$0</td>
+                                    <td class="text-date">{{table.created_at|date:'mediumDate'}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <ng-template #notPendingBlock>
+                        <div class="table-responsive">
+                            <table class="table uikit-table-1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">User ID</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Commisson</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="storeData.store['promotionLevel_'+diretory] as tables">
+                                    <tr *ngFor="let table of tables">
+                                        <th scope="row">{{table.referred_user}}</th>
+                                        <td class="text-success">${{table.amount|number:'1.2-2'}}</td>
+                                        <td>{{table.type}}</td>
+                                        <td class="text-date">{{table.created_at|date:'mediumDate'}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                      </ng-template>
+                  </div>
+
+            </div>
+        </div>
+
+</div>

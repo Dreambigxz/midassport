@@ -1,0 +1,33 @@
+.custom-toast {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(50, 50, 50, 0.85); /* transparent dark  */
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  top: 100%; left: 0 ;
+
+
+  .icon {
+    font-size: 24px;
+    margin-right: 12px;
+  }
+
+  &.success .icon {
+    color: #4caf50;
+  }
+
+  &.error .icon {
+    color: #f44336;
+  }
+}
+
+
+.transparent-snackbar {
+  background: none !important; // Remove default snackbar background
+  box-shadow: none !important;
+  padding: 0 !important;
+}

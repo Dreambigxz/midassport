@@ -1,0 +1,4 @@
+<div class="custom-toast" [ngClass]="data.status">
+  <mat-icon class="icon">{{ data.status === 'success' ? 'check_circle' : 'error' }}</mat-icon>
+  <span class="message">{{ data.message }}</span>
+</div>

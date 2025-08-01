@@ -1,13 +1,170 @@
 <!doctype html>
-<html lang="en">
+<html lang="zxx">
 <head>
   <meta charset="utf-8">
-  <title>Fbapp</title>
+  <title>Turbo Sport</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+
+  <link rel="icon" type="image/x-icon" href="favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/animate.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/magnific.min.css">
+  <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+  <link rel="stylesheet" href="assets/css/nice-select.min.css">
+  <link rel="stylesheet" href="assets/css/owl.min.css">
+  <link rel="stylesheet" href="assets/css/slick-slide.min.css">
+  <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+  <link rel="stylesheet" href="assets/css/remixicon/remixicon.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script type="text/javascript">
+    !localStorage.dark||localStorage.dark=='false'?[
+      localStorage.dark=true
+    ]:0;;
+
+  </script>
+
+  <script type="text/javascript">
+   function googleTranslateElementInit() {
+     new google.translate.TranslateElement({
+       pageLanguage: 'en',
+       includedLanguages: 'en,es,fr,de,sw,id,ar', // Customize languages
+       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+     }, 'google_translate_element');
+   }
+ </script>
+
+ <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style media="screen">
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+      background-image: url("https://wallpapercave.com/wp/wp6374451.jpg") !important;
+      /* background-image: url("https://wallpapercave.com/wp/wp5449203.jpg") !important; */
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+      isolation: isolate;
+      background-attachment: fixed !important;
+    }
+
+      /* Overlay to darken background */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.7); /* Change opacity here */
+        z-index: -1;
+      }
+
+      /* Custom style for the select dropdown */
+      .custom-google-select .goog-te-combo {
+      background-color: #fff;
+      color: #333;
+      padding: 8px 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      appearance: none;
+      outline: none;
+      width: 180px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+
+      .custom-google-select {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+      }
+
+      .VIpgJd-ZVi9od-ORHb-OEVmcd{
+      display: none !important;
+      }
+      .VIpgJd-yAWNEb-hvhgNd{
+      display: none !important;
+
+      }
+
+      /* Optional: hover/focus effect */
+      .custom-google-select .goog-te-combo:hover,
+      .custom-google-select .goog-te-combo:focus {
+      border-color: #007bff;
+      }
+
+      .goog-te-gadget-icon {
+          margin-left: 2px;
+          margin-right: 2px;
+          width: auto !important;
+          height: auto !important;
+          border: none;
+          vertical-align: middle;
+      }
+
+      .custom-google-select {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            margin-left: auto;
+        }
+
+      /*  end of  gpoogle translator styling */
+
+  </style>
 </head>
-<body>
+<body class="sc5">
+  <div class="body-overlay" id="body-overlay"></div>
+
+  <div class="preloader" id="preloader">
+      <div class="preloader-inner">
+          <div id="wave1">
+          </div>
+          <!-- <div class="spinner">
+              <div class="dot1"></div>
+              <div class="dot2"></div>
+          </div> -->
+
+          <div class="logo-container">
+              <img src="assets/img/logo.png" alt="App Logo" class="logo-bounce" />
+            </div>
+      </div>
+  </div>
+
   <app-root></app-root>
 </body>
+
+<!-- all plugins here -->
+<script src="assets/js/jquery.3.6.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/imageloded.min.js"></script>
+<script src="assets/js/counterup.js"></script>
+<script src="assets/js/waypoint.js"></script>
+<script src="assets/js/magnific.min.js"></script>
+<script src="assets/js/isotope.pkgd.min.js"></script>
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/js/nice-select.min.js"></script>
+<script src="assets/js/fontawesome.min.js"></script>
+<script src="assets/js/owl.min.js"></script>
+<script src="assets/js/slick-slider.min.js"></script>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/js/tweenmax.min.js"></script>
+<!-- main js  -->
+<!-- <script src="assets/js/main.js"></script> -->
+
 </html>

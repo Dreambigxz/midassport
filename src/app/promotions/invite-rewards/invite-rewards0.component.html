@@ -1,0 +1,82 @@
+<div  class="single-page-area">
+    <div class="title-area">
+        <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+        <h3>Agent Rewards</h3>
+        <div *ngIf="storeData.store['wallet'] as walletData" translate="no" class="balance">
+          {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+          <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="component-wrap mt-4">
+            <div class="row">
+                <div class="col-xl-6">
+                    <!-- Basic -->
+                    <div class="widget-header">
+                        <!-- <h4>Basic Progress Bars</h4> -->
+                    </div>
+                    <div class="widget has-shadow">
+                        <div class="widget-body">
+
+                            <div *ngFor="let i of storeData.store['invite-rewards']?.invite_levels"  class="">
+
+                              <div  class="{{i.id===storeData.store['invite-rewards'].level?'active':``}}">
+                              <!-- <div  *ngIf="getEarning(i.id) as earning; else noEarnignBlock" class=""> -->
+                                <!-- <p>Has EarnignBlock 🟢</p> -->
+
+                                <div  class="properties">
+                                    <span>
+                                      <!-- Level:{{i.id}} -->
+                                      <span>Level:{{i.id}} {{getEarning(i.id)?'✅':""}}</span>
+
+                                    </span>
+                                    <span>{{i.invites_required}} Invites </span>
+                                    <!-- <span>{{getEarning(i.id)?'Completed':"Required"}}:{{i.invites_required}}</span> -->
+                                    <span>${{i.reward_amount|number:'1.0-0'}}</span>
+                                </div>
+
+                                <div class="progress mb-3">
+                                    <!-- {{i.id}} -->
+                                    <div class="progress-bar" role="progressbar" style="width: {{getEarning(i.id)?'100%;background-color:#1db11d':i.id===storeData.store['invite-rewards'].level?'25%':0}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                              </div>
+
+                              <!-- <ng-template #noEarnignBlock>
+                                  <p>No EarnignBlock</p>
+                                  <div class="properties">
+                                      <span>
+                                        Level:{{i.id}}
+                                      </span>
+                                      <span>Required:{{i.invites_required}}</span>
+                                      <span>Reward:{{i.reward_amount}}</span>
+                                  </div>
+
+                                  <div class="progress mb-3">
+                                      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                              </ng-template> -->
+
+                            </div>
+
+                            <!-- <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <!-- End Basic -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

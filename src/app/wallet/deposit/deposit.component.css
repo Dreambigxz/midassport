@@ -1,0 +1,68 @@
+ .invoice.ba-all-page-inner ul li a:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 2px;
+  font-size: 20px;
+  font-family: "remixicon" !important;
+  font-style: normal;
+}
+
+span.text {
+    font-weight: 900;
+    color: #8b83c8;
+}
+.bank-name{
+  text-transform: uppercase;
+}
+
+.account.ba-all-page-inner ul li a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 2px;
+  font-size: 20px;
+  font-family: "remixicon" !important;
+  font-style: normal;
+}
+
+.qr-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+  .invite-wrap {
+    margin-top: 6px;
+}
+
+.text.amount{
+  font-size: 16px;
+}
+
+.cvt-amount{
+  text-align: right;
+
+  /* position: ; */
+}
+
+.upload-wrapper {
+  display: flex;
+  justify-content: center; /* Horizontal center */
+  align-items: center;     /* Vertical center (optional) */
+  margin-bottom: 12px;
+}
+
+.upload-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.upload-preview:hover {
+  opacity: 0.8;
+}

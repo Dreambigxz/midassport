@@ -1,1 +1,123 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: .745rem;
+}
+
+.scroll-box {
+  height: 700px;
+  overflow-y: auto;
+  /* padding: 10px; */
+}
+
+.slider-content.active {
+    display: block !important;
+}
+
+
+.single-product-wrap .thumb {
+  width: 30%;
+}
+
+.single-product-wrap .thumb img {
+  width: 30%;
+}
+
+.main-footer-bottom ul li a svg {
+    filter: brightness(1.5) grayscale(1);
+    transition: all 0.4s ease-in;
+    display: block;
+    margin: auto;
+}
+
+.text-date {
+    color: #999;
+    font-size: 12px;
+}
+
+.single-page-area .wallet .balance {
+    border-radius: none;
+    border: 0;
+    background: var(--white-color, #fff);
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 3px 3px 11px;
+    line-height: normal;
+    justify-content: space-between;
+    width: 90px;
+    margin-left: auto;
+    color: #614bff;
+}
+
+.error-input{
+  margin-top: 1em;
+  font-size: 12px;
+  color: #ffb0b7;
+  font-weight: 800;
+}
+
+select {
+    word-wrap: normal;
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--white-color, #fff);
+    border: 0 none;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* full screen center */
+  /* background: white;  */
+}
+
+.logo-bounce {
+  width: 120px; /* adjust size */
+  height: auto;
+  /* animation: bounceIn 1.5s ease; */
+  animation: bounceIn 1.5s infinite ease-in-out;
+
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3) translateY(-200px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) translateY(20px);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9) translateY(-10px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.no-data{
+  text-align: center;
+  margin-top: 14em
+}
+.single-page-area .title-area h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 30px 0 58px;
+    font-size: .84rem;
+}
+
+/* google translator styling */
+.goog-logo-link,
+.goog-te-gadget span {
+  display: none !important;
+}
