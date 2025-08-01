@@ -10,7 +10,7 @@ import {  loadScript } from '../../reuseables/helper';
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule],
+  imports: [CommonModule, SpinnerComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })

@@ -45,6 +45,9 @@ export class TransactionsComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    loadScript('assets/js/main.js');
+
     this.route.paramMap.subscribe(params => {
       this.filter = params.get('filter');
       this.filter?this.selectedType=this.filter:0;
@@ -59,7 +62,6 @@ export class TransactionsComponent implements OnInit {
 
     });
 
-    loadScript('assets/js/main.js');
 
   }
 

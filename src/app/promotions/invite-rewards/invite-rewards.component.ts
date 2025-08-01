@@ -10,7 +10,7 @@ import {  loadScript } from '../../reuseables/helper';
 
 @Component({
   selector: 'app-invite-rewards',
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule,RouterLink,SpinnerComponent],
   templateUrl: './invite-rewards.component.html',
   styleUrl: './invite-rewards.component.css'
 })
