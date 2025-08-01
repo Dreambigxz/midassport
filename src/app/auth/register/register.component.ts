@@ -66,7 +66,6 @@ export class RegisterComponent {
     if (this.RefCode&&!this.invitedBy) {
       this.reqServerData.get('register?RefCode='+this.RefCode).subscribe({
         next:res =>{
-          console.log({res});
           this.invitedBy=res.main.invitedBy
         }
       })
@@ -92,6 +91,7 @@ export class RegisterComponent {
         this.authService.login(res.main.token).subscribe(() => {
           // ✅ redirect to the page user wanted before login
          const redirectUrl = '/main';
+         delete(localStorage["invitedBy"])
          this.router.navigate([redirectUrl]);
         });
       }

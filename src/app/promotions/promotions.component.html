@@ -39,7 +39,8 @@
                   <div class="date secure"> ♻️ IINCOME </div>
                   <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
                   <div class="blog-meta">
-                    <h4><span class="amount">${{ref.referral.total_earning+ref.rebate.total_earning|number:'1.1-1'}}</span></h4>
+                    <h4><span class="amount">
+                      ${{(ref.referral?.total_earning || 0) + (ref.rebate?.total_earning || 0)| number:'1.1-1'}}</span></h4>
                     <!-- <span class="title">Inactive Surbodinate</span>:<span class="amount">0</span> -->
                   </div>
               </div>

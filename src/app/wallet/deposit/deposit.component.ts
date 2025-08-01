@@ -67,12 +67,11 @@ export class DepositComponent {
 
   setMetheod = this.methodView['Crypto']
 
-  ngOnInit(): void {    loadScript('assets/js/main.js');if (!this.storeData.get('deposit')){this.reqServerData.get("wallet?dir=start_deposit&showSpinner").subscribe({next: res =>this.showInvoice()})}else{this.showInvoice()}}
+  ngOnInit(): void {loadScript('assets/js/main.js');if (!this.storeData.get('deposit')){this.reqServerData.get("wallet?dir=start_deposit&showSpinner").subscribe({next: res =>this.showInvoice()})}else{this.showInvoice()}}
 
   onSubmit(processor:any,form:any): void {
 
     this.formHandler.submitForm(form, processor, 'wallet/?showSpinner',  (res) => {
-      console.log('Form response:', res);
       this.showInvoice()
     });
   }
@@ -117,14 +116,10 @@ export class DepositComponent {
       const selectedValue = inputElement.value;
       const selectedId = inputElement.id;
       const selectedMethod = 'Crypto'
-      // console.log('Parent ID:', parentId);
-      console.log('Input ID:', selectedId);
-      // console.log('Input Value:', selectedValue);
 
       this.method=this.storeData.get('init_currencies')[parseInt(selectedValue)]
       this.methodView[parentId as PaymentMethodGrp].paymentMethod=this.method
 
-      // console.log({'METHOD':this.methodView[parentId as PaymentMethodGrp].paymentMethod});
       if (selectedId==='tron') {
         let minimum_deposit=this.storeData.get('wallet').settings.minimum_deposit
         this.methodView[selectedMethod as PaymentMethodGrp]['paymentMethod']['minimum_deposit'] = (minimum_deposit/this.methodView[selectedMethod as PaymentMethodGrp].paymentMethod.rate).toFixed(1)
@@ -161,8 +156,6 @@ export class DepositComponent {
       ]
     }
 
-    // console.log('showInvoice');
-    //
     loadScript('assets/js/main.js');
 
 
