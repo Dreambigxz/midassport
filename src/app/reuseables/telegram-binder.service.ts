@@ -5,7 +5,7 @@ import { RequestDataService } from './http-loader/request-data.service';
 
 @Injectable({ providedIn: 'root' })
 export class TelegramService {
-  private botUsername = 'mywebdata_bot';  // Replace with your bot username (without @)
+  private botUsername = 'MenassportBot';  // Replace with your bot username (without @)
 
   constructor(private http: RequestDataService) {}
 
