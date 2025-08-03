@@ -36,7 +36,7 @@ export const PostHttpInterceptor: HttpInterceptorFn = (req, next) => {
 
   const isPost = req.method === 'POST';
 
-  if (req.url.includes('showSpinner')) {
+  if (!req.url.includes('hideSpinner')) {
     loaderService.show();
   }
   if (isPost) {
