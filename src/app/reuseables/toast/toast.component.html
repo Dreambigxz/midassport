@@ -1,4 +1,9 @@
 <div class="custom-toast" [ngClass]="data.status">
   <mat-icon class="icon">{{ data.status === 'success' ? 'check_circle' : 'error' }}</mat-icon>
   <span class="message">{{ data.message }}</span>
+
+  <!-- Close button -->
+  <button mat-icon-button class="close-btn" (click)="closeToast()" >
+    <mat-icon>close</mat-icon>
+  </button>
 </div>

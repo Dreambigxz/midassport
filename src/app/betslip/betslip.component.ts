@@ -12,6 +12,8 @@ import { SpinnerComponent } from '../reuseables/http-loader/spinner.component';
 import { ConfirmationDialogService } from '../reuseables/modals/confirmation-dialog/confirmation-dialog.service';
 import {  loadScript , copyContent} from '../reuseables/helper';
 
+import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
+
 
 import {
   trigger,
@@ -27,7 +29,7 @@ type DivControlKey = 'showPredictionBoard';
 
 @Component({
   selector: 'app-betslip',
-  imports: [CommonModule,SpinnerComponent],
+  imports: [CommonModule,SpinnerComponent,FormsModule],
   templateUrl: './betslip.component.html',
   styleUrl: './betslip.component.css',
   animations: [
@@ -122,10 +124,19 @@ export class BetslipComponent {
 
   setBetAmount(event: KeyboardEvent) {
 
+    console.log({event});
+
     const inputValue = (event.target as HTMLInputElement).value;
     this.stakeAmount=inputValue
+    this.setProfit()
+
+  }
+
+  setProfit(){
     const totalProfit = (this.stakeAmount * this.selectedScore.odds / 100 ).toFixed(2)
+
     this.totalProfit  = parseFloat(this.stakeAmount) + parseFloat(totalProfit)
+    console.log({totalProfit:this.totalProfit});
   }
 
   slipHandler(processor:string){
@@ -154,5 +165,28 @@ export class BetslipComponent {
     }
   }
 
+  stakeClickCount = 0;
+  showEasterEgg = false;
+
+  stakeAll() {
+    // for example, set betAmount to wallet balance
+    console.log({"this.stakeAmount":this.stakeAmount});
+
+    this.stakeAmount = this.storeData.get('wallet')?.balance?.new || 0;
+
+    this.setProfit()
+
+
+    // count clicks
+  //   this.stakeClickCount++;
+  //
+  //   if (this.stakeClickCount >= 5) {
+  //     this.showEasterEgg = true;
+  //     setTimeout(() => {
+  //       this.showEasterEgg = false;
+  //       this.stakeClickCount = 0;
+  //     }, 3000); // hide after 3s
+  //   }
+  }
 
 }

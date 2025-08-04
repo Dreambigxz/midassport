@@ -34,7 +34,7 @@
           <div class="single-blog-card">
               <!-- <div class="card-img"><img src="assets/img/blog/1.png" alt="img"></div> -->
               <div class="card-details">
-                  <div class="date secure"> ♻️ IINCOME </div>
+                  <div class="date secure"> ♻️ INCOME </div>
                   <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
                   <div class="blog-meta">
                     <h4><span class="amount">
@@ -88,10 +88,10 @@
                             <ul>
                                 <li><a >Total Users <span class="bg-btn">{{ref.total.generation_1}}</span></a></li>
                                 <li><a >Active  <span class="bg-btn">{{ref.active.generation_1}}</span></a></li>
-                                <li><a >Rebate Commisson <span class="text">${{ref.rebate.generation_1.amount|number:'1.1-1'}}</span></a></li>
-                                <li><a >Refferral Commisson <span class="text">${{ref.referral.generation_1.amount|number:'1.1-1'}}</span></a></li>
-                                <li><a >Deposited <span class="text">${{ref.deposit.generation_1.amount|number:'1.1-1'}}</span></a></li>
-                                <li><a >withdrawn <span class="text">${{ref.withdraw.generation_1.amount|number:'1.1-1'}}</span></a></li>
+                                <li><a >Rebate Commisson <span class="text">${{ref.rebate.generation_1.amount|number:(ref.rebate.generation_1.amount.amount < 0.01 ? '1.4-4' : '1.2-2')}}</span></a></li>
+                                <li><a >Refferral Commisson <span class="text">${{ref.referral.generation_1.amount|number:'1.2-2'}}</span></a></li>
+                                <li><a >Deposited <span class="text">${{ref.deposit.generation_1.amount|number:'1.2-2'}}</span></a></li>
+                                <li><a >withdrawn <span class="text">${{ref.withdraw.generation_1.amount|number:'1.2-2'}}</span></a></li>
                             </ul>
                             <span (click)="navigate('/promotions 1')" class="btn btn-outline-dark btn-sm text-primary">Show users <i class="fa fa-users"></i></span>
                         </div>
