@@ -187,7 +187,7 @@ div#preloader {
   z-index: 120000;
 }
 .logo-container{
-    display: flex
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
