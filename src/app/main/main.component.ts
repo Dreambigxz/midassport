@@ -320,9 +320,4 @@ export class MainComponent implements OnInit, OnDestroy {
    requestAnimationFrame(animate);
   }
 
-  generateTokken(){
-    alert('generating token')
-    this.telegram.connect()
-  }
-
 }
