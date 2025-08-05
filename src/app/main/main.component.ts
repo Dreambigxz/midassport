@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -6,15 +6,20 @@ import { filter } from 'rxjs/operators';
 import { RequestDataService } from '../reuseables/http-loader/request-data.service';
 import { StoreDataService } from '../reuseables/http-loader/store-data.service';
 import { SpinnerComponent } from '../reuseables/http-loader/spinner.component';
+import { TelegramBonusComponent } from '../telegram-bonus/telegram-bonus.component';
 
 import { onScroll, padNum, loadScript } from '../reuseables/helper';
+import { Modal } from 'bootstrap';
+import { TelegramService } from '../reuseables/telegram-binder.service';
+
 
 type MatchCategory = 'upcoming' | 'notStarted' | 'live' | 'finished' | 'secured';
+
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, RouterLink, SpinnerComponent],
+  imports: [CommonModule, RouterLink, SpinnerComponent, TelegramBonusComponent],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
@@ -47,6 +52,8 @@ export class MainComponent implements OnInit, OnDestroy {
   };
   current = 'main';
 
+  telegramBonusModalActive = false
+
   ngOnInit(): void {
     // Run JS file
     loadScript('assets/js/main.js');
@@ -65,7 +72,25 @@ export class MainComponent implements OnInit, OnDestroy {
     // Watch for tab visibility
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && this.router.url === '/main') {
+
         this.startPolling();
+        console.log('PAGE NOW visible');
+
+        if (this.telegramBonusModalActive) {
+          console.log('Checking bindedTg');
+
+          !this.storeData.store['joined']?this.reqServerData.get(`main`).subscribe({
+            next: res => {
+              console.log({res});
+              res.main.joined?this.closeModal('telegramBonusModal'):0;
+              if (res.main.joined) {
+                this.openModal('bonusModal')
+              }
+
+            }
+          }):this.closeModal('telegramBonusModal')
+        }
+
       } else {
         this.stopPolling();
       }
@@ -75,6 +100,11 @@ export class MainComponent implements OnInit, OnDestroy {
     if (this.router.url === '/main') {
       this.startPolling();
     }
+
+    setTimeout(() => {
+      !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
+    }, 2000);
+
   }
 
   ngOnDestroy(): void {
@@ -107,6 +137,8 @@ export class MainComponent implements OnInit, OnDestroy {
   loadFixtures(showSpinner = 'false') {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
+        console.log({res});
+
         this.categorizeMatches();
       }
     });
@@ -199,4 +231,95 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  // displat BONUS OFFER
+  @ViewChild('canvasContainer', { static: false }) canvasContainer!: ElementRef;
+   animatedAmount: number = 0;
+   bonusAmount: number = 3;
+   private animationFrame: any;
+   private modalInstance: any;
+
+   ngAfterViewInit() {
+
+       // Watch for when modal opens
+     //   const modalEl = document.getElementById('bonusModal');
+     //   console.log({modalEl});
+     //
+     //   if (modalEl) {
+     //   this.modalInstance = new Modal(modalEl);
+     //
+     //   addEventListener('shown.bs.modal', () => {
+     //     this.startAmountAnimation();
+     //   });
+     //
+     //   addEventListener('hidden.bs.modal', () => {
+     //     cancelAnimationFrame(this.animationFrame);
+     //     this.animatedAmount = 0; // reset
+     //     this.canvasContainer.nativeElement.innerHTML = ''; // cleanup canvas
+     //   })
+     //
+     // }
+
+   }
+
+   // Programmatic open
+   openModal(modalID:string|"telegramBonusModal") {
+     const modalEl = document.getElementById(modalID);
+     console.log({modalEl});
+
+     if (modalEl) {
+       new Modal(modalEl).show();
+
+       if (modalID==="bonusModal") {
+         addEventListener('shown.bs.modal', () => {
+           this.startAmountAnimation();
+         });
+
+         addEventListener('hidden.bs.modal', () => {
+           cancelAnimationFrame(this.animationFrame);
+           this.animatedAmount = 0; // reset
+           this.canvasContainer.nativeElement.innerHTML = ''; // cleanup canvas
+         })
+       }
+     }
+
+
+   }
+
+   // Programmatic open
+   closeModal(modalID:string|"telegramBonusModal") {
+     const modalEl = document.getElementById(modalID);
+     console.log({modalEl});
+     this.telegramBonusModalActive=false
+     if (modalEl) {
+        const modal = Modal.getInstance(modalEl) || new Modal(modalEl);
+        modal.hide();
+    }
+
+
+   }
+
+
+  // Animate the amount counting up
+  startAmountAnimation() {
+
+    console.log("starting aniation");
+
+   let start = 0;
+   const end = this.bonusAmount;
+   const duration = 1200;
+   const startTime = performance.now();
+
+   const animate = (time: number) => {
+     const progress = Math.min((time - startTime) / duration, 1);
+     this.animatedAmount = parseFloat((start + progress * (end - start)).toFixed(2));
+     if (progress < 1) {
+       requestAnimationFrame(animate);
+     }
+   };
+   requestAnimationFrame(animate);
+  }
+
+
+
 }

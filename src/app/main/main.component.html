@@ -1,7 +1,12 @@
 <!-- <html lang=""> -->
-  <app-spinner></app-spinner>
+<app-spinner></app-spinner>
+  <app-telegram-bonus></app-telegram-bonus>
 
     <div class="container">
+      <!-- <button type="button" class="btn btn-success" >
+        Simulate Signup Bonus
+      </button> -->
+
         <div class="main-home-area">
             <div class="profile-area">
                 <div (click)="router.navigate(['wallet','transactions'])" class="media">
@@ -80,6 +85,7 @@
             </div>
 
             <div class="sports-wrap mt-4">
+              <!-- <h6 data-bs-toggle="modal" data-bs-target="#bonusModal" class="mb-3">⚽️ Market</h6> -->
               <h6 class="mb-3">⚽️ Market</h6>
 
                 <div class="sports-slider slider-nav">
@@ -257,5 +263,26 @@
                 </ul>
             </div>
         </div>
+
+
+
     </div>
+
+    <div class="modal fade" id="bonusModal" tabindex="-1" aria-labelledby="bonusModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 text-center">
+          <h2 id="bonusModalLabel">🎉 Congratulations!</h2>
+          <p>You got a sign-up bonus</p>
+
+          <!-- 3D Animation Canvas -->
+          <div #canvasContainer class="canvas-container mx-auto"></div>
+
+          <!-- Animated Amount -->
+          <h1 class="text-success fw-bold mt-3 bonus-text">$ {{ bonusAmount }}</h1>
+
+          <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+
 <!-- </html> -->
