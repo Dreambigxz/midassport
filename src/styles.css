@@ -107,7 +107,7 @@ select {
 
 .no-data{
   text-align: center;
-  margin-top: 14em
+  margin-top: 14em;
 }
 .single-page-area .title-area h3 {
     font-size: 18px;
@@ -146,32 +146,24 @@ select {
 }
 
 .modal-backdrop.show {
-  background-color: #000 !important; /* gold overlay */
-  opacity: 0.7 !important; /* control transparency */
+  background-color: #000 !important;
+  opacity: 0.7 !important;
 }
 
-.bonus-text {
-  font-size: 4rem;
-  font-weight: bold;
-  color: gold;
-  text-shadow:
-    1px 1px 2px black,
-    2px 2px 5px rgba(0, 0, 0, 0.7);
-  transform: perspective(600px) rotateX(15deg) rotateY(-10deg);
-  animation: bonus-pop 1.2s ease-out forwards;
+.modal {
+    z-index: 12000;
 }
-
-@keyframes bonus-pop {
-  0% {
-    transform: perspective(600px) scale(0) rotateX(90deg) rotateY(-90deg);
-    opacity: 0;
-  }
-  50% {
-    transform: perspective(600px) scale(1.2) rotateX(10deg) rotateY(-5deg);
-    opacity: 1;
-  }
-  100% {
-    transform: perspective(600px) scale(1) rotateX(0deg) rotateY(0deg);
-    opacity: 1;
-  }
+.modal-content {
+    background: var(--white-color, #fff);
+    border: 1px solid #8c8487;
+}
+div#preloader {
+  z-index: 120000;
+}
+.logo-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 120000;
 }
