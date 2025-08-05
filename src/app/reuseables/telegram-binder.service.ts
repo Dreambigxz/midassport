@@ -14,7 +14,7 @@ export class TelegramService {
       next: (res) => {
         const bindToken = res.bind_token;
         const telegramUrl = `https://t.me/${this.botUsername}?start=${bindToken}`;
-        window.open(telegramUrl, '_blank');
+        window.open(telegramUrl);
       },
 
     });
