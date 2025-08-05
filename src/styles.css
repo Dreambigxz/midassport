@@ -39,7 +39,7 @@ body {
 }
 
 .single-page-area .wallet .balance {
-    border-radius: 0;
+    border-radius: none;
     border: 0;
     background: var(--white-color, #fff);
     display: inline-flex;
@@ -174,22 +174,4 @@ select {
     transform: perspective(600px) scale(1) rotateX(0deg) rotateY(0deg);
     opacity: 1;
   }
-}
-
-.modal {
-    z-index: 12000;
-}
-.modal-content {
-    background: var(--white-color, #fff);
-    border: 1px solid #8c8487;
-}
-div#preloader {
-  z-index: 120000;
-}
-.logo-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    z-index: 120000;
 }
