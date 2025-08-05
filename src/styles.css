@@ -148,22 +148,27 @@ select {
 .modal-backdrop.show {
   background-color: #000 !important;
   opacity: 0.7 !important;
+  z-index: 9 !important;
 }
 
 .modal {
-    z-index: 12000;
+    z-index: 999;
 }
 .modal-content {
     background: var(--white-color, #fff);
     border: 1px solid #8c8487;
 }
-div#preloader {
-  z-index: 120000;
-}
-.logo-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    z-index: 120000;
+
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2147483647 !important; /* Max safe z-index */
+  pointer-events: all;
 }

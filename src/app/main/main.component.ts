@@ -12,6 +12,7 @@ import { onScroll, padNum, loadScript } from '../reuseables/helper';
 import { Modal } from 'bootstrap';
 import { TelegramService } from '../reuseables/telegram-binder.service';
 
+import { LoaderService } from '../reuseables/http-loader/loader.service';
 
 type MatchCategory = 'upcoming' | 'notStarted' | 'live' | 'finished' | 'secured';
 
@@ -28,6 +29,8 @@ export class MainComponent implements OnInit, OnDestroy {
   reqServerData = inject(RequestDataService);
   storeData = inject(StoreDataService);
   router = inject(Router);
+  loaderService = inject(LoaderService)
+
 
   parseInt = parseInt;
 
@@ -55,6 +58,7 @@ export class MainComponent implements OnInit, OnDestroy {
   telegramBonusModalActive = false
 
   ngOnInit(): void {
+
     // Run JS file
     loadScript('assets/js/main.js');
 
@@ -299,9 +303,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
    }
 
-
-  // Animate the amount counting up
-  startAmountAnimation() {
+   // Animate the amount counting up
+    startAmountAnimation() {
 
     console.log("starting aniation");
 

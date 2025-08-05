@@ -3276,7 +3276,7 @@ ul {
   top: 0;
   left: 0;
   padding: 50px 20px 30px;
-  z-index: 9999;
+  z-index: 998;
 }
 .main-home-area .profile-area .media {
   display: inline-flex;
