@@ -20,7 +20,7 @@
             </div>
             <button
                     class="btn btn-primary"
-                    (click)="generateTokken()">Bind Telegram
+                    (click)="telegram.connect()">Bind Telegram
             </button>
 
             <p>Start the bot to link your Telegram:</p>
@@ -31,7 +31,7 @@
           <div *ngIf="!storeData.store['joined']">
             <a [href]="'https://t.me/medassport?start='" target="_blank"
                class="btn btn-success">Join Channel</a>
-            <p (click)="generateTokken()" class="mt-2">Join our channel to claim bonus.</p>
+            <p class="mt-2">Join our channel to claim bonus.</p>
             <!-- <button class="btn btn-info" (click)="deliverJoinLink()">I've Linked</button> -->
           </div>
 
