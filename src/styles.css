@@ -39,7 +39,7 @@ body {
 }
 
 .single-page-area .wallet .balance {
-    border-radius: none;
+    border-radius: 0;
     border: 0;
     background: var(--white-color, #fff);
     display: inline-flex;
