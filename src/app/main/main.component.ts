@@ -105,10 +105,6 @@ export class MainComponent implements OnInit, OnDestroy {
       this.startPolling();
     }
 
-    // setTimeout(() => {
-    //   !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
-    // }, 2000);
-
   }
 
   ngOnDestroy(): void {
@@ -244,6 +240,10 @@ export class MainComponent implements OnInit, OnDestroy {
    private modalInstance: any;
 
    ngAfterViewInit() {
+
+     setTimeout(() => {
+       !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
+     }, 2000);
 
        // Watch for when modal opens
      //   const modalEl = document.getElementById('bonusModal');

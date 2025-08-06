@@ -4,12 +4,12 @@
     $(document).ready(function () {
 
           // open telegramBonusModal
-          const telegramBonusModal= document.getElementById('telegramBonusModal')
-          if (telegramBonusModal) {
-            setTimeout(() => {
-              $(telegramBonusModal).modal('show');
-            }, 2000);
-          }
+          // const telegramBonusModal= document.getElementById('telegramBonusModal')
+          // if (telegramBonusModal) {
+          //   setTimeout(() => {
+          //     $(telegramBonusModal).modal('show');
+          //   }, 2000);
+          // }
         /**-------------------------------------------
          *  Navbar fix
          * -----------------------------------------*/
