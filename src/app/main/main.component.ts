@@ -216,9 +216,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onScroll(event: any, id: string) {
     onScroll(event, this.loadData[id]);
-    this.categorizedMatchesData[id as MatchCategory].display =
-      this.loadData[id].displayedItems;
+    this.categorizedMatchesData[id as MatchCategory].display =this.loadData[id].displayedItems;
   }
+
+
 
   setTime(timestamp: any) {
     timestamp = new Date(timestamp * 1000);

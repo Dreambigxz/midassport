@@ -90,20 +90,30 @@ export function loadMore(e:any) {
     const nextItems = e.data.slice(e.currentIndex, e.currentIndex + e.batchSize);
     e.displayedItems = [...e.displayedItems, ...nextItems];
     e.currentIndex += e.batchSize
-    // console.log("displayedItems>>", e.displayedItems);
-    // console.log("data>>", e.dta);
-
   }
 }
 
-export function onScroll(event: any,e:any) {
-  const element = event.target;
-  const threshold = 5;
+// export function onScroll(event: any,e:any) {
+//   const element = event.target;
+//   const threshold = 5;
+//
+//   if (element.scrollHeight - element.scrollTop - element.clientHeight <= threshold) {
+//     loadMore(e);
+//   }
+// }
 
-  if (element.scrollHeight - element.scrollTop - element.clientHeight <= threshold) {
+export function onScroll(event: any, e: any) {
+  const element = event.target.scrollingElement || event.target;
+  const threshold = 10; // give Safari a bit more leniency
+
+  const atBottom =
+    Math.ceil(element.scrollTop + element.clientHeight) >= element.scrollHeight - threshold;
+
+  if (atBottom) {
     loadMore(e);
   }
 }
+
 
 export function timeSince(dateStr: string): string {
 
