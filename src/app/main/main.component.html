@@ -2,7 +2,7 @@
 <app-spinner></app-spinner>
   <app-telegram-bonus></app-telegram-bonus>
 
-    <div class="container">
+    <div  class="container">
       <!-- <button type="button" class="btn btn-success" >
         Simulate Signup Bonus
       </button> -->
@@ -13,7 +13,7 @@
                     <a href="profile.html" class="thumb">
                         <img src="assets/img/comment/my-profile.png" alt="img">
                     </a>
-                    <div  *ngIf="storeData.store['wallet'] as walletData" class="media-body">
+                    <div *ngIf="storeData.store['wallet'] as walletData"  class="media-body">
                         <span class="profile-name">Hello,  {{storeData['store']['username']}}</span>
                         <div translate="no" class="balance">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
                           <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
@@ -265,24 +265,25 @@
         </div>
 
 
+        <div *ngIf="storeData.store['wallet'] as walletData" class="modal fade" id="bonusModal" tabindex="-1" aria-labelledby="bonusModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-4 text-center">
+              <h2 id="bonusModalLabel">🎉 Congratulations!</h2>
+              <p>You got a sign-up bonus</p>
 
-    </div>
+              <!-- 3D Animation Canvas -->
+              <div #canvasContainer class="canvas-container mx-auto"></div>
 
-    <div class="modal fade" id="bonusModal" tabindex="-1" aria-labelledby="bonusModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-4 text-center">
-          <h2 id="bonusModalLabel">🎉 Congratulations!</h2>
-          <p>You got a sign-up bonus</p>
+              <!-- Animated Amount -->
+              <h1 class="text-success fw-bold mt-3 bonus-text">$ {{ walletData.settings.sign_up_bonus }}</h1>
 
-          <!-- 3D Animation Canvas -->
-          <div #canvasContainer class="canvas-container mx-auto"></div>
-
-          <!-- Animated Amount -->
-          <h1 class="text-success fw-bold mt-3 bonus-text">$ {{ bonusAmount }}</h1>
-
-          <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
+              <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
+            </div>
+          </div>
         </div>
-      </div>
+
+
     </div>
+
 
 <!-- </html> -->

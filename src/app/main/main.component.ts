@@ -60,7 +60,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     // Run JS file
-    loadScript('assets/js/main.js');
 
     // Watch for route changes
     this.router.events.pipe(
@@ -105,6 +104,8 @@ export class MainComponent implements OnInit, OnDestroy {
       this.startPolling();
     }
 
+    loadScript('assets/js/main.js');
+
   }
 
   ngOnDestroy(): void {
@@ -121,7 +122,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
     if (!this.storeData.get('soccer')) {
       this.loadFixtures();
-
     } else {
       // this.categorizeMatches();
     }
@@ -235,19 +235,11 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   // displat BONUS OFFER
-  @ViewChild('canvasContainer', { static: false }) canvasContainer!: ElementRef;
-   animatedAmount: number = 0;
+  // @ViewChild('canvasContainer', { static: false }) canvasContainer!: ElementRef;
+  //  animatedAmount: number = 0;
    bonusAmount: number = 3;
-   private animationFrame: any;
-   private modalInstance: any;
-
-   // ngAfterViewInit() {
-   //
-   //   setTimeout(() => {
-   //     !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
-   //   }, 3000);
-   //
-   // }
+   // private animationFrame: any;
+   // private modalInstance: any;
 
    // Programmatic open
    openModal(modalID:string|"telegramBonusModal") {
@@ -256,17 +248,17 @@ export class MainComponent implements OnInit, OnDestroy {
      if (modalEl) {
        new Modal(modalEl).show();
 
-       if (modalID==="bonusModal") {
-         addEventListener('shown.bs.modal', () => {
-           this.startAmountAnimation();
-         });
-
-         addEventListener('hidden.bs.modal', () => {
-           cancelAnimationFrame(this.animationFrame);
-           this.animatedAmount = 0; // reset
-           this.canvasContainer.nativeElement.innerHTML = ''; // cleanup canvas
-         })
-       }
+       // if (modalID==="bonusModal") {
+       //   addEventListener('shown.bs.modal', () => {
+       //     this.startAmountAnimation();
+       //   });
+       //
+       //   addEventListener('hidden.bs.modal', () => {
+       //     cancelAnimationFrame(this.animationFrame);
+       //     this.animatedAmount = 0; // reset
+       //     this.canvasContainer.nativeElement.innerHTML = ''; // cleanup canvas
+       //   })
+       // }
      }
 
 
@@ -286,22 +278,22 @@ export class MainComponent implements OnInit, OnDestroy {
    }
 
    // Animate the amount counting up
-    startAmountAnimation() {
-
-
-     let start = 0;
-     const end = this.bonusAmount;
-     const duration = 1200;
-     const startTime = performance.now();
-
-     const animate = (time: number) => {
-       const progress = Math.min((time - startTime) / duration, 1);
-       this.animatedAmount = parseFloat((start + progress * (end - start)).toFixed(2));
-       if (progress < 1) {
-         requestAnimationFrame(animate);
-       }
-     };
-     requestAnimationFrame(animate);
-  }
+  //  startAmountAnimation() {
+  //
+  //
+  //    let start = 0;
+  //    const end = this.bonusAmount;
+  //    const duration = 1200;
+  //    const startTime = performance.now();
+  //
+  //    const animate = (time: number) => {
+  //      const progress = Math.min((time - startTime) / duration, 1);
+  //      this.animatedAmount = parseFloat((start + progress * (end - start)).toFixed(2));
+  //      if (progress < 1) {
+  //        requestAnimationFrame(animate);
+  //      }
+  //    };
+  //    requestAnimationFrame(animate);
+  // }
 
 }

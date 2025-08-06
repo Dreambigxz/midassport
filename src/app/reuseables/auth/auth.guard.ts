@@ -7,8 +7,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  console.log('isLoading?', authService.isLoggedIn);
-
   // Store intended redirect only if not already on login
   if (state.url !== '/login') {
     localStorage.setItem('redirectUrl', state.url);
