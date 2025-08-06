@@ -1,9 +1,9 @@
-  <div   class="modal fade" id="telegramBonusModal" tabindex="-1">
-    <div *ngIf="storeData.store['wallet'] as walletData"  class="modal-dialog modal-dialog-centered">
+  <div *ngIf="!storeData.store['joined']" class="modal fade" id="telegramBonusModal" tabindex="-1">
+    <div   class="modal-dialog modal-dialog-centered">
       <div class="modal-content p-3">
         <div class="modal-header">
           <div class="head-1">
-            <h5 class="modal-title">Claim ${{walletData.settings.sign_up_bonus}} Bonus</h5>
+            <h5 *ngIf="storeData.store['wallet'] as walletData" class="modal-title">Claim ${{walletData.settings.sign_up_bonus}} Bonus</h5>
 
             <p class="text-warning">complete the below steps to Claim your bonus </p>
 

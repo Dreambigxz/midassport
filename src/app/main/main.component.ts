@@ -105,9 +105,9 @@ export class MainComponent implements OnInit, OnDestroy {
       this.startPolling();
     }
 
-    setTimeout(() => {
-      !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
-    }, 2000);
+    // setTimeout(() => {
+    //   !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
+    // }, 2000);
 
   }
 
