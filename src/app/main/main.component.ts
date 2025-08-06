@@ -116,13 +116,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isPolling = true;
 
     this.intervalId = setInterval(() => {
-      this.loadFixtures();
+      this.loadFixtures("hideSpinner");
     }, 70000);
 
     if (!this.storeData.get('soccer')) {
-      this.loadFixtures("showSpinner");
+      this.loadFixtures();
     } else {
-      this.categorizeMatches();
+      // this.categorizeMatches();
     }
   }
 
@@ -134,11 +134,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isPolling = false;
   }
 
-  loadFixtures(showSpinner = 'false') {
+  loadFixtures(showSpinner="showSpinner") {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
-        console.log({res});
-
         this.categorizeMatches();
       }
     });
@@ -245,31 +243,11 @@ export class MainComponent implements OnInit, OnDestroy {
        !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
      }, 2000);
 
-       // Watch for when modal opens
-     //   const modalEl = document.getElementById('bonusModal');
-     //   console.log({modalEl});
-     //
-     //   if (modalEl) {
-     //   this.modalInstance = new Modal(modalEl);
-     //
-     //   addEventListener('shown.bs.modal', () => {
-     //     this.startAmountAnimation();
-     //   });
-     //
-     //   addEventListener('hidden.bs.modal', () => {
-     //     cancelAnimationFrame(this.animationFrame);
-     //     this.animatedAmount = 0; // reset
-     //     this.canvasContainer.nativeElement.innerHTML = ''; // cleanup canvas
-     //   })
-     //
-     // }
-
    }
 
    // Programmatic open
    openModal(modalID:string|"telegramBonusModal") {
      const modalEl = document.getElementById(modalID);
-     console.log({modalEl});
 
      if (modalEl) {
        new Modal(modalEl).show();
@@ -306,7 +284,6 @@ export class MainComponent implements OnInit, OnDestroy {
    // Animate the amount counting up
     startAmountAnimation() {
 
-    console.log("starting aniation");
 
    let start = 0;
    const end = this.bonusAmount;

@@ -29,15 +29,9 @@ export class InviteRewardsComponent {
 
     loadScript('assets/js/main.js');
     if (!this.storeData.get('invite-rewards')) {
-        this.reqServerData.get("invite-rewards?showSpinner").subscribe({next: res => {
-          console.log(res);
-        }})
+        this.reqServerData.get("invite-rewards?showSpinner").subscribe()
     }
   }
-
-  // getEarning(id:number){
-  //   return this.storeData.get('invite-rewards').earning_history[id-1]
-  // }
 
   getEarning(levelId: number): boolean {
     const earnedLevels = this.storeData.store['invite-rewards']?.earning_history || [];
