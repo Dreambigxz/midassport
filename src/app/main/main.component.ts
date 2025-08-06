@@ -121,6 +121,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     if (!this.storeData.get('soccer')) {
       this.loadFixtures();
+
     } else {
       // this.categorizeMatches();
     }
@@ -138,6 +139,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
         this.categorizeMatches();
+        setTimeout(() => {
+          !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
+        }, 1000);
       }
     });
   }
@@ -237,13 +241,13 @@ export class MainComponent implements OnInit, OnDestroy {
    private animationFrame: any;
    private modalInstance: any;
 
-   ngAfterViewInit() {
-
-     setTimeout(() => {
-       !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
-     }, 2000);
-
-   }
+   // ngAfterViewInit() {
+   //
+   //   setTimeout(() => {
+   //     !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
+   //   }, 3000);
+   //
+   // }
 
    // Programmatic open
    openModal(modalID:string|"telegramBonusModal") {
@@ -285,19 +289,19 @@ export class MainComponent implements OnInit, OnDestroy {
     startAmountAnimation() {
 
 
-   let start = 0;
-   const end = this.bonusAmount;
-   const duration = 1200;
-   const startTime = performance.now();
+     let start = 0;
+     const end = this.bonusAmount;
+     const duration = 1200;
+     const startTime = performance.now();
 
-   const animate = (time: number) => {
-     const progress = Math.min((time - startTime) / duration, 1);
-     this.animatedAmount = parseFloat((start + progress * (end - start)).toFixed(2));
-     if (progress < 1) {
-       requestAnimationFrame(animate);
-     }
-   };
-   requestAnimationFrame(animate);
+     const animate = (time: number) => {
+       const progress = Math.min((time - startTime) / duration, 1);
+       this.animatedAmount = parseFloat((start + progress * (end - start)).toFixed(2));
+       if (progress < 1) {
+         requestAnimationFrame(animate);
+       }
+     };
+     requestAnimationFrame(animate);
   }
 
 }
