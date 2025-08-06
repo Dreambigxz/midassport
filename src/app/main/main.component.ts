@@ -123,7 +123,7 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!this.storeData.get('soccer')) {
       this.loadFixtures();
     } else {
-      // this.categorizeMatches();
+      !this.fixtures?this.categorizeMatches():0;
     }
   }
 
