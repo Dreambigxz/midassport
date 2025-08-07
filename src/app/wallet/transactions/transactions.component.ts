@@ -7,9 +7,14 @@ import { RequestDataService } from '../../reuseables/http-loader/request-data.se
 import { StoreDataService } from '../../reuseables/http-loader/store-data.service';
 import { ToastService } from '../../reuseables/toast/toast.service';
 import { SpinnerComponent } from '../../reuseables/http-loader/spinner.component';
-import {  loadScript , copyContent} from '../../reuseables/helper';
+import {  loadScript , copyContent, padNum} from '../../reuseables/helper';
 
 import { FormsModule, Validators } from '@angular/forms';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 interface Transaction {
   type: 'Deposit' | 'Withdraw';
@@ -20,7 +25,14 @@ interface Transaction {
 
 @Component({
   selector: 'app-transactions',
-  imports:[CommonModule,SpinnerComponent,FormsModule, RouterLink],
+  imports:[
+    CommonModule,SpinnerComponent,
+    FormsModule, RouterLink,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+  ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css']
 })
@@ -33,15 +45,11 @@ export class TransactionsComponent implements OnInit {
   window = window
   filter:any
 
-  allTransactions: any = [
-    // { type: 'Deposit', status: 'Completed', date: '2025-07-01', amount: 120 },
-    // { type: 'Withdraw', status: 'Pending', date: '2025-07-05', amount: 50 },
-    // { type: 'Deposit', status: 'Failed', date: '2025-07-10', amount: 200 },
-    // { type: 'Withdraw', status: 'Completed', date: '2025-07-15', amount: 75 },
-  ];
+  allTransactions: any = [];
 
   filteredTransactions: any[] = this.allTransactions;
   selectedType: string = 'All';
+
 
 
   ngOnInit(): void {
@@ -62,6 +70,8 @@ export class TransactionsComponent implements OnInit {
 
     });
 
+    this.sevenDaysAgo.setDate(this.now.getDate() - 7);
+    this.dateFrom = this.sevenDaysAgo.toISOString().split('T')[0]
 
   }
 
@@ -77,7 +87,6 @@ export class TransactionsComponent implements OnInit {
   }
 
   applyFilter() {
-    console.log('applyFilter');
 
     if (this.selectedType === 'All') {
       this.filteredTransactions = this.allTransactions;
@@ -92,4 +101,32 @@ export class TransactionsComponent implements OnInit {
     this.selectedType = 'All';
     this.filteredTransactions = this.allTransactions;
   }
+
+  now = new Date()
+  dateFrom:any
+  sevenDaysAgo=new Date()
+  dateTo=this.now.toISOString().split('T')[0]
+
+  setTime(timestamp:any){
+    const startDate = new Date(timestamp*1000)
+    const ampm = startDate.getHours() >= 12 ? 'PM' : 'AM';
+
+    let result = `${padNum(startDate.getHours())}:${padNum(startDate.getMinutes())} ${ampm}`
+    return result
+  }
+
+  filterByDate() {
+    const start = new Date(this.dateFrom);
+    const stop = new Date(this.dateTo);
+    this.reqServerData.post('wallet/',{start,stop,processor:'filter_transactions'}).subscribe({
+      next: res => {
+        console.log({res});
+
+        this.setData()
+      }
+    })
+
+  }
+
+
 }

@@ -8,6 +8,8 @@ import { ToastService } from '../../reuseables/toast/toast.service';
 import { SpinnerComponent } from '../../reuseables/http-loader/spinner.component';
 import {  loadScript } from '../../reuseables/helper';
 
+import { LoaderService } from '../../reuseables/http-loader/loader.service';
+
 @Component({
   selector: 'app-invite-rewards',
   imports: [CommonModule,RouterLink,SpinnerComponent],
@@ -19,6 +21,8 @@ export class InviteRewardsComponent {
   reqServerData = inject(RequestDataService);
   storeData = inject(StoreDataService);
   route = inject(ActivatedRoute)
+  loaderService = inject(LoaderService)
+
 
   window = window
   parseInt=parseInt
@@ -29,7 +33,11 @@ export class InviteRewardsComponent {
 
     loadScript('assets/js/main.js');
     if (!this.storeData.get('invite-rewards')) {
-        this.reqServerData.get("invite-rewards?showSpinner").subscribe()
+        this.reqServerData.get("invite-rewards?showSpinner").subscribe({
+          next:(res)=>{
+            // this.loaderService.show()
+          }
+        })
     }
   }
 

@@ -107,7 +107,7 @@ select {
 
 .no-data{
   text-align: center;
-  margin-top: 14em;
+  margin-top: 7em;
 }
 .single-page-area .title-area h3 {
     font-size: 18px;
@@ -171,4 +171,52 @@ select {
   align-items: center;
   z-index: 2147483647 !important; /* Max safe z-index */
   pointer-events: all;
+}
+
+
+/* dateFIlter */
+input[type="date"] {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.date-filter {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content:flex-end;
+}
+
+.date-filter label {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* font-size: 14px; */
+}
+
+/* .date-filter input{
+  background: transparent;
+  color: #fff;;
+  border: 1px solid;
+} */
+
+button.filter-btn {
+    margin-top: 25px;
+    border-radius: 12px;
+    background-color: #8d8487;
+    border: 1px solid #444;
+    font-size: 12px;
+    color: #fff;
+}
+
+/* end dateFIlter */
+
+small {
+    /* font-size: .52rem !important; */
 }
