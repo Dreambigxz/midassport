@@ -35,7 +35,15 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-    console.log('APP STARTED');
+    window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        this.storeData.store['installPromptEvent'] = event;
+        this.storeData.store['can_download_app']=true
+        // Show your custom install button
+        // this.showInstallButton = true;
+        // console.log('CANINSTALL');
+
+    });
 
   }
 

@@ -78,7 +78,7 @@
             <li>
                 <span (click)="openModal('changePassword')" class="single-profile-wrap" ><i class="fas fa-lock"></i> Change Password <i class="ri-arrow-right-s-line"></i></span>
             </li>
-            <li>
+            <li (click)="installApp()" *ngIf="storeData.store['can_download_app']">
                 <a class="single-profile-wrap" ><i class="fas fa-download"></i>Get App
                   <i class="ri-arrow-right-s-line"></i></a>
             </li>

@@ -21,6 +21,7 @@ declare var bootstrap: any;
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
+
 export class ProfileComponent {
 
   reqServerData = inject(RequestDataService);
@@ -79,5 +80,20 @@ export class ProfileComponent {
       languageSelector.click();
     }
   }
+
+  installPromptEvent: any;
+  installApp() {
+    this.installPromptEvent= this.storeData.get('installPromptEvent')
+    if (this.installPromptEvent) {
+      this.installPromptEvent.prompt();
+      this.installPromptEvent.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          this.storeData.store['can_download_app']=false
+        }
+        this.installPromptEvent = null;
+      });
+    }
+  }
+
 
 }

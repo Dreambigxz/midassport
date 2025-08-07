@@ -59,17 +59,15 @@ export class MainComponent implements OnInit, OnDestroy {
   current = 'main';
 
   telegramBonusModalActive = false
-  installPromptEvent: any;
-  showInstallButton=false
 
+  installPromptEvent: any;
   installApp() {
+    this.installPromptEvent= this.storeData.get('installPromptEvent')
     if (this.installPromptEvent) {
       this.installPromptEvent.prompt();
       this.installPromptEvent.userChoice.then((choiceResult: any) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
-        } else {
-          console.log('User dismissed the install prompt');
+          this.storeData.store['can_download_app']=false
         }
         this.installPromptEvent = null;
       });
@@ -78,14 +76,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    window.addEventListener('beforeinstallprompt', (event) => {
-        event.preventDefault();
-        this.installPromptEvent = event;
-        // Show your custom install button
-        this.showInstallButton = true;
-        console.log('CANINSTALL');
 
-    });
     // Run JS file
 
     // Watch for route changes
@@ -133,7 +124,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
     loadScript('assets/js/main.js');
 
-
   }
 
   ngOnDestroy(): void {
@@ -166,8 +156,6 @@ export class MainComponent implements OnInit, OnDestroy {
   loadFixtures(showSpinner="showSpinner") {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
-        console.log({res});
-
         this.categorizeMatches();
         setTimeout(() => {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
@@ -248,7 +236,6 @@ export class MainComponent implements OnInit, OnDestroy {
     onScroll(event, this.loadData[id]);
     this.categorizedMatchesData[id as MatchCategory].display =this.loadData[id].displayedItems;
   }
-
 
   setTime(timestamp: any) {
     timestamp = new Date(timestamp * 1000);

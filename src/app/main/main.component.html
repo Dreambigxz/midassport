@@ -76,7 +76,7 @@
                 </div>
                 <div class="label">Telegram</div>
               </a>
-              <div (click)="installApp()"  class="icon-item">
+              <div (click)="installApp()"  class="icon-item {{!storeData.store['can_download_app']?'in-active':''}}">
                 <div class="icon-circle app">
                   <i class="fas fa-mobile-alt"></i>
                 </div>

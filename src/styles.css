@@ -236,3 +236,7 @@ button.filter-btn {
 small {
     /* font-size: .52rem !important; */
 }
+
+.in-active{
+  opacity: 0.2;
+}
