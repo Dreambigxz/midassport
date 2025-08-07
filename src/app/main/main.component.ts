@@ -59,9 +59,33 @@ export class MainComponent implements OnInit, OnDestroy {
   current = 'main';
 
   telegramBonusModalActive = false
+  installPromptEvent: any;
+  showInstallButton=false
+
+  installApp() {
+    if (this.installPromptEvent) {
+      this.installPromptEvent.prompt();
+      this.installPromptEvent.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        this.installPromptEvent = null;
+      });
+    }
+  }
 
   ngOnInit(): void {
 
+    window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        this.installPromptEvent = event;
+        // Show your custom install button
+        this.showInstallButton = true;
+        console.log('CANINSTALL');
+
+    });
     // Run JS file
 
     // Watch for route changes
@@ -108,6 +132,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     loadScript('assets/js/main.js');
+
 
   }
 
