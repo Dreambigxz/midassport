@@ -99,7 +99,7 @@
                                                 <div class="single-input-wrap">
                                                   <select id="Local" class="single-selec w-100" formControlName='payment_method' (change)="changePaymentMethod($event)" >
                                                       <option value="" disabled selected="true">Select</option>
-                                                      <option  *ngFor='let currency of storeData.store["init_currencies"].slice(2);let i=index' value="{{i+2}}">{{currency.name}}</option>
+                                                      <option  *ngFor='let currency of storeData.store["init_currencies"]?.slice(2);let i=index' value="{{i+2}}">{{currency.name}}</option>
                                                   </select>
                                                 </div>
 

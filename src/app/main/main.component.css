@@ -18,3 +18,55 @@
   color: #444;
   margin-top: 4px;
 }
+
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 3 per row */
+  gap: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.icon-item {
+  display: block;
+}
+
+.icon-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto 0.5rem auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+}
+
+.icon-circle .svg-inline--fa {
+  font-size: 1.3rem !important;
+  color: white;
+}
+
+/* Labels */
+.icon-item .label {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* Icon background colors */
+.deposit      { background-color: #28a745; }  /* Green */
+.withdraw     { background-color: #dc3545; }  /* Red */
+.transactions { background-color: #17a2b8; }  /* Cyan */
+.help         { background-color: #ffc107; color: black; }  /* Yellow */
+.telegram     { background-color: #0088cc; }
+.app          { background-color: #6f42c1; }
+.gift          { background-color: #2b8208; }
+.logout          { background-color: #a60202; }
+
+/*  */
+.icon-grid {
+  gap: 1rem;
+  padding: 1rem;
+}

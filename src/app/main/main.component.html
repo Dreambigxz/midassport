@@ -36,54 +36,60 @@
                     <img src="assets/img/banner/3.png" alt="img">
                 </div>
             </div>
-            <!-- <h6 class="mb-3">In Play</h6> -->
-            <div class="home-category-slider owl-carousel">
-                <div class="item">
-                    <a routerLink="/wallet/deposit" class="home-category-item-wrap" >
-                        <img src="assets/img/category/football.png" alt="img">
-                        <span>
-                            Deposit
-                        </span>
-                    </a>
+
+            <!-- quick nav -->
+            <div class="icon-grid">
+              <div (click)="router.navigate(['wallet','deposit'])" class="icon-item">
+                <div class="icon-circle deposit">
+                  <i class="fas fa-wallet"></i>
                 </div>
-                <div class="item">
-                    <a routerLink="/wallet/withdraw" class="home-category-item-wrap" >
-                        <img src="assets/img/category/basketball.png" alt="img">
-                        <span>Withdraw</span>
-                    </a>
+                <div class="label">Deposit</div>
+              </div>
+              <div (click)="router.navigate(['wallet','withdraw'])" class="icon-item">
+                <div class="icon-circle withdraw">
+                  <i class="fas fa-hand-holding-usd"></i>
                 </div>
-                <div class="item">
-                    <a routerLink="/wallet/transactions" class="home-category-item-wrap" href="sports.html">
-                        <img src="assets/img/category/baseball.png" alt="img">
-                        <span>Transactions</span>
-                    </a>
+                <div class="label">Withdraw</div>
+              </div>
+              <div (click)="router.navigate(['wallet','transactions'])" class="icon-item">
+                <div class="icon-circle transactions">
+                  <i class="fas fa-exchange-alt"></i>
                 </div>
-                <div class="item">
-                    <a class="home-category-item-wrap" href="sports.html">
-                        <img src="assets/img/category/soccerball.png" alt="img">
-                        <span>Support</span>
-                    </a>
+                <div class="label">Transactions</div>
+              </div>
+              <div (click)="router.navigate(['invite-rewards'])" class="icon-item">
+                <div class="icon-circle gift">
+                  <i class="fas fa-gift"></i>
                 </div>
-                <div class="item">
-                    <a class="home-category-item-wrap" >
-                        <img src="assets/img/category/cricket.png" alt="img">
-                        <span>Telegram</span>
-                    </a>
+                <div class="label">Rewards</div>
+              </div>
+              <a [href]="storeData.store['telegramHelp']" target="_blank" class="icon-item">
+                <div class="icon-circle help">
+                  <i class="fas fa-question-circle"></i>
                 </div>
-                <!-- <div class="item">
-                    <a class="home-category-item-wrap" href="sports.html">
-                        <img src="assets/img/category/video-game.png" alt="img">
-                        <span>Video Game</span>
-                    </a>
+                <div class="label">Help</div>
+              </a>
+              <a [href]="storeData.store['telegramChannel']" target="_blank" class="icon-item">
+                <div class="icon-circle telegram">
+                  <i class="fab fa-telegram-plane"></i>
                 </div>
-                <div class="item">
-                    <a class="home-category-item-wrap" href="sports.html">
-                        <img src="assets/img/category/table-tannis.png" alt="img">
-                        <span>Table Tennis</span>
-                    </a>
-                </div> -->
+                <div class="label">Telegram</div>
+              </a>
+              <a [href]="storeData.store['downloadApp']" class="icon-item">
+                <div class="icon-circle app">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="label">App</div>
+              </a>
+              <div (click)="authService.logout(false)" class="icon-item">
+                <div class="icon-circle logout">
+                  <i class="fas fa-power-off"></i>
+                </div>
+                <div class="label">Logout</div>
+              </div>
             </div>
 
+            <!-- end quick nav -->
             <div class="sports-wrap mt-4">
               <!-- <h6 data-bs-toggle="modal" data-bs-target="#bonusModal" class="mb-3">⚽️ Market</h6> -->
               <h6 class="mb-3">⚽️ Market</h6>

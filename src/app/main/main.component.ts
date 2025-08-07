@@ -13,6 +13,7 @@ import { Modal } from 'bootstrap';
 import { TelegramService } from '../reuseables/telegram-binder.service';
 
 import { LoaderService } from '../reuseables/http-loader/loader.service';
+import { AuthService } from '../reuseables/auth/auth.service';
 
 type MatchCategory = 'upcoming' | 'notStarted' | 'live' | 'finished' | 'secured';
 
@@ -29,7 +30,9 @@ export class MainComponent implements OnInit, OnDestroy {
   reqServerData = inject(RequestDataService);
   storeData = inject(StoreDataService);
   router = inject(Router);
-  loaderService = inject(LoaderService)
+  // loaderService = inject(LoaderService)
+  authService = inject(AuthService);
+
 
 
   parseInt = parseInt;
@@ -138,6 +141,8 @@ export class MainComponent implements OnInit, OnDestroy {
   loadFixtures(showSpinner="showSpinner") {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
+        console.log({res});
+
         this.categorizeMatches();
         setTimeout(() => {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
@@ -218,7 +223,6 @@ export class MainComponent implements OnInit, OnDestroy {
     onScroll(event, this.loadData[id]);
     this.categorizedMatchesData[id as MatchCategory].display =this.loadData[id].displayedItems;
   }
-
 
 
   setTime(timestamp: any) {
