@@ -172,7 +172,7 @@ export class BetslipComponent {
     // for example, set betAmount to wallet balance
     console.log({"this.stakeAmount":this.stakeAmount});
 
-    this.stakeAmount = (this.storeData.get('wallet')?.balance?.new)?.toFixed(2) || 0;
+    this.stakeAmount = (this.storeData.get('wallet')?.balance?.new)?.toFixed(3) || 0;
 
     this.setProfit()
 

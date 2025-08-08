@@ -9,13 +9,13 @@
 
         <div class="main-home-area">
             <div class="profile-area">
-                <div (click)="router.navigate(['wallet','transactions'])" class="media">
-                    <a href="profile.html" class="thumb">
-                        <img src="assets/img/comment/my-profile.png" alt="img">
-                    </a>
+                <div  class="media">
+                    <div (click)="router.navigate(['profile'])" class="thumb">
+                        <img style="width:40px!important" src="assets/img/comment/my-profile.png" alt="img">
+                    </div>
                     <div *ngIf="storeData.store['wallet'] as walletData"  class="media-body">
                         <span class="profile-name">Hello,  {{storeData['store']['username']}}</span>
-                        <div translate="no" class="balance">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+                        <div translate="no" class="balance">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}}
                           <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
                         </div>
                     </div>
