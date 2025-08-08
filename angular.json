@@ -24,8 +24,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets",
-              "src/manifest.webmanifest",
-
+              "src/favicon.png",
+              "src/manifest.v2.webmanifest",
               {
                 "glob": "**/*",
                 "input": "public",

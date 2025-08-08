@@ -39,6 +39,7 @@ export class AppComponent {
         event.preventDefault();
         this.storeData.store['installPromptEvent'] = event;
         this.storeData.store['can_download_app']=true
+
         // Show your custom install button
         // this.showInstallButton = true;
         // console.log('CANINSTALL');

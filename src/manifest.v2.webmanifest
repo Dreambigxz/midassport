@@ -1,11 +1,10 @@
 {
-  "name": "MIDAS Sport",
-  "short_name": "MIDAS",
-  "theme_color": "#1976d2",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "scope": "/",
+  "name": "MIDAS SPORT",
+  "short_name": "REVERSE BETTING APP",
   "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "assets/icons/192x192.png",
@@ -18,4 +17,5 @@
       "type": "image/png"
     }
   ]
+
 }
