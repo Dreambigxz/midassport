@@ -104,6 +104,12 @@ export function loadMore(e:any) {
 
 export function onScroll(event: any, e: any) {
   const element = event.target.scrollingElement || event.target;
+
+  element.style.willChange = 'transform'; // Hint for browser
+  setTimeout(() => {
+    element.style.willChange = '';
+  }, 100);
+
   const threshold = 10; // give Safari a bit more leniency
 
   const atBottom =
