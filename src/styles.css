@@ -27,10 +27,10 @@ html {
   height: 500px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  -webkit-transform: translateZ(0); /* force GPU rendering */
-  transform: translateZ(0);
-  will-change: scroll-position; /* hint to browser */
+  transform: translateZ(0); /* force GPU layer */
+  backface-visibility: hidden;
 }
+
 
 .slider-content.active {
     display: block !important;
