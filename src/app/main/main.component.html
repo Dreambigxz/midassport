@@ -1,296 +1,323 @@
-<!-- <html lang=""> -->
 <app-spinner></app-spinner>
-  <app-telegram-bonus></app-telegram-bonus>
+<app-telegram-bonus></app-telegram-bonus>
 
-    <div  class="container">
-      <!-- <button type="button" class="btn btn-success" >
-        Simulate Signup Bonus
-      </button> -->
+<div class="container">
 
-        <div class="main-home-area">
-            <div class="profile-area">
-                <div  class="media">
-                    <div (click)="router.navigate(['profile'])" class="thumb">
-                        <img style="width:40px!important" src="assets/img/comment/my-profile.png" alt="img">
-                    </div>
-                    <div *ngIf="storeData.store['wallet'] as walletData"  class="media-body">
-                        <span class="profile-name">Hello,  {{storeData['store']['username']}}</span>
-                        <div translate="no" class="balance">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}}
-                          <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="btn-wrap">
-                    <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
-                    <a class="icon-btn" ><i class="ri-notification-3-line"></i> <span class="badge">2</span></a>
-                </div>
+  <div class="main-home-area">
 
-            </div>
-            <div class="banner-slider owl-carousel pd-top-110 mb-4">
-                <div class="item">
-                    <img src="assets/img/banner/1.png" alt="img">
-                </div>
-                <div class="item">
-                    <img src="assets/img/banner/2.png" alt="img">
-                </div>
-                <div class="item">
-                    <img src="assets/img/banner/3.png" alt="img">
-                </div>
-            </div>
+    <!-- Profile Area -->
+    <div class="profile-area">
+      <div class="media">
+        <div class="thumb" (click)="router.navigate(['profile'])">
+          <img src="assets/img/comment/my-profile.png" alt="Profile Image" style="width:40px!important" />
+        </div>
+        <div *ngIf="storeData.store['wallet'] as walletData" class="media-body">
+          <span class="profile-name">Hello, {{ storeData['store']['username'] }}</span>
+          <div translate="no" class="balance">
+            {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }}
+            <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span>
+          </div>
+        </div>
+      </div>
 
-            <!-- quick nav -->
-            <div class="icon-grid">
-              <div (click)="router.navigate(['wallet','deposit'])" class="icon-item">
-                <div class="icon-circle deposit">
-                  <i class="fas fa-wallet"></i>
-                </div>
-                <div class="label">Deposit</div>
-              </div>
-              <div (click)="router.navigate(['wallet','withdraw'])" class="icon-item">
-                <div class="icon-circle withdraw">
-                  <i class="fas fa-hand-holding-usd"></i>
-                </div>
-                <div class="label">Withdraw</div>
-              </div>
-              <div (click)="router.navigate(['wallet','transactions'])" class="icon-item">
-                <div class="icon-circle transactions">
-                  <i class="fas fa-exchange-alt"></i>
-                </div>
-                <div class="label">Transactions</div>
-              </div>
-              <div (click)="router.navigate(['invite-rewards'])" class="icon-item">
-                <div class="icon-circle gift">
-                  <i class="fas fa-gift"></i>
-                </div>
-                <div class="label">Rewards</div>
-              </div>
-              <a [href]="storeData.store['telegramHelp']" target="_blank" class="icon-item">
-                <div class="icon-circle help">
-                  <i class="fas fa-question-circle"></i>
-                </div>
-                <div class="label">Help</div>
-              </a>
-              <a [href]="storeData.store['telegramChannel']" target="_blank" class="icon-item">
-                <div class="icon-circle telegram">
-                  <i class="fab fa-telegram-plane"></i>
-                </div>
-                <div class="label">Telegram</div>
-              </a>
-              <div (click)="installApp()"  class="icon-item {{!storeData.store['can_download_app']?'in-active':''}}">
-                <div class="icon-circle app">
-                  <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div class="label">App</div>
-              </div>
-              <div (click)="authService.logout(false)" class="icon-item">
-                <div class="icon-circle logout">
-                  <i class="fas fa-power-off"></i>
-                </div>
-                <div class="label">Logout</div>
-              </div>
-            </div>
+      <div class="btn-wrap">
+        <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
+        <a class="icon-btn">
+          <i class="ri-notification-3-line"></i>
+          <span class="badge">2</span>
+        </a>
+      </div>
+    </div>
 
-            <!-- end quick nav -->
-            <div class="sports-wrap mt-4">
-              <!-- <h6 data-bs-toggle="modal" data-bs-target="#bonusModal" class="mb-3">⚽️ Market</h6> -->
-              <h6 class="mb-3">⚽️ Market</h6>
+    <!-- Banner Slider -->
+    <div class="banner-slider owl-carousel pd-top-110 mb-4">
+      <div class="item"><img src="assets/img/banner/1.png" alt="Banner 1" /></div>
+      <div class="item"><img src="assets/img/banner/2.png" alt="Banner 2" /></div>
+      <div class="item"><img src="assets/img/banner/3.png" alt="Banner 3" /></div>
+    </div>
 
-                <div class="sports-slider slider-nav">
+    <!-- Quick Navigation -->
+    <div class="icon-grid">
+      <div class="icon-item" (click)="router.navigate(['wallet', 'deposit'])">
+        <div class="icon-circle deposit"><i class="fas fa-wallet"></i></div>
+        <div class="label">Deposit</div>
+      </div>
+      <div class="icon-item" (click)="router.navigate(['wallet', 'withdraw'])">
+        <div class="icon-circle withdraw"><i class="fas fa-hand-holding-usd"></i></div>
+        <div class="label">Withdraw</div>
+      </div>
+      <div class="icon-item" (click)="router.navigate(['wallet', 'transactions'])">
+        <div class="icon-circle transactions"><i class="fas fa-exchange-alt"></i></div>
+        <div class="label">Transactions</div>
+      </div>
+      <div class="icon-item" (click)="router.navigate(['invite-rewards'])">
+        <div class="icon-circle gift"><i class="fas fa-gift"></i></div>
+        <div class="label">Rewards</div>
+      </div>
+      <a class="icon-item" [href]="storeData.store['telegramHelp']" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle help"><i class="fas fa-question-circle"></i></div>
+        <div class="label">Help</div>
+      </a>
+      <a class="icon-item" [href]="storeData.store['telegramChannel']" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle telegram"><i class="fab fa-telegram-plane"></i></div>
+        <div class="label">Telegram</div>
+      </a>
+      <div
+        class="icon-item"
+        [class.in-active]="!storeData.store['can_download_app']"
+        (click)="installApp()"
+      >
+        <div class="icon-circle app"><i class="fas fa-mobile-alt"></i></div>
+        <div class="label">App</div>
+      </div>
+      <div class="icon-item" (click)="authService.logout(false)">
+        <div class="icon-circle logout"><i class="fas fa-power-off"></i></div>
+        <div class="label">Logout</div>
+      </div>
+    </div>
 
-                  <div class="sports-slider-item">
-                      <i style="color:#transparent" class="fa fa-lock me-2"></i> Secured
+    <!-- Sports Market -->
+    <div class="sports-wrap mt-4">
+      <h6 class="mb-3">⚽️ Market</h6>
+
+      <div class="sports-slider slider-nav">
+        <div class="sports-slider-item">
+          <i class="fa fa-lock me-2" style="color: transparent;"></i> Secured
+        </div>
+        <div class="sports-slider-item upcomingTab">
+          <i class="fa fa-circle me-2" style="color: transparent;"></i> Upcoming
+        </div>
+        <div class="sports-slider-item">
+          <i class="fa fa-circle me-2" style="color: #ffa63d;"></i> Events
+        </div>
+        <div class="sports-slider-item">
+          <i class="fa fa-circle me-2" style="color: green;"></i> Live Now
+        </div>
+        <div class="sports-slider-item">
+          <i class="fa fa-circle me-2" style="color: #999;"></i> Finished
+        </div>
+      </div>
+
+      <div class="sports-slider-wrap slider-for">
+
+        <!-- Secured Matches -->
+        <div
+          id="secured__matches"
+          (scroll)="onScroll($event, 'secured')"
+          class="slider-content"
+          [class.scroll-box]="categorizedMatchesData.secured['data'].length > batchSize"
+          style="display:none"
+        >
+          <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
+            <div *ngFor="let m of categorizedMatchesData.secured['display']" class="single-product-wrap">
+              <h6 class="title">{{ m.league.name }}</h6>
+              <div class="details">
+                <div class="thumb">
+                  <img [src]="m.teams.home.logo" alt="Home Team Logo" />
+                  <h6 class="team-name">{{ m.teams.home.name }}</h6>
+                </div>
+                <div class="betting-wrap">
+                  <div class="time">
+                    <i class="fa fa-circle"></i>
+                    {{ setTime(m.fixture.timestamp) }}
                   </div>
-
-                    <div class="sports-slider-item upcomingTab">
-                        <i style="color:#transparent" class="fa fa-circle me-2"></i> Upcoming
-                    </div>
-                    <div class="sports-slider-item">
-                        <i style="color:#ffa63d" class="fa fa-circle me-2"></i> Events
-                    </div>
-                    <div class="sports-slider-item">
-                        <i style="color:green" class="fa fa-circle me-2"></i> Live Now
-                    </div>
-                    <div  class="sports-slider-item">
-                      <i style="color:#999" class="fa fa-circle me-2"></i>  Finished
-                    </div>
-
+                  <a [routerLink]="['/betslip', m.fixture.id]" class="btn btn-base">Bet Now</a>
                 </div>
-                <div class="sports-slider-wrap slider-for">
-
-                    <div style="display:none" id="secured__matches"  (scroll)="onScroll($event,'secured')" class="slider-content {{categorizedMatchesData.secured['data'].length>batchSize?'scroll-box':''}} active">
-                      <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
-                        <div *ngFor="let m of categorizedMatchesData.secured['display']">
-                          <div class="single-product-wrap">
-                              <h6 class="title">{{m.league.name}}</h6>
-                              <div class="details">
-                                  <div class="thumb"><img src="{{m.teams.home.logo}}" alt="img"><h6 class="team-name">{{m.teams.home.name}}</h6></div>
-                                  <div class="betting-wrap">
-                                      <h2></h2>
-                                      <div class="time">
-                                          <i class="fa fa-circle"></i>
-                                          {{setTime(m.fixture.timestamp)}}
-                                      </div>
-                                      <a [routerLink]="['/betslip',m.fixture.id]" class="btn btn-base">Bet Now</a>
-                                  </div>
-                                  <div class="thumb"><img src="{{m.teams.away.logo}}" alt="img"><h6 class="team-name">{{m.teams.away.name}}</h6></div>
-                              </div>
-                          </div>
-                        </div>
-                      </ng-container>
-
-                      <ng-template #noSecured>
-                       <div class="no-data">No data found</div>
-                     </ng-template>
-
-                    </div>
-
-                      <div style="display:none" id="upcoming__matches"  (scroll)="onScroll($event,'upcoming')" class="slider-content {{categorizedMatchesData.upcoming['data'].length>batchSize?'scroll-box':''}} active">
-
-                        <div *ngFor="let m of categorizedMatchesData.upcoming['display']">
-                          <div class="single-product-wrap">
-                              <h6 class="title">{{m.league.name}}</h6>
-                              <div class="details">
-                                  <div class="thumb"><img src="{{m.teams.home.logo}}" alt="img"><h6 class="team-name">{{m.teams.home.name}}</h6></div>
-                                  <div class="betting-wrap">
-                                      <h2></h2>
-                                      <div class="time">
-                                          <i class="fa fa-circle"></i>
-                                          {{setTime(m.fixture.timestamp)}}
-                                      </div>
-                                      <a [routerLink]="['/betslip',m.fixture.id]" class="btn btn-base">Bet Now</a>
-                                  </div>
-                                  <div class="thumb"><img src="{{m.teams.away.logo}}" alt="img"><h6 class="team-name">{{m.teams.away.name}}</h6></div>
-                              </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div style="display:none" id="events__matches"  (scroll)="onScroll($event,'notStarted')" class="slider-content {{categorizedMatchesData.notStarted['data'].length>batchSize?'scroll-box':''}}">
-                      <!-- <div id="events__matches" (scroll)="onScroll($event,'notStarted')" class="slider-content scroll-box"> -->
-                        <div *ngFor="let m of categorizedMatchesData.notStarted['display']">
-                          <div class="single-product-wrap">
-                              <h6 class="title">{{m.league.name}}</h6>
-                              <div class="details">
-                                  <div class="thumb"><img src="{{m.teams.home.logo}}" alt="img"><h6 class="team-name">{{m.teams.home.name}}</h6></div>
-                                  <div class="betting-wrap">
-                                      <div class="time">
-                                          <i class="fa fa-circle"></i>
-                                          {{setTime(m.fixture.timestamp)}}
-                                      </div>
-                                      <a [routerLink]="['/betslip',m.fixture.id]" class="btn btn-base">Bet Now</a>
-                                  </div>
-                                  <div class="thumb"><img src="{{m.teams.away.logo}}" alt="img"><h6 class="team-name">{{m.teams.away.name}}</h6></div>
-                              </div>
-                          </div>
-                          </div>
-
-                      </div>
-                      <!-- live __matches -->
-
-                    <div style="display:none" id="live__matches" (scroll)="onScroll($event,'live')" class="slider-content {{categorizedMatchesData.live['data'].length>batchSize?'scroll-box':''}}">
-                      <ng-container *ngIf="categorizedMatchesData.live['display'].length; else Live">
-                          <div *ngFor="let m of categorizedMatchesData.live['display']">
-                            <div class="single-product-wrap">
-                                <h6 class="title">{{m.league.name}}</h6>
-                                <div class="details">
-                                    <div class="thumb"><img src="{{m.teams.home.logo}}" alt="img"><h6 class="team-name">{{m.teams.home.name}}</h6></div>
-                                    <div class="betting-wrap">
-                                      <h2><span class="{{parseInt(m.goals.home)>parseInt(m.goals.away)?'team-won':''}}">{{m.goals.home}}</span> : <span class="{{parseInt(m.goals.home)<parseInt(m.goals.away)?'team-won':''}}">{{m.goals.away}}</span></h2>
-                                        <div class="time">
-                                            <i class="fa fa-circle"></i>
-                                            {{m.fixture.status.elapsed}}
-                                        </div>
-                                        <!-- <a class="btn btn-base" href="bet.html">Bet Now</a> -->
-                                    </div>
-                                    <div class="thumb"><img src="{{m.teams.away.logo}}" alt="img"><h6 class="team-name">{{m.teams.away.name}}</h6></div>
-                                </div>
-                            </div>
-                          </div>
-                        </ng-container>
-
-                        <ng-template #Live>
-                         <div class="no-data">No data found</div>
-                       </ng-template>
-                    </div>
-                    <!-- finished matches -->
-                    <div style="display:none" id="finished__matches" (scroll)="onScroll($event,'finished')" class="slider-content {{categorizedMatchesData.finished['data'].length>batchSize?'scroll-box':''}}">
-                      <div *ngFor="let m of categorizedMatchesData.finished['display']">
-                          <div class="single-product-wrap">
-                              <h6 class="title">{{m.league.name}}</h6>
-                              <div class="details">
-                                  <div class="thumb"><img src="{{m.teams.home.logo}}" alt="img"><h6 class="team-name">{{m.teams.home.name}}</h6></div>
-                                  <div class="betting-wrap">
-                                      <h2><span class="{{parseInt(m.goals.home)>parseInt(m.goals.away)?'team-won':''}}">{{m.goals.home}}</span> : <span class="{{parseInt(m.goals.home)<parseInt(m.goals.away)?'team-won':''}}">{{m.goals.away}}</span></h2>
-                                      <!-- <div class="time">
-                                          <i class="fa fa-circle"></i>
-                                          {{m.fixture.status.elapsed}}
-                                      </div> -->
-                                  </div>
-                                  <div class="thumb"><img src="{{m.teams.away.logo}}" alt="img"><h6 class="team-name">{{m.teams.away.name}}</h6></div>
-                              </div>
-                          </div>
-                        </div>
-                    </div>
+                <div class="thumb">
+                  <img [src]="m.teams.away.logo" alt="Away Team Logo" />
+                  <h6 class="team-name">{{ m.teams.away.name }}</h6>
                 </div>
+              </div>
             </div>
-
-            <div class="main-footer-bottom d-block text-center">
-                <ul>
-                    <li>
-                        <a [routerLink]="['/main']" [class.active]="current === 'main'">
-                            <img src="assets/img/icon/svg/home.svg" alt="icon">
-                            Home
-                        </a>
-                    </li>
-                    <!-- <li>
-                        <a href="sports.html">
-                            <img src="assets/img/icon/svg/sports.svg" alt="img">
-                            Sports
-                        </a>
-                    </li> -->
-                    <li>
-                        <a [class.active]="current === 'ticket'" class="menu-bar" [routerLink]="['/tickets']">
-                            <img src="assets/img/icon/svg/ticket.svg" alt="img">
-                            Tickets
-                        </a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['/promotions']" [class.active]="current === 'promotions'">
-                            <img src="assets/img/icon/svg/document.svg" alt="img">
-                            Promotion
-                        </a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['/profile']" [class.active]="current === 'profile'">
-                            <img src="assets/img/icon/svg/profile.svg" alt="img">
-                            Me
-                        </a>
-                    </li>
-                </ul>
-            </div>
+          </ng-container>
+          <ng-template #noSecured>
+            <div class="no-data">No data found</div>
+          </ng-template>
         </div>
 
-
-        <div *ngIf="storeData.store['wallet'] as walletData" class="modal fade" id="bonusModal" tabindex="-1" aria-labelledby="bonusModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content p-4 text-center">
-              <h2 id="bonusModalLabel">🎉 Congratulations!</h2>
-              <p>You got a sign-up bonus</p>
-
-              <!-- 3D Animation Canvas -->
-              <div #canvasContainer class="canvas-container mx-auto"></div>
-
-              <!-- Animated Amount -->
-              <h1 class="text-success fw-bold mt-3 bonus-text">$ {{ walletData.settings.sign_up_bonus }}</h1>
-
-              <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
+        <!-- Upcoming Matches -->
+        <div
+          id="upcoming__matches"
+          (scroll)="onScroll($event, 'upcoming')"
+          class="slider-content"
+          [class.scroll-box]="categorizedMatchesData.upcoming['data'].length > batchSize"
+          style="display:none"
+        >
+          <div *ngFor="let m of categorizedMatchesData.upcoming['display']" class="single-product-wrap">
+            <h6 class="title">{{ m.league.name }}</h6>
+            <div class="details">
+              <div class="thumb">
+                <img [src]="m.teams.home.logo" alt="Home Team Logo" />
+                <h6 class="team-name">{{ m.teams.home.name }}</h6>
+              </div>
+              <div class="betting-wrap">
+                <div class="time">
+                  <i class="fa fa-circle"></i>
+                  {{ setTime(m.fixture.timestamp) }}
+                </div>
+                <a [routerLink]="['/betslip', m.fixture.id]" class="btn btn-base">Bet Now</a>
+              </div>
+              <div class="thumb">
+                <img [src]="m.teams.away.logo" alt="Away Team Logo" />
+                <h6 class="team-name">{{ m.teams.away.name }}</h6>
+              </div>
             </div>
           </div>
         </div>
 
+        <!-- Events Matches -->
+        <div
+          id="events__matches"
+          (scroll)="onScroll($event, 'notStarted')"
+          class="slider-content"
+          [class.scroll-box]="categorizedMatchesData.notStarted['data'].length > batchSize"
+          style="display:none"
+        >
+          <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
+            <h6 class="title">{{ m.league.name }}</h6>
+            <div class="details">
+              <div class="thumb">
+                <img [src]="m.teams.home.logo" alt="Home Team Logo" />
+                <h6 class="team-name">{{ m.teams.home.name }}</h6>
+              </div>
+              <div class="betting-wrap">
+                <div class="time">
+                  <i class="fa fa-circle"></i>
+                  {{ setTime(m.fixture.timestamp) }}
+                </div>
+                <a [routerLink]="['/betslip', m.fixture.id]" class="btn btn-base">Bet Now</a>
+              </div>
+              <div class="thumb">
+                <img [src]="m.teams.away.logo" alt="Away Team Logo" />
+                <h6 class="team-name">{{ m.teams.away.name }}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <!-- Live Matches -->
+        <div
+          id="live__matches"
+          (scroll)="onScroll($event, 'live')"
+          class="slider-content"
+          [class.scroll-box]="categorizedMatchesData.live['data'].length > batchSize"
+          style="display:none"
+        >
+          <ng-container *ngIf="categorizedMatchesData.live['display'].length; else Live">
+            <div *ngFor="let m of categorizedMatchesData.live['display']" class="single-product-wrap">
+              <h6 class="title">{{ m.league.name }}</h6>
+              <div class="details">
+                <div class="thumb">
+                  <img [src]="m.teams.home.logo" alt="Home Team Logo" />
+                  <h6 class="team-name">{{ m.teams.home.name }}</h6>
+                </div>
+                <div class="betting-wrap">
+                  <h2>
+                    <span [class.team-won]="parseInt(m.goals.home) > parseInt(m.goals.away)">{{ m.goals.home }}</span> :
+                    <span [class.team-won]="parseInt(m.goals.home) < parseInt(m.goals.away)">{{ m.goals.away }}</span>
+                  </h2>
+                  <div class="time">
+                    <i class="fa fa-circle"></i>
+                    {{ m.fixture.status.elapsed }}
+                  </div>
+                </div>
+                <div class="thumb">
+                  <img [src]="m.teams.away.logo" alt="Away Team Logo" />
+                  <h6 class="team-name">{{ m.teams.away.name }}</h6>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #Live>
+            <div class="no-data">No data found</div>
+          </ng-template>
+        </div>
+
+        <!-- Finished Matches -->
+        <div
+          id="finished__matches"
+          (scroll)="onScroll($event, 'finished')"
+          class="slider-content"
+          [class.scroll-box]="categorizedMatchesData.finished['data'].length > batchSize"
+          style="display:none"
+        >
+          <div *ngFor="let m of categorizedMatchesData.finished['display']" class="single-product-wrap">
+            <h6 class="title">{{ m.league.name }}</h6>
+            <div class="details">
+              <div class="thumb">
+                <img [src]="m.teams.home.logo" alt="Home Team Logo" />
+                <h6 class="team-name">{{ m.teams.home.name }}</h6>
+              </div>
+              <div class="betting-wrap">
+                <h2>
+                  <span [class.team-won]="parseInt(m.goals.home) > parseInt(m.goals.away)">{{ m.goals.home }}</span> :
+                  <span [class.team-won]="parseInt(m.goals.home) < parseInt(m.goals.away)">{{ m.goals.away }}</span>
+                </h2>
+              </div>
+              <div class="thumb">
+                <img [src]="m.teams.away.logo" alt="Away Team Logo" />
+                <h6 class="team-name">{{ m.teams.away.name }}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
+    <!-- Footer Navigation -->
+    <div class="main-footer-bottom d-block text-center">
+      <ul>
+        <li>
+          <a [routerLink]="['/main']" [class.active]="current === 'main'">
+            <img src="assets/img/icon/svg/home.svg" alt="Home Icon" /> Home
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/tickets']" class="menu-bar" [class.active]="current === 'ticket'">
+            <img src="assets/img/icon/svg/ticket.svg" alt="Ticket Icon" /> Tickets
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/promotions']" [class.active]="current === 'promotions'">
+            <img src="assets/img/icon/svg/document.svg" alt="Promotion Icon" /> Promotion
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/profile']" [class.active]="current === 'profile'">
+            <img src="assets/img/icon/svg/profile.svg" alt="Profile Icon" /> Me
+          </a>
+        </li>
+      </ul>
+    </div>
 
-<!-- </html> -->
+  </div>
+
+  <!-- Bonus Modal -->
+  <div
+    *ngIf="storeData.store['wallet'] as walletData"
+    class="modal fade"
+    id="bonusModal"
+    tabindex="-1"
+    aria-labelledby="bonusModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4 text-center">
+        <h2 id="bonusModalLabel">🎉 Congratulations!</h2>
+        <p>You got a sign-up bonus</p>
+
+        <!-- 3D Animation Canvas -->
+        <div #canvasContainer class="canvas-container mx-auto"></div>
+
+        <!-- Animated Amount -->
+        <h1 class="text-success fw-bold mt-3 bonus-text">
+          $ {{ walletData.settings.sign_up_bonus }}
+        </h1>
+
+        <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+
+</div>
