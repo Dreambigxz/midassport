@@ -27,9 +27,14 @@ html {
   height: 500px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  transform: translateZ(0); /* force GPU layer */
+  transform: translateZ(0);
   backface-visibility: hidden;
 }
+
+.scroll-box > * {
+  transform: translateZ(0);
+}
+
 
 
 .slider-content.active {
