@@ -26,8 +26,10 @@ html {
 .scroll-box {
   height: 500px;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* needed for iOS Safari */
-  display: block; /* ensure it’s treated as a block container */
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translateZ(0); /* force GPU rendering */
+  transform: translateZ(0);
+  will-change: scroll-position; /* hint to browser */
 }
 
 .slider-content.active {
