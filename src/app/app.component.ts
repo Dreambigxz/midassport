@@ -62,6 +62,9 @@ export class AppComponent {
               type: 'SET_TOKEN',
               token: tokenObj.token
             });
+          }else{
+            alert('NO token');
+
           }
         }else{
           alert('NOTOKKEN')
