@@ -52,7 +52,7 @@ export class AppComponent {
       navigator.serviceWorker.ready.then(registration => {
 
         alert('service WORKER READY')
-        registration.active?.postMessage({ type: 'TEST_NOTIFICATION' });
+        // registration.active?.postMessage({ // XXX: : 'TEST_NOTIFICATION' });
 
         const tokenData = localStorage.getItem('token');
         if (tokenData) {

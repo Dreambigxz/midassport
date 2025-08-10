@@ -176,6 +176,7 @@ self.addEventListener('message', async (event) => {
     console.log('SETTING TOKEN')
     userToken = event.data.token;
     console.log('[SW] Token set:', userToken);
+    showNotification_()
   }
   else if (event.data.type === 'UPDATE_BETS') {
     console.log('[SW] Updating bets in DB', event.data);
@@ -190,32 +191,32 @@ self.addEventListener('message', async (event) => {
     await removeBetFromDB(event.data.betId);
   }
   /*TEST Notification*/
-  else if (event.data && event.data.type === 'TEST_NOTIFICATION') {
-    console.log('[SW] Showing test notification...');
-
-    if (Notification.permission !== 'granted') {
-      console.log('[SW][WARNING] Notification permission not granted in SW context');
-      return;
-    }
-
-    console.log('permission was granted');
-
-    self.registration.showNotification('Test Notification', {
-      body: 'This is a test notification from SW.',
-      icon: '/assets/icons/icon-192x192.png',
-      badge: '/assets/icons/icon-72x72.png',
-    });
-
-    // if (Notification.permission === 'granted') {
-    //   console.log('HAS Notification permission granted');
-    //   self.registration.showNotification('Test Notification', {
-    //     body: 'Hello! This is a test notification from your SW 🎯',
-    //     icon: self.location.origin + '/assets/icons/icon-192x192.png'
-    //   });
-    // } else {
-    //   console.warn('[SW] Notification permission not granted');
-    // }
-  }
+  // else if (event.data && event.data.type === 'TEST_NOTIFICATION') {
+  //   console.log('[SW] Showing test notification...');
+  //
+  //   if (Notification.permission !== 'granted') {
+  //     console.log('[SW][WARNING] Notification permission not granted in SW context');
+  //     return;
+  //   }
+  //
+  //   console.log('permission was granted');
+  //
+  //   self.registration.showNotification('Test Notification', {
+  //     body: 'This is a test notification from SW.',
+  //     icon: '/assets/icons/icon-192x192.png',
+  //     badge: '/assets/icons/icon-72x72.png',
+  //   });
+  //
+  //   // if (Notification.permission === 'granted') {
+  //   //   console.log('HAS Notification permission granted');
+  //   //   self.registration.showNotification('Test Notification', {
+  //   //     body: 'Hello! This is a test notification from your SW 🎯',
+  //   //     icon: self.location.origin + '/assets/icons/icon-192x192.png'
+  //   //   });
+  //   // } else {
+  //   //   console.warn('[SW] Notification permission not granted');
+  //   // }
+  // }
 
   else {
     console.log("NOTHING TO RUN");
@@ -223,6 +224,23 @@ self.addEventListener('message', async (event) => {
 
 });
 
+
+function showNotification_(header="Test Notification",body={
+  body: 'This is a test notification from SW.',
+  icon: '/assets/icons/icon-192x192.png',
+  badge: '/assets/icons/icon-72x72.png',
+}){
+  console.log('[SW] Showing notification...');
+
+  if (Notification.permission !== 'granted') {
+    console.log('[SW][WARNING] Notification permission not granted in SW context');
+    return;
+  }
+
+  console.log('permission was granted');
+
+  self.registration.showNotification(header, body);
+}
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
