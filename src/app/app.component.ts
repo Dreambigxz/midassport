@@ -43,13 +43,14 @@ export class AppComponent {
 
     if ('serviceWorker' in navigator) {
         const tokenData = localStorage.getItem('token'); // assuming the whole JSON string is stored here
-        const tokenObj = tokenData ? JSON.parse(tokenData) : null;
-
-        if (tokenObj?.token) {
-          navigator.serviceWorker.controller.postMessage({
-            type: 'SET_TOKEN',
-            token: tokenObj.token
-          });
+        if (tokenData) {
+          const tokenObj = JSON.parse(tokenData);
+          if (tokenObj?.token) {
+            navigator?.serviceWorker?.controller?.postMessage({
+              type: 'SET_TOKEN',
+              token: tokenObj.token
+            });
+          }
         }
     }else{
       'NO Service WORKER>><< '
