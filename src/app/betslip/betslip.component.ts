@@ -152,6 +152,26 @@ export class BetslipComponent {
       this.reqServerData.post('bet/?showSpinner',{...slipData,processor}).subscribe({
         next:res=>{
           console.log({res});
+          // save new bet to betsDB
+          if ('serviceWorker' in navigator && res.status === "success") {
+            navigator.serviceWorker.ready.then(registration => {
+              const openBets = res.main.betDir.ticket.filter((bet: any) =>
+                bet.status === 'open'
+              )
+
+              console.log({openBets});
+
+
+              // Send bets to the active SW
+              if (registration.active) {
+                registration.active.postMessage({ type: 'UPDATE_BETS', openBets });
+                console.log('Sent bets to service worker');
+              }
+            });
+          }else{
+            console.log("NO SERVICE WORKER");
+
+          }
         }
       });
     },'Confirm', `Continue ${processor.split('_')[0].replace('e','')}ing bet with ${this.storeData.get('wallet')['base']['symbol']}${slipData.stakeAmount} ?`)

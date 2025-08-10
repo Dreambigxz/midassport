@@ -22,10 +22,7 @@ async function saveBetsToDB(bets) {
   const tx = db.transaction('bets', 'readwrite');
   const store = tx.objectStore('bets');
   bets.forEach(bet => store.put(bet));
-  return new Promise((resolve, reject) => {
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  });
+  return tx.complete;
 }
 
 async function getBetsFromDB() {
@@ -82,57 +79,6 @@ async function checkOpenBets() {
   }
 }
 
-self.addEventListener('message', async (event) => {
-  if (event.data.type === 'UPDATE_BETS') {
-    console.log('[SW] Updating bets in DB');
-    await updateBetsInDB(event.data.bets);
-    startChecking();
-  } else if (event.data.type === 'CLEAR_BETS') {
-    console.log('[SW] Clearing all bets');
-    await clearBetsDB();
-    stopChecking();
-  } else if (event.data.type === 'REMOVE_BET') {
-    console.log('[SW] Removing bet:', event.data.betId);
-    await removeBetFromDB(event.data.betId);
-  }
-});
-
-// Helper functions
-
-async function updateBetsInDB(bets) {
-  const db = await openDB();
-  const tx = db.transaction('bets', 'readwrite');
-  const store = tx.objectStore('bets');
-
-  for (const bet of bets) {
-    // Put will add or update
-    store.put({
-      id: bet.id,
-      status: bet.status,
-      startTime: bet.start_date || bet.startTime, // unify key name
-      notified: bet.notified || false,
-      raw: bet // optionally save full data
-    });
-  }
-  return tx.complete;
-}
-
-async function removeBetFromDB(betId) {
-  const db = await openDB();
-  const tx = db.transaction('bets', 'readwrite');
-  const store = tx.objectStore('bets');
-  store.delete(betId);
-  return tx.complete;
-}
-
-function stopChecking() {
-  if (checkInterval) {
-    clearInterval(checkInterval);
-    checkInterval = null;
-    console.log('[SW] Stopped check interval');
-  }
-}
-
 function startChecking() {
   if (!checkInterval) {
     checkInterval = setInterval(checkOpenBets, 60 * 1000);
@@ -140,9 +86,21 @@ function startChecking() {
   }
 }
 
-
-
-
+self.addEventListener('message', async (event) => {
+  if (event.data.type === 'UPDATE_BETS') {
+    console.log('[SW] Updating bets in DB');
+    await saveBetsToDB(event.data.bets);
+    startChecking();
+  } else if (event.data.type === 'CLEAR_BETS') {
+    console.log('[SW] Clearing bets');
+    await clearBetsDB();
+    if (checkInterval) {
+      clearInterval(checkInterval);
+      checkInterval = null;
+      console.log('[SW] Cleared bets — stopping check interval');
+    }
+  }
+});
 
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activated');
