@@ -196,11 +196,13 @@ self.addEventListener('message', async (event) => {
       return;
     }
 
+    console.log('permission was granted');
+
     self.registration.showNotification('Test Notification', {
       body: 'This is a test notification from SW.',
       icon: '/assets/icons/icon-192x192.png',
       badge: '/assets/icons/icon-72x72.png',
-    }); 
+    });
 
     // if (Notification.permission === 'granted') {
     //   console.log('HAS Notification permission granted');
