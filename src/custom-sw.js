@@ -1,9 +1,11 @@
+
 self.addEventListener('install', (event) => {
   console.log('[SW] Installed');
   self.skipWaiting();
 });
 
 let checkInterval = null;
+let userToken = null;
 // let baseUrl = 'http://127.0.0.1:8000/api';
 baseUrl="https://fbapp01-125e9985037c.herokuapp.com/api"
 // IndexedDB helper
@@ -70,7 +72,10 @@ async function checkOpenBets() {
         const res = await fetch(`${baseUrl}/bet/`, {
           method: 'POST',
           body: JSON.stringify({ betId: bet.id, processor: "check_bet_status" }),
-          headers: { 'Content-Type': 'application/json' }
+          headers: {
+            'Content-Type': 'application/json',
+            ...(userToken ? { 'Authorization': `Token ${userToken}` } : {})
+          }
         });
 
         if (!res.ok) throw new Error('Network response not ok');
@@ -168,7 +173,11 @@ self.addEventListener('activate', (event) => {
 
 // message listener
 self.addEventListener('message', async (event) => {
-  if (event.data.type === 'UPDATE_BETS') {
+  if (event.data.type === 'SET_TOKEN') {
+    userToken = event.data.token;
+    console.log('[SW] Token set:', userToken);
+  }
+  else if (event.data.type === 'UPDATE_BETS') {
     console.log('[SW] Updating bets in DB', event.data);
     await updateBetsInDB(event.data.bets);
     startChecking();
