@@ -106,6 +106,7 @@ async function updateBetsInDB(bets) {
 
   for (const bet of bets) {
     // Put will add or update
+    console.log('ADDING BET>>>', bet);
     store.put({
       id: bet.id,
       status: bet.status,
