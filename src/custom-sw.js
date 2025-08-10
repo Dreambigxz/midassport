@@ -84,7 +84,7 @@ async function checkOpenBets() {
 
 self.addEventListener('message', async (event) => {
   if (event.data.type === 'UPDATE_BETS') {
-    console.log('[SW] Updating bets in DB');
+    console.log('[SW] Updating bets in DB', event.data);
     await updateBetsInDB(event.data.bets);
     startChecking();
   } else if (event.data.type === 'CLEAR_BETS') {
@@ -140,10 +140,6 @@ function startChecking() {
     console.log('[SW] Started check interval');
   }
 }
-
-
-
-
 
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activated');
