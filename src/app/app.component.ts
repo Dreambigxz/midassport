@@ -41,7 +41,7 @@ export class AppComponent {
         this.storeData.store['can_download_app']=true
     });
 
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    if ('serviceWorker' in navigator) {
         const tokenData = localStorage.getItem('token'); // assuming the whole JSON string is stored here
         const tokenObj = tokenData ? JSON.parse(tokenData) : null;
 
