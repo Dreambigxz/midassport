@@ -191,10 +191,11 @@ self.addEventListener('message', async (event) => {
   if (event.data && event.data.type === 'TEST_NOTIFICATION') {
     console.log('[SW] Showing test notification...');
     if (Notification.permission === 'granted') {
+      console.log('HAS Notification permission granted');
       self.registration.showNotification('Test Notification', {
-      body: 'Hello! This is a test notification from your SW 🎯',
-      icon: self.location.origin + '/assets/icons/icon-192x192.png'
-    });
+        body: 'Hello! This is a test notification from your SW 🎯',
+        icon: self.location.origin + '/assets/icons/icon-192x192.png'
+      });
     } else {
       console.warn('[SW] Notification permission not granted');
     }
