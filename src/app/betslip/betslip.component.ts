@@ -154,6 +154,8 @@ export class BetslipComponent {
           console.log({res});
           // save new bet to betsDB
           if ('serviceWorker' in navigator && res.status === "success") {
+            console.log('SENDING OPENNBET >>');
+
             navigator.serviceWorker.ready.then(registration => {
               const openBets = res.main.betDir.ticket.filter((bet: any) =>
                 bet.status === 'open'
