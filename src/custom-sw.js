@@ -90,8 +90,8 @@ async function checkOpenBets() {
 
           try {
             // Optionally notify user
-            self.registration.showNotification('Bet Settled!', {
-              body: `Your bet ${bet.id} has been settled.`,
+            self.registration.showNotification(`⚽️Bet ${bet.raw?.ticket_id}!`, {
+              body: `Your bet ${bet.id} current status ${json.status}.`,
               icon: '/assets/icons/icon-192x192.png'
             });
             console.log("USER NOTIFIED");

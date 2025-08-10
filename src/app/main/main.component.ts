@@ -313,4 +313,18 @@ export class MainComponent implements OnInit, OnDestroy {
   //    requestAnimationFrame(animate);
   // }
 
+  async requestNotificationPermission() {
+    if (!('Notification' in window)) {
+      console.warn('This browser does not support notifications.');
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('✅ Notification permission granted');
+    } else {
+      console.warn('❌ Notification permission denied');
+    }
+}
+
 }
