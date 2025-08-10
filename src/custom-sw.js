@@ -173,7 +173,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('message', async (event) => {
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;
-    console.log('[SW] Token set:', userToken);
+    alert('[SW] Token set:', userToken);
   }
   else if (event.data.type === 'UPDATE_BETS') {
     console.log('[SW] Updating bets in DB', event.data);
