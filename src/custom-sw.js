@@ -67,7 +67,7 @@ async function checkOpenBets() {
       console.log('[SW] Bet finished, checking status from server:', bet.id);
 
       try {
-        const res = await fetch(`${baseUrl}/bet`, {
+        const res = await fetch(`${baseUrl}/bet/`, {
           method: 'POST',
           body: JSON.stringify({ betId: bet.id, processor: "check_bet_status" }),
           headers: { 'Content-Type': 'application/json' }
