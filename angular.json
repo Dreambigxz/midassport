@@ -26,6 +26,8 @@
               "src/assets",
               "src/favicon.png",
               "src/manifest.v2.webmanifest",
+              "src/combined-sw.js",
+              "src/custom-sw.js",
               {
                 "glob": "**/*",
                 "input": "public",

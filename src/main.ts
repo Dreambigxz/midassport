@@ -6,7 +6,7 @@ import { routes } from './app/app.routes';
 import { CustomReuseStrategy } from './app/custom-reuse-strategy';
 import { appConfig } from './app/app.config';
 import { isDevMode } from '@angular/core';
-import { provideServiceWorker } from '@angular/service-worker'; // <-- add this
+import { provideServiceWorker } from '@angular/service-worker';
 
 bootstrapApplication(AppComponent, {
   ...appConfig,
@@ -16,15 +16,9 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
 
     // 🔥 Service Worker registration
-    provideServiceWorker('ngsw-worker.js', {
+    provideServiceWorker('combined-sw.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
-    }), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+    }),
   ]
 }).catch((err) => console.error(err));
