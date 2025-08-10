@@ -173,6 +173,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('message', async (event) => {
   console.log(event.data,{userToken});
   if (event.data.type === 'SET_TOKEN') {
+    alert('SETTING TOKEN')
     userToken = event.data.token;
     alert('[SW] Token set:', userToken);
   }
@@ -189,7 +190,7 @@ self.addEventListener('message', async (event) => {
     await removeBetFromDB(event.data.betId);
   }
   /*TEST Notification*/
-  if (event.data && event.data.type === 'TEST_NOTIFICATION') {
+  else if (event.data && event.data.type === 'TEST_NOTIFICATION') {
     console.log('[SW] Showing test notification...');
 
     if (Notification.permission !== 'granted') {
