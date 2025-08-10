@@ -57,7 +57,10 @@ export class AppComponent {
               token: tokenObj.token
             });
           }
+        }else{
+          alert('NOTOKKEN')
         }
+
 
       });
     } else {
