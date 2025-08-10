@@ -45,7 +45,13 @@ export class AppComponent {
     });
 
     if ('serviceWorker' in navigator) {
+
+      alert('SERVICE WORKER STARTED')
+
+
       navigator.serviceWorker.ready.then(registration => {
+
+        alert('service WORKER READY')
         registration.active?.postMessage({ type: 'TEST_NOTIFICATION' });
 
         const tokenData = localStorage.getItem('token');
