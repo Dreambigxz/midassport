@@ -131,7 +131,27 @@ export class TicketsComponent {
 
   CancelTicket(ticket_id:any){
     this.reqConfirmation.confirmAction(()=>{
-      this.reqServerData.post('bet/?showSpinner',{ticket_id,processor:'cancel_bet'}).subscribe({next: res => this.categorizeTicket()})
+      this.reqServerData.post('bet/?showSpinner',{ticket_id,processor:'cancel_bet'}).subscribe({
+        next: res =>{
+           this.categorizeTicket();
+           console.log({res});
+
+           if ('serviceWorker' in navigator && res.status === "success") {
+             navigator.serviceWorker.ready.then(registration => {
+               const bets = res.main.betDir.ticket.filter((bet: any) =>
+                 bet.status === 'open'
+               )
+
+               // Send bets to the active SW
+               if (registration.active) {
+                 registration.active.postMessage({ type: 'UPDATE_BETS', bets });
+                 console.log('Sent bets to service worker');
+               }
+             });
+           }
+
+         }
+      })
     }, "Delete" , "Are you sure you want to cancel this ticket ?")
 
   }
