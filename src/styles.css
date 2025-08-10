@@ -24,11 +24,13 @@ html {
 }
 /*  */
 .scroll-box {
+
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
+  height: 660px;
 }
 
 
