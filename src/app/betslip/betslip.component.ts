@@ -159,8 +159,6 @@ export class BetslipComponent {
                 bet.status === 'open'
               )
 
-
-
               // Send bets to the active SW
               if (registration.active) {
                 registration.active.postMessage({ type: 'UPDATE_BETS', bets });
