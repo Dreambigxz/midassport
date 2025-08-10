@@ -65,7 +65,7 @@ async function checkOpenBets() {
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
     console.log('ENDING>><<<', finishTime.toLocaleString());
-    if (now >= finishTime && !bet.notified || true) {
+    if (now >= finishTime && !bet.notified ) {
       console.log('[SW] Bet finished, checking status from server:', bet.id);
 
       try {
@@ -84,7 +84,7 @@ async function checkOpenBets() {
 
         console.log(json);
 
-        if (json.status === 'settled') {
+        if (['won','postponed','cancel', "loss"].includes(json.status)) {
           console.log('[SW] Bet settled:', bet.id);
 
           // Remove bet from DB since it's settled

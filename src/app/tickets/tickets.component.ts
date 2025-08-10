@@ -129,9 +129,9 @@ export class TicketsComponent {
     return ticket.status==='open'&&new Date(ticket.start_date)>now
   }
 
-  CancelTicket(ticket_id:any){
+  CancelTicket(ticket:any){
     this.reqConfirmation.confirmAction(()=>{
-      this.reqServerData.post('bet/?showSpinner',{ticket_id,processor:'cancel_bet'}).subscribe({
+      this.reqServerData.post('bet/?showSpinner',{ticket_id:ticket.ticket_id,processor:'cancel_bet'}).subscribe({
         next: res =>{
            this.categorizeTicket();
            console.log({res});
@@ -144,7 +144,7 @@ export class TicketsComponent {
 
                // Send bets to the active SW
                if (registration.active) {
-                 registration.active.postMessage({ type: 'UPDATE_BETS', bets });
+                 registration.active.postMessage({ type: 'removeBetFromDB', betId:ticket.id });
                  console.log('Sent bets to service worker');
                }
              });

@@ -144,7 +144,7 @@
                             <span (click)="activeTicket=ticket.ticket_id" *ngIf="activeTicket!==ticket.ticket_id" class="btn btn-outline-dark btn-sm ng-tns-c880506055-0">Show Score ▼</span>
 
 
-                            <button  (click)="CancelTicket(ticket.ticket_id)" *ngIf="CanCancel(ticket);else statusBlock"><i class="fa fa-trash"></i></button>
+                            <button  (click)="CancelTicket(ticket)" *ngIf="CanCancel(ticket);else statusBlock"><i class="fa fa-trash"></i></button>
                             <ng-template #statusBlock>
                               <button class="status">🟡</button>
 
