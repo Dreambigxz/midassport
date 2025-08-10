@@ -192,7 +192,7 @@ self.addEventListener('message', async (event) => {
     console.log('[SW] Showing test notification...');
 
     if (Notification.permission !== 'granted') {
-      console.warn('[SW] Notification permission not granted in SW context');
+      console.log('[SW][WARNING] Notification permission not granted in SW context');
       return;
     }
 
