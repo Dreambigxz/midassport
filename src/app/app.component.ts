@@ -57,11 +57,14 @@ export class AppComponent {
         const tokenData = localStorage.getItem('token');
         if (tokenData) {
           const tokenObj = JSON.parse(tokenData);
+          console.log({tokenObj});
+
           if (tokenObj?.token) {
             registration.active?.postMessage({
               type: 'SET_TOKEN',
               token: tokenObj.token
             });
+            alert('POSTED TOKEN')
           }else{
             alert('NO token');
 

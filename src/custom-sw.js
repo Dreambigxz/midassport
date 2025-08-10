@@ -171,7 +171,7 @@ self.addEventListener('activate', (event) => {
 
 // message listener
 self.addEventListener('message', async (event) => {
-  console.log(event.data);
+  console.log(event.data,{userToken});
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;
     alert('[SW] Token set:', userToken);
@@ -216,6 +216,9 @@ self.addEventListener('message', async (event) => {
     // }
   }
 
+  else {
+    alert("NOTHING TO RUN");
+  }
 
 });
 
