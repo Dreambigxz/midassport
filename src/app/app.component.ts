@@ -54,6 +54,9 @@ export class AppComponent {
           console.log('Sent bets to service worker');
         }
       });
+    }else{
+      console.log("NO SERVICE WORKER");
+
     }
   }
 
