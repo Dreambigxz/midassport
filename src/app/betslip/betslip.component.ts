@@ -153,20 +153,17 @@ export class BetslipComponent {
         next:res=>{
           console.log({res});
           // save new bet to betsDB
-          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-            console.log('SENDING OPENNBET >>');
-
+          if ('serviceWorker' in navigator && res.status === "success") {
             navigator.serviceWorker.ready.then(registration => {
-              const openBets = res.main.betDir.ticket.filter((bet: any) =>
+              const bets = res.main.betDir.ticket.filter((bet: any) =>
                 bet.status === 'open'
               )
 
-              console.log({openBets});
 
 
               // Send bets to the active SW
               if (registration.active) {
-                registration.active.postMessage({ type: 'UPDATE_BETS', {bets:openBets} });
+                registration.active.postMessage({ type: 'UPDATE_BETS', bets });
                 console.log('Sent bets to service worker');
               }
             });
