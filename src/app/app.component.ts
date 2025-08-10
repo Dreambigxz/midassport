@@ -46,6 +46,8 @@ export class AppComponent {
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.ready.then(registration => {
+        registration.active?.postMessage({ type: 'TEST_NOTIFICATION' });
+
         const tokenData = localStorage.getItem('token');
         if (tokenData) {
           const tokenObj = JSON.parse(tokenData);
@@ -57,7 +59,6 @@ export class AppComponent {
           }
         }
 
-        registration.active?.postMessage({ type: 'TEST_NOTIFICATION' });
       });
     } else {
       console.warn('No Service Worker support');

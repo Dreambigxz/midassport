@@ -190,15 +190,27 @@ self.addEventListener('message', async (event) => {
   /*TEST Notification*/
   if (event.data && event.data.type === 'TEST_NOTIFICATION') {
     console.log('[SW] Showing test notification...');
-    if (Notification.permission === 'granted') {
-      console.log('HAS Notification permission granted');
-      self.registration.showNotification('Test Notification', {
-        body: 'Hello! This is a test notification from your SW 🎯',
-        icon: self.location.origin + '/assets/icons/icon-192x192.png'
-      });
-    } else {
-      console.warn('[SW] Notification permission not granted');
+
+    if (Notification.permission !== 'granted') {
+      console.warn('[SW] Notification permission not granted in SW context');
+      return;
     }
+
+    self.registration.showNotification('Test Notification', {
+      body: 'This is a test notification from SW.',
+      icon: '/assets/icons/icon-192x192.png',
+      badge: '/assets/icons/icon-72x72.png',
+    }); 
+
+    // if (Notification.permission === 'granted') {
+    //   console.log('HAS Notification permission granted');
+    //   self.registration.showNotification('Test Notification', {
+    //     body: 'Hello! This is a test notification from your SW 🎯',
+    //     icon: self.location.origin + '/assets/icons/icon-192x192.png'
+    //   });
+    // } else {
+    //   console.warn('[SW] Notification permission not granted');
+    // }
   }
 
 
