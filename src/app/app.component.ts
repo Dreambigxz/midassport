@@ -35,6 +35,9 @@ export class AppComponent {
 
   ngOnInit(): void {
 
+    // ✅ Call this immediately when app starts
+    this.requestNotificationPermission();
+
     window.addEventListener('beforeinstallprompt', (event) => {
         event.preventDefault();
         this.storeData.store['installPromptEvent'] = event;
@@ -42,21 +45,40 @@ export class AppComponent {
     });
 
     if ('serviceWorker' in navigator) {
-        const tokenData = localStorage.getItem('token'); // assuming the whole JSON string is stored here
+      navigator.serviceWorker.ready.then(registration => {
+        const tokenData = localStorage.getItem('token');
         if (tokenData) {
           const tokenObj = JSON.parse(tokenData);
           if (tokenObj?.token) {
-            navigator?.serviceWorker?.controller?.postMessage({
+            registration.active?.postMessage({
               type: 'SET_TOKEN',
               token: tokenObj.token
             });
           }
         }
-    }else{
-      'NO Service WORKER>><< '
+
+        registration.active?.postMessage({ type: 'TEST_NOTIFICATION' });
+      });
+    } else {
+      console.warn('No Service Worker support');
     }
 
+
   }
+
+  async requestNotificationPermission() {
+    if (!('Notification' in window)) {
+      console.warn('This browser does not support notifications.');
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('✅ Notification permission granted');
+    } else {
+      console.warn('❌ Notification permission denied');
+    }
+}
 
   // ngAfterViewInit(){}
 

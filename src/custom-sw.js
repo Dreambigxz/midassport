@@ -66,8 +66,6 @@ async function checkOpenBets() {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
     console.log('ENDING>><<<', finishTime.toLocaleString());
     if (now >= finishTime && !bet.notified ) {
-      console.log('[SW] Bet finished, checking status from server:', bet.id);
-
       try {
         const res = await fetch(`${baseUrl}/bet/`, {
           method: 'POST',
@@ -84,7 +82,7 @@ async function checkOpenBets() {
 
         console.log(json);
 
-        if (['won','postponed','cancel', "loss"].includes(json.status)) {
+        if (['won','postponed','cancel', "loss","notFound"].includes(json.status)) {
           console.log('[SW] Bet settled:', bet.id);
 
           // Remove bet from DB since it's settled
@@ -96,6 +94,7 @@ async function checkOpenBets() {
               body: `Your bet ${bet.id} has been settled.`,
               icon: '/assets/icons/icon-192x192.png'
             });
+            console.log("USER NOTIFIED");
           } catch (e) {
             console.log('FAILED TO NOTIFY USER');
           }
@@ -121,7 +120,6 @@ async function updateBetsInDB(bets) {
 
   for (const bet of bets) {
     // Put will add or update
-    console.log('ADDING BET>>>', bet);
     store.put({
       id: bet.id,
       status: bet.status,
@@ -189,4 +187,26 @@ self.addEventListener('message', async (event) => {
     console.log('[SW] Removing bet:', event.data.betId);
     await removeBetFromDB(event.data.betId);
   }
+  /*TEST Notification*/
+  if (event.data && event.data.type === 'TEST_NOTIFICATION') {
+    console.log('[SW] Showing test notification...');
+    if (Notification.permission === 'granted') {
+      self.registration.showNotification('Test Notification', {
+      body: 'Hello! This is a test notification from your SW 🎯',
+      icon: self.location.origin + '/assets/icons/icon-192x192.png'
+    });
+    } else {
+      console.warn('[SW] Notification permission not granted');
+    }
+  }
+
+
+});
+
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow('/')
+  );
 });
