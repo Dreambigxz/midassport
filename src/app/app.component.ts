@@ -41,23 +41,23 @@ export class AppComponent {
         this.storeData.store['can_download_app']=true
     });
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then(registration => {
-        const bets = [
-          { id: 1, startTime: '2025-08-10T15:00:00Z', notified: false },
-          { id: 2, startTime: '2025-08-10T15:30:00Z', notified: false }
-        ];
-
-        // Send bets to the active SW
-        if (registration.active) {
-          registration.active.postMessage({ type: 'UPDATE_BETS', bets });
-          console.log('Sent bets to service worker');
-        }
-      });
-    }else{
-      console.log("NO SERVICE WORKER");
-
-    }
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.ready.then(registration => {
+    //     const bets = [
+    //       { id: 1, startTime: '2025-08-10T15:00:00Z', notified: false },
+    //       { id: 2, startTime: '2025-08-10T15:30:00Z', notified: false }
+    //     ];
+    //
+    //     // Send bets to the active SW
+    //     if (registration.active) {
+    //       registration.active.postMessage({ type: 'UPDATE_BETS', bets });
+    //       console.log('Sent bets to service worker');
+    //     }
+    //   });
+    // }else{
+    //   console.log("NO SERVICE WORKER");
+    //
+    // }
   }
 
   // ngAfterViewInit(){}
