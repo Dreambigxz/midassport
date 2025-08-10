@@ -46,37 +46,24 @@ export class AppComponent {
 
     if ('serviceWorker' in navigator) {
 
-      alert('SERVICE WORKER STARTED')
-
 
       navigator.serviceWorker.ready.then(registration => {
 
-        alert('service WORKER READY')
         // registration.active?.postMessage({ // XXX: : 'TEST_NOTIFICATION' });
 
         const tokenData = localStorage.getItem('token');
         if (tokenData) {
           const tokenObj = JSON.parse(tokenData);
-          console.log({tokenObj});
-
           if (tokenObj?.token) {
             registration.active?.postMessage({
               type: 'SET_TOKEN',
               token: tokenObj.token
             });
-            alert('POSTED TOKEN')
-          }else{
-            alert('NO token');
-
           }
-        }else{
-          alert('NOTOKKEN')
         }
-
-
       });
     } else {
-      alert('No Service Worker support');
+      // alert('No Service Worker support');
     }
 
 
