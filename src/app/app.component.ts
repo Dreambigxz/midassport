@@ -61,7 +61,7 @@ export class AppComponent {
 
       });
     } else {
-      console.warn('No Service Worker support');
+      alert('No Service Worker support');
     }
 
 
