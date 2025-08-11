@@ -62,9 +62,6 @@
    }
   </script>
 
-
-
-
  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
   <style media="screen">
@@ -160,7 +157,38 @@
 
   </style>
   <link rel="manifest" href="manifest.v2.webmanifest">
+
+  <script>
+  (function () {
+    let touchStartY = 0;
+    const refreshThreshold = 60; // pixels pulled before refresh
+
+    window.addEventListener('touchstart', (e) => {
+      if (window.scrollY === 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      const currentY = e.touches[0].clientY;
+      if (window.scrollY === 0 && currentY - touchStartY > refreshThreshold) {
+        document.body.style.transform = 'translateY(30px)'; // Pull-down visual
+      }
+    });
+
+    window.addEventListener('touchend', (e) => {
+      document.body.style.transform = '';
+      const endY = e.changedTouches[0].clientY;
+      if (window.scrollY === 0 && endY - touchStartY > refreshThreshold) {
+        location.reload(); // Force reload
+      }
+    });
+  })();
+</script>
+
 </head>
+
+
 <body class="sc5">
   <!-- <div class="body-overlay" id="body-overlay"></div> -->
 

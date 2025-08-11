@@ -71,7 +71,7 @@ export class AppComponent {
 
   async requestNotificationPermission() {
     if (!('Notification' in window)) {
-      alert('This browser does not support notifications.');
+      // alert('This browser does not support notifications.');
       return;
     }
 
