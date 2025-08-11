@@ -16,9 +16,6 @@ export class PushNotificationService {
         type: 'SET_PUBLIC_KEY',
         key: environment.vapidPublicKey
       });
-    }else{
-      console.log("No serviceWorker");
-
     }
   }
 
@@ -31,10 +28,7 @@ export class PushNotificationService {
         userVisibleOnly: true,
         applicationServerKey: this.urlBase64ToUint8Array(environment.vapidPublicKey)
       });
-      console.log('User is subscribed:', subscription);
       let SEND_SUBSCRIPTION=subscription.toJSON()
-      console.log("SENDING>>>",SEND_SUBSCRIPTION);
-
       this.swRegistration.active?.postMessage({
         type: 'SUBSCRIBE',
         data: {subscription:SEND_SUBSCRIPTION,processor:'subscription'}
@@ -52,7 +46,6 @@ export class PushNotificationService {
     const subscription = await this.swRegistration.pushManager.getSubscription();
     if (subscription) {
       await subscription.unsubscribe();
-      console.log('User unsubscribed');
       // TODO: Notify backend to delete subscription
       this.swRegistration.active?.postMessage({
         type: 'UNSUBSCRIBE',

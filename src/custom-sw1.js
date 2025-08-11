@@ -83,12 +83,31 @@ async function checkOpenBets() {
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
     console.log("finishTime>>", finishTime);
-    if (now >= finishTime && !bet.notified || true) {
+    if (now >= finishTime && !bet.notified) {
       try {
         const res = await fetchApi("bet","POST",JSON.stringify({ betId: bet.id, processor: "check_bet_status" }))
+        // fetch(`${baseUrl}/bet/`, {
+        //   method: 'POST',
+        //   body: JSON.stringify({ betId: bet.id, processor: "check_bet_status" }),
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     ...(userToken ? { 'Authorization': `Token ${userToken}` } : {})
+        //   }
+        // });
+        //
+        // if (!res.ok) throw new Error('Network response not ok');
+        //
+        // const json = await res.json();
+        //
+        // console.log({json});
 
         if (res&&['won', 'postponed', 'cancel', "loss", "notFound"].includes(res.status)) {
           await removeBetFromDB(bet.id);
+          // try {
+          //   showNotification_(`⚽️Bet ${bet.raw?.ticket_id}!`, {body: `Your bet ${bet.id} current status ${json.status}.`,});
+          // } catch (e) {
+          //   console.log('FAILED TO NOTIFY USER');
+          // }
         } else {
           bet.notified = false;
           await saveBetsToDB([bet]);
