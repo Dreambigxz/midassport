@@ -55,7 +55,6 @@ export class ProfileComponent {
 
     console.log("subscribed>>",this.subscribed);
 
-
     if (!this.storeData.get('profile')) {
       this.reqServerData.get('profile').subscribe({
         next: res => {
@@ -110,16 +109,16 @@ export class ProfileComponent {
   async toggleSubscription(event:any) {
 
     const enable = (event.target as HTMLInputElement).checked;
-    console.log({enable});
 
     if (enable) {
       await this.pushService.subscribeUser();
     } else {
       await this.pushService.unsubscribeUser();
     }
-    console.log({enable});
 
     this.subscribed = await this.pushService.isSubscribed();
+    console.log({enable:this.subscribed});
+
   }
 
 }

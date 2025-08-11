@@ -6,7 +6,6 @@ self.addEventListener('install', (event) => {
 let checkInterval = null;
 let userToken = null;
 let vapidPublicKey = null;
-
 baseUrl = "https://fbapp01-125e9985037c.herokuapp.com/api";
 
 // IndexedDB helper
@@ -250,9 +249,17 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(fetch(request));
 });
 
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = atob(base64);
-  return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
-}
+self.addEventListener('push', event => {
+  let data = {};
+  if (event.data) {
+    data = event.data.json();
+  }
+
+  const title = data.title || 'Notification';
+  const options = {
+    body: data.body || 'You have a new message',
+    icon: '/assets/icons/icon-192x192.png'
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
