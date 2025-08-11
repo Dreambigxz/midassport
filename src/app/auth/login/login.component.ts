@@ -61,7 +61,9 @@ export class LoginComponent  {
         this.authService.login(res.main.token).subscribe(() => {
           // ✅ redirect to the page user wanted before login
          const redirectUrl = localStorage['redirectUrl'] || '/main';
-         this.router.navigate([redirectUrl]);
+         // redirectUrl==="/main"
+         // this.router.navigate([redirectUrl]);
+         window.location.href=redirectUrl
          // clear redirectUrl so it doesn’t persist
          delete localStorage['redirectUrl'];
         });

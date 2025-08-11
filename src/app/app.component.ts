@@ -63,7 +63,7 @@ export class AppComponent {
         }
       });
     } else {
-      // alert('No Service Worker support');
+      alert('No Service Worker support');
     }
 
 
@@ -77,9 +77,7 @@ export class AppComponent {
 
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      alert('✅ Notification permission granted');
-    } else {
-      alert('❌ Notification permission denied');
+      console.log('✅ Notification permission granted');
     }
 }
 
