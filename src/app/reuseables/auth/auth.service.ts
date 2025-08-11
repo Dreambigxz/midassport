@@ -32,6 +32,9 @@ export class AuthService {
   /** ✅ Checks if user is logged in and token still valid */
   checkLogin(): boolean {
     const raw = localStorage.getItem(this.tokenKey);
+
+    console.log({raw});
+
     if (!raw) {
       this.isLoggedIn = false;
       return false;
