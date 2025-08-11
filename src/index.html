@@ -177,55 +177,55 @@
   </div>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 
-        <script>
-      (function () {
-        let touchStartY = 0;
-        let isPulling = false;
-        const refreshThreshold = 70; // pixels needed to trigger refresh
-        const pullIndicator = document.createElement('div');
+  <script>
+    (function () {
+    let touchStartY = 0;
+    let isPulling = false;
+    const refreshThreshold = 70;
+    const pullIndicator = document.createElement('div');
 
-        // Style the pull-down indicator
-        pullIndicator.style.position = 'fixed';
-        pullIndicator.style.top = '0';
-        pullIndicator.style.left = '0';
-        pullIndicator.style.right = '0';
-        pullIndicator.style.height = '0px';
-        pullIndicator.style.background = '#007aff';
-        pullIndicator.style.transition = 'height 0.2s ease';
-        pullIndicator.style.zIndex = '9999';
-        document.body.appendChild(pullIndicator);
+    pullIndicator.style.position = 'fixed';
+    pullIndicator.style.top = '0';
+    pullIndicator.style.left = '0';
+    pullIndicator.style.right = '0';
+    pullIndicator.style.height = '0px';
+    pullIndicator.style.background = '#007aff';
+    pullIndicator.style.transition = 'height 0.2s ease';
+    pullIndicator.style.zIndex = '9999';
+    document.body.appendChild(pullIndicator);
 
-        window.addEventListener('touchstart', (e) => {
-          if (window.scrollY === 0) {
-            touchStartY = e.touches[0].clientY;
-            isPulling = true;
-          }
-        });
+    window.addEventListener('touchstart', (e) => {
+    if (window.scrollY <= 0) {
+    touchStartY = e.touches[0].clientY;
+    isPulling = true;
+    }
+    });
 
-        window.addEventListener('touchmove', (e) => {
-          if (!isPulling) return;
-          let distance = e.touches[0].clientY - touchStartY;
-          if (distance > 0) {
-            e.preventDefault(); // stop default bounce
-            pullIndicator.style.height = Math.min(distance, 60) + 'px';
-          }
-        }, { passive: false });
+    window.addEventListener('touchmove', (e) => {
+    if (!isPulling) return;
+    const distance = e.touches[0].clientY - touchStartY;
+    if (distance > 0) {
+    e.preventDefault();
+    pullIndicator.style.height = Math.min(distance, 60) + 'px';
+    }
+    }, { passive: false });
 
-        window.addEventListener('touchend', () => {
-          if (!isPulling) return;
-          isPulling = false;
+    window.addEventListener('touchend', () => {
+    if (!isPulling) return;
+    isPulling = false;
 
-          if (parseInt(pullIndicator.style.height) > refreshThreshold) {
-            pullIndicator.style.height = '60px';
-            setTimeout(() => {
-              window.location.href = window.location.href.split('#')[0] + '?t=' + Date.now();
-            }, 150);
-          } else {
-            pullIndicator.style.height = '0px';
-          }
-        });
-      })();
-      </script>
+    if (parseInt(pullIndicator.style.height) > refreshThreshold) {
+    pullIndicator.style.height = '60px';
+    // Force reload from the server (bypass cache)
+    const url = window.location.href.split('#')[0].split('?')[0];
+    window.location.href = url + '?reload=' + Date.now();
+    } else {
+    pullIndicator.style.height = '0px';
+    }
+    });
+    })();
+    </script>
+
 
 </body>
 
