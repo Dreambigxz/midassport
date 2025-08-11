@@ -86,7 +86,7 @@ export class AppComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         console.log('📍 Route changed — checking bets');
-        // this.checkOpenBets();
+        this.syncTokenWithSW()
       });
 
 
