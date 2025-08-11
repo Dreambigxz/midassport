@@ -12,6 +12,7 @@ import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators , FormsModule} from '@angular/forms';
 import { FormHandlerService } from '../reuseables/http-loader/form-handler.service';
 import { PushNotificationService } from '../reuseables/push-notification.service';
+import { ToastService } from '../reuseables/toast/toast.service';
 
 
 declare var bootstrap: any;
@@ -32,7 +33,7 @@ export class ProfileComponent {
   authService = inject(AuthService);
   pushService= inject(PushNotificationService)
   router = inject(Router);
-
+  toast = inject(ToastService)
 
   window=window
   current= 'profile'
@@ -47,14 +48,12 @@ export class ProfileComponent {
   })
 
   async ngOnInit(): Promise<void> {
-  // Run JS file
+    // Run JS file
     loadScript('assets/js/main.js');
 
     // Wait for subscription check
     await this.pushService.init()
     this.subscribed = await this.pushService.isSubscribed();
-
-    console.log("subscribed>>",this.subscribed);
 
     if (!this.storeData.get('profile')) {
       this.reqServerData.get('profile').subscribe({
@@ -64,7 +63,6 @@ export class ProfileComponent {
       });
     }
   }
-
 
   ngAfterViewInit() {
     loadExternalScript()
@@ -118,7 +116,8 @@ export class ProfileComponent {
     }
 
     this.subscribed = await this.pushService.isSubscribed();
-    console.log({subscribed:this.subscribed});
+
+    this.toast.show({message:this.subscribed?"Notification enabled":"Notification disabled",status:'success'})
 
   }
 

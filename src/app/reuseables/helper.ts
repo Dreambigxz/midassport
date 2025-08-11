@@ -102,21 +102,21 @@ export function loadMore(e:any) {
 //   }
 // }
 
-export function onScroll(event: any, e: any) {
-  const element = event.target.scrollingElement || event.target;
+export function onScroll(event: any, category: any) {
+  const element = event.target as HTMLElement;
 
-  element.style.willChange = 'transform'; // Hint for browser
+  element.style.willChange = 'transform'; // Hint for browser hardware acceleration
   setTimeout(() => {
     element.style.willChange = '';
   }, 100);
 
-  const threshold = 10; // give Safari a bit more leniency
+  const threshold = 10; // Allow small leniency near bottom
 
   const atBottom =
     Math.ceil(element.scrollTop + element.clientHeight) >= element.scrollHeight - threshold;
 
   if (atBottom) {
-    loadMore(e);
+    loadMore(category);
   }
 }
 

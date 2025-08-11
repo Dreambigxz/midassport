@@ -7,7 +7,6 @@ import { SpinnerComponent } from '../reuseables/http-loader/spinner.component';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ToastService } from '../reuseables/toast/toast.service';
 
-
 import {  loadScript, copyContent } from '../reuseables/helper';
 
 @Component({
