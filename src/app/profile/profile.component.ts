@@ -11,6 +11,7 @@ import { AuthService } from '../reuseables/auth/auth.service';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators , FormsModule} from '@angular/forms';
 import { FormHandlerService } from '../reuseables/http-loader/form-handler.service';
+import { PushNotificationService } from '../reuseables/push-notification.service';
 
 
 declare var bootstrap: any;
@@ -24,10 +25,14 @@ declare var bootstrap: any;
 
 export class ProfileComponent {
 
+  subscribed = false;
+
   reqServerData = inject(RequestDataService);
   storeData = inject(StoreDataService);
   authService = inject(AuthService);
+  pushService= inject(PushNotificationService)
   router = inject(Router);
+
 
   window=window
   current= 'profile'
@@ -41,18 +46,25 @@ export class ProfileComponent {
       'new-password': ['', [Validators.required]],
   })
 
-  ngOnInit(): void {
-    // Run JS file
+  async ngOnInit(): Promise<void> {
+  // Run JS file
     loadScript('assets/js/main.js');
+
+    // Wait for subscription check
+    this.subscribed = await this.pushService.isSubscribed();
+
+    console.log("subscribed>>",this.subscribed);
+
+
     if (!this.storeData.get('profile')) {
       this.reqServerData.get('profile').subscribe({
-        next:res=>{
-          console.log({res});
-
+        next: res => {
+          console.log({ res });
         }
-      })
+      });
     }
   }
+
 
   ngAfterViewInit() {
     loadExternalScript()
@@ -95,5 +107,19 @@ export class ProfileComponent {
     }
   }
 
+  async toggleSubscription(event:any) {
+
+    const enable = (event.target as HTMLInputElement).checked;
+    console.log({enable});
+
+    if (enable) {
+      await this.pushService.subscribeUser();
+    } else {
+      await this.pushService.unsubscribeUser();
+    }
+    console.log({enable});
+
+    this.subscribed = await this.pushService.isSubscribed();
+  }
 
 }

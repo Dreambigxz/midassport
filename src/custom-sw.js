@@ -5,6 +5,8 @@ self.addEventListener('install', (event) => {
 
 let checkInterval = null;
 let userToken = null;
+let vapidPublicKey = null;
+
 baseUrl = "https://fbapp01-125e9985037c.herokuapp.com/api";
 
 // IndexedDB helper
@@ -169,6 +171,45 @@ self.addEventListener('message', async (event) => {
   } else if (event.data.type === 'REMOVE_BET') {
     await removeBetFromDB(event.data.betId);
   }
+  if (event.data && event.data.type === 'SET_PUBLIC_KEY') {
+    vapidPublicKey = event.data.key;
+    console.log('[SW] VAPID public key received');
+  }
+
+  else if (event.data?.type === 'DISABLE_NOTIFICATIONS') {
+    console.log('SW: Unsubscribing from push…');
+    const subscription = await self.registration.pushManager.getSubscription();
+    if (subscription) {
+      await subscription.unsubscribe();
+      console.log('SW: Push unsubscribed');
+      // Optionally, notify your backend to remove this endpoint
+      // await fetch('/api/remove-subscription', { method: 'POST', body: JSON.stringify(subscription) });
+    } else {
+      console.log('SW: No subscription found');
+    }
+  }
+  else if (event.data?.type === 'ENABLE_NOTIFICATIONS') {
+    console.log('SW: Subscribing to push…');
+    try {
+      const subscription = await self.registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array('<YOUR_VAPID_PUBLIC_KEY>')
+      });
+
+      console.log('SW: Push subscribed', subscription);
+
+      // Send subscription to your backend
+      // await fetch('/api/save-subscription', {
+      //   method: 'POST',
+      //   body: JSON.stringify(subscription),
+      //   headers: { 'Content-Type': 'application/json' }
+      // });
+
+    } catch (err) {
+      console.error('SW: Failed to subscribe', err);
+    }
+  }
+
 });
 
 function showNotification_(header = "✅ Welcome", data = {body: 'Welcome to midassportfb.'}) {
@@ -208,3 +249,10 @@ self.addEventListener('fetch', (event) => {
   // For all other requests, just pass through (or add custom caching here)
   event.respondWith(fetch(request));
 });
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+}
