@@ -9,6 +9,11 @@ import { loadScript } from './reuseables/helper';
 
 import { Modal } from 'bootstrap';
 
+declare global {
+  interface Navigator {
+    standalone?: boolean;
+  }
+}
 @Component({
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet],
@@ -32,17 +37,29 @@ export class AppComponent {
 
   // bindedTg
 
+  isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
 
   ngOnInit(): void {
 
     // ✅ Call this immediately when app starts
     this.requestNotificationPermission();
 
-    window.addEventListener('beforeinstallprompt', (event) => {
-        event.preventDefault();
-        this.storeData.store['installPromptEvent'] = event;
-        this.storeData.store['can_download_app']=true
-    });
+     if (this.isIOS()) {
+      // iOS + Safari browser
+      /* show user the guiid on add to home  if the pwa app has not been installed*/
+    } else {
+      // Android or desktop
+      window.addEventListener('beforeinstallprompt', (event) => {
+          event.preventDefault();
+          this.storeData.store['installPromptEvent'] = event;
+          this.storeData.store['can_download_app']=true
+      });
+    }
+
+
 
     if ('serviceWorker' in navigator) {
 
@@ -79,7 +96,7 @@ export class AppComponent {
     if (permission === 'granted') {
       console.log('✅ Notification permission granted');
     }
-}
+  }
 
   // ngAfterViewInit(){}
 
