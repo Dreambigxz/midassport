@@ -63,7 +63,7 @@ async function checkOpenBets() {
 
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
-    console.log("finishTime>>", finishTime.toLocaleString());
+    console.log("finishTime>>", finishTime);
     if (now >= finishTime && !bet.notified) {
       try {
         const res = await fetch(`${baseUrl}/bet/`, {
@@ -78,6 +78,8 @@ async function checkOpenBets() {
         if (!res.ok) throw new Error('Network response not ok');
 
         const json = await res.json();
+
+        console.log({json});
 
         if (['won', 'postponed', 'cancel', "loss", "notFound"].includes(json.status)) {
           await removeBetFromDB(bet.id);
