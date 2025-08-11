@@ -18,13 +18,14 @@ export class AuthService {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private reqConfirmation = inject(ConfirmationDialogService)
-  private loaderService = inject(LoaderService);
 
 
   public tokenKey = 'token';
   public isLoggedIn = false;
   public redirectUrl: string | null = null;
   public token: string | null = null;
+  public loaderService = inject(LoaderService);
+
 
   private addHours(date: Date, hours: number): Date {
     const newDate = new Date(date);
@@ -71,6 +72,7 @@ export class AuthService {
 
     localStorage.setItem(this.tokenKey, JSON.stringify(payload));
     this.isLoggedIn = true;
+
     return of(true);
   }
 

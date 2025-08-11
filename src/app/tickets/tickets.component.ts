@@ -112,7 +112,10 @@ export class TicketsComponent {
       });
     });
 
-    this.categorizeTicketData['postponed' as TicketCategory] = [...this.categorizeTicketData.postponed,...this.categorizeTicketData.cancel]
+    try {
+      this.categorizeTicketData['postponed' as TicketCategory] = [...this.categorizeTicketData.postponed,...this.categorizeTicketData.cancel]
+
+    } catch (error) {}
 
   }
 

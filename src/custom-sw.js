@@ -152,6 +152,8 @@ self.addEventListener('activate', (event) => {
 
 // message listener
 self.addEventListener('message', async (event) => {
+
+  console.log({event});
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;
     showNotification_();
