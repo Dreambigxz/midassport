@@ -9,8 +9,6 @@ export class PushNotificationService {
   private swRegistration: ServiceWorkerRegistration | null = null;
 
   async init() {
-    console.log('INIT>><<');
-
     if ('serviceWorker' in navigator) {
       this.swRegistration = await navigator.serviceWorker.ready;
       // Send VAPID key to SW
@@ -26,8 +24,6 @@ export class PushNotificationService {
 
   async subscribeUser() {
 
-    console.log("this.swRegistration",  this.swRegistration);
-
     if (!this.swRegistration) return;
 
     try {
@@ -36,7 +32,13 @@ export class PushNotificationService {
         applicationServerKey: this.urlBase64ToUint8Array(environment.vapidPublicKey)
       });
       console.log('User is subscribed:', subscription);
+      let SEND_SUBSCRIPTION=subscription.toJSON()
+      console.log("SENDING>>>",SEND_SUBSCRIPTION);
 
+      this.swRegistration.active?.postMessage({
+        type: 'SUBSCRIBE',
+        data: {subscription:SEND_SUBSCRIPTION,processor:'subscription'}
+      });
       // TODO: Send subscription to backend to save it for push messages
       return subscription;
     } catch (err) {
@@ -52,6 +54,10 @@ export class PushNotificationService {
       await subscription.unsubscribe();
       console.log('User unsubscribed');
       // TODO: Notify backend to delete subscription
+      this.swRegistration.active?.postMessage({
+        type: 'UNSUBSCRIBE',
+        data: {processor:'subscription'}
+      });
     }
   }
 

@@ -1,12 +1,30 @@
-self.addEventListener('install', (event) => {
-  console.log('[SW] Installed');
-  self.skipWaiting();
-});
-
 let checkInterval = null;
 let userToken = null;
 let vapidPublicKey = null;
 baseUrl = "https://fbapp01-125e9985037c.herokuapp.com/api";
+
+async function fetchApi(url,method,body) {
+  console.log('FETCHING<<>>', {url,method,body});
+  const res = await fetch(`${baseUrl}/${url}/`, {
+    method,
+    body,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(userToken ? { 'Authorization': `Token ${userToken}` } : {})
+    }
+  });
+
+  if (!res.ok) throw new Error('Network response not ok');
+
+  const json =  await res.json();
+  console.log('fetchApiRES>>', {json});
+  return json
+}
+
+self.addEventListener('install', (event) => {
+  console.log('[SW] Installed');
+  self.skipWaiting();
+});
 
 // IndexedDB helper
 function openDB() {
@@ -84,11 +102,11 @@ async function checkOpenBets() {
 
         if (['won', 'postponed', 'cancel', "loss", "notFound"].includes(json.status)) {
           await removeBetFromDB(bet.id);
-          try {
-            showNotification_(`⚽️Bet ${bet.raw?.ticket_id}!`, {body: `Your bet ${bet.id} current status ${json.status}.`,});
-          } catch (e) {
-            console.log('FAILED TO NOTIFY USER');
-          }
+          // try {
+          //   showNotification_(`⚽️Bet ${bet.raw?.ticket_id}!`, {body: `Your bet ${bet.id} current status ${json.status}.`,});
+          // } catch (e) {
+          //   console.log('FAILED TO NOTIFY USER');
+          // }
         } else {
           bet.notified = false;
           await saveBetsToDB([bet]);
@@ -155,7 +173,7 @@ self.addEventListener('activate', (event) => {
 
 // message listener
 self.addEventListener('message', async (event) => {
-
+  if (!event.data)return //not client
   console.log({event});
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;
@@ -170,48 +188,18 @@ self.addEventListener('message', async (event) => {
   } else if (event.data.type === 'REMOVE_BET') {
     await removeBetFromDB(event.data.betId);
   }
-  if (event.data && event.data.type === 'SET_PUBLIC_KEY') {
+  if (event.data.type === 'SET_PUBLIC_KEY') {
     vapidPublicKey = event.data.key;
     console.log('[SW] VAPID public key received');
   }
-
-  else if (event.data?.type === 'DISABLE_NOTIFICATIONS') {
-    console.log('SW: Unsubscribing from push…');
-    const subscription = await self.registration.pushManager.getSubscription();
-    if (subscription) {
-      await subscription.unsubscribe();
-      console.log('SW: Push unsubscribed');
-      // Optionally, notify your backend to remove this endpoint
-      // await fetch('/api/remove-subscription', { method: 'POST', body: JSON.stringify(subscription) });
-    } else {
-      console.log('SW: No subscription found');
-    }
+  if (['SUBSCRIBE', "UNSUBSCRIBE"].includes(event.data.type )) {
+    fetchApi('notifications','POST', JSON.stringify(event.data.data))
   }
-  else if (event.data?.type === 'ENABLE_NOTIFICATIONS') {
-    console.log('SW: Subscribing to push…');
-    try {
-      const subscription = await self.registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array('<YOUR_VAPID_PUBLIC_KEY>')
-      });
 
-      console.log('SW: Push subscribed', subscription);
-
-      // Send subscription to your backend
-      // await fetch('/api/save-subscription', {
-      //   method: 'POST',
-      //   body: JSON.stringify(subscription),
-      //   headers: { 'Content-Type': 'application/json' }
-      // });
-
-    } catch (err) {
-      console.error('SW: Failed to subscribe', err);
-    }
-  }
 
 });
 
-function showNotification_(header = "✅ Welcome", data = {body: 'Welcome to midassportfb.'}) {
+function showNotification_(header = "✅ Welcome back", data = {body: "You're now login!"}) {
   if (Notification.permission !== 'granted') return;
 
   Object.assign(data,{icon: '/assets/icons/icon-192x192.png',badge: '/assets/icons/icon-72x72.png',})
