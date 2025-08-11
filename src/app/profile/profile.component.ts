@@ -51,6 +51,7 @@ export class ProfileComponent {
     loadScript('assets/js/main.js');
 
     // Wait for subscription check
+    await this.pushService.init()
     this.subscribed = await this.pushService.isSubscribed();
 
     console.log("subscribed>>",this.subscribed);
@@ -117,7 +118,7 @@ export class ProfileComponent {
     }
 
     this.subscribed = await this.pushService.isSubscribed();
-    console.log({enable:this.subscribed});
+    console.log({subscribed:this.subscribed});
 
   }
 
