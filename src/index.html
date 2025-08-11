@@ -185,6 +185,7 @@
   const refreshThreshold = 70;
   const pullIndicator = document.createElement('div');
 
+  // Style pull-down indicator
   pullIndicator.style.position = 'fixed';
   pullIndicator.style.top = '0';
   pullIndicator.style.left = '0';
@@ -195,9 +196,14 @@
   pullIndicator.style.zIndex = '9999';
   document.body.appendChild(pullIndicator);
 
+  function getScrollTop() {
+    return window.scrollY ||
+           document.documentElement.scrollTop ||
+           document.body.scrollTop || 0;
+  }
+
   document.addEventListener('touchstart', (e) => {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    if (scrollTop === 0) {
+    if (getScrollTop() === 0) {
       touchStartY = e.touches[0].clientY;
       isPulling = true;
     }
@@ -207,7 +213,7 @@
     if (!isPulling) return;
     const distance = e.touches[0].clientY - touchStartY;
     if (distance > 0) {
-      e.preventDefault(); // block native pull bounce
+      e.preventDefault(); // stop bounce
       pullIndicator.style.height = Math.min(distance, 60) + 'px';
     }
   }, { passive: false });
@@ -218,15 +224,18 @@
 
     if (parseInt(pullIndicator.style.height) > refreshThreshold) {
       pullIndicator.style.height = '60px';
-      // Hard reload to hit server
-      const url = window.location.href.split('#')[0].split('?')[0];
-      window.location.href = url + '?reload=' + Date.now();
+      setTimeout(() => {
+        // Force server reload, skip SW cache
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.location.replace(cleanUrl + '?nocache=' + Date.now());
+      }, 150);
     } else {
       pullIndicator.style.height = '0px';
     }
   });
 })();
 </script>
+
 
 
 

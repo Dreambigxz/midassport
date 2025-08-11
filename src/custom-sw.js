@@ -248,3 +248,25 @@ self.addEventListener('notificationclick', (event) => {
     clients.openWindow('/')
   );
 });
+
+self.addEventListener('fetch', (event) => {
+
+  alert("fetch>>>",event);
+
+  const request = event.request;
+
+  // Always go to network for main HTML documents
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // For everything else, try cache first, then network
+  event.respondWith(
+    caches.match(request).then((cached) => {
+      return cached || fetch(request);
+    })
+  );
+});
