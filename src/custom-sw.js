@@ -191,6 +191,8 @@ self.addEventListener('notificationclick', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
 
+  console.log('FETCH>>', event)
+
   // Only apply network-first for navigations (HTML pages)
   if (request.mode === 'navigate') {
     event.respondWith(
