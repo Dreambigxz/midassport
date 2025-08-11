@@ -1,4 +1,3 @@
-
 self.addEventListener('install', (event) => {
   console.log('[SW] Installed');
   self.skipWaiting();
@@ -6,8 +5,8 @@ self.addEventListener('install', (event) => {
 
 let checkInterval = null;
 let userToken = null;
-// let baseUrl = 'http://127.0.0.1:8000/api';
-baseUrl="https://fbapp01-125e9985037c.herokuapp.com/api"
+baseUrl = "https://fbapp01-125e9985037c.herokuapp.com/api";
+
 // IndexedDB helper
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -64,8 +63,7 @@ async function checkOpenBets() {
 
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
-    console.log('ENDING>><<<', finishTime.toLocaleString());
-    if (now >= finishTime && !bet.notified ) {
+    if (now >= finishTime && !bet.notified) {
       try {
         const res = await fetch(`${baseUrl}/bet/`, {
           method: 'POST',
@@ -80,30 +78,19 @@ async function checkOpenBets() {
 
         const json = await res.json();
 
-        console.log(json);
-
-        if (['won','postponed','cancel', "loss","notFound"].includes(json.status)) {
-          console.log('[SW] Bet settled:', bet.id);
-
-          // Remove bet from DB since it's settled
+        if (['won', 'postponed', 'cancel', "loss", "notFound"].includes(json.status)) {
           await removeBetFromDB(bet.id);
-
           try {
-            // Optionally notify user
             self.registration.showNotification(`⚽️Bet ${bet.raw?.ticket_id}!`, {
               body: `Your bet ${bet.id} current status ${json.status}.`,
               icon: '/assets/icons/icon-192x192.png'
             });
-            console.log("USER NOTIFIED");
           } catch (e) {
             console.log('FAILED TO NOTIFY USER');
           }
-
         } else {
-          // Not settled, keep bet and mark notified false
           bet.notified = false;
           await saveBetsToDB([bet]);
-
         }
       } catch (err) {
         console.error('[SW] Failed to check bet status', err);
@@ -119,13 +106,12 @@ async function updateBetsInDB(bets) {
   const store = tx.objectStore('bets');
 
   for (const bet of bets) {
-    // Put will add or update
     store.put({
       id: bet.id,
       status: bet.status,
-      startTime: bet.start_date || bet.startTime, // unify key name
+      startTime: bet.start_date || bet.startTime,
       notified: bet.notified || false,
-      raw: bet // optionally save full data
+      raw: bet
     });
   }
   return tx.complete;
@@ -134,8 +120,7 @@ async function updateBetsInDB(bets) {
 async function removeBetFromDB(betId) {
   const db = await openDB();
   const tx = db.transaction('bets', 'readwrite');
-  const store = tx.objectStore('bets');
-  store.delete(betId);
+  tx.objectStore('bets').delete(betId);
   return tx.complete;
 }
 
@@ -157,8 +142,6 @@ function startChecking() {
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activated');
   event.waitUntil(clients.claim());
-
-  // Start checking on activation in case bets already exist
   event.waitUntil(
     (async () => {
       const bets = await getBetsFromDB();
@@ -171,74 +154,29 @@ self.addEventListener('activate', (event) => {
 
 // message listener
 self.addEventListener('message', async (event) => {
-  console.log(event.data,{userToken});
   if (event.data.type === 'SET_TOKEN') {
-    console.log('SETTING TOKEN')
     userToken = event.data.token;
-    console.log('[SW] Token set:', userToken);
-    showNotification_()
+    showNotification_();
   }
   else if (event.data.type === 'UPDATE_BETS') {
-    console.log('[SW] Updating bets in DB', event.data);
     await updateBetsInDB(event.data.bets);
     startChecking();
   } else if (event.data.type === 'CLEAR_BETS') {
-    console.log('[SW] Clearing all bets');
     await clearBetsDB();
     stopChecking();
   } else if (event.data.type === 'REMOVE_BET') {
-    console.log('[SW] Removing bet:', event.data.betId);
     await removeBetFromDB(event.data.betId);
   }
-  /*TEST Notification*/
-  // else if (event.data && event.data.type === 'TEST_NOTIFICATION') {
-  //   console.log('[SW] Showing test notification...');
-  //
-  //   if (Notification.permission !== 'granted') {
-  //     console.log('[SW][WARNING] Notification permission not granted in SW context');
-  //     return;
-  //   }
-  //
-  //   console.log('permission was granted');
-  //
-  //   self.registration.showNotification('Test Notification', {
-  //     body: 'This is a test notification from SW.',
-  //     icon: '/assets/icons/icon-192x192.png',
-  //     badge: '/assets/icons/icon-72x72.png',
-  //   });
-  //
-  //   // if (Notification.permission === 'granted') {
-  //   //   console.log('HAS Notification permission granted');
-  //   //   self.registration.showNotification('Test Notification', {
-  //   //     body: 'Hello! This is a test notification from your SW 🎯',
-  //   //     icon: self.location.origin + '/assets/icons/icon-192x192.png'
-  //   //   });
-  //   // } else {
-  //   //   console.warn('[SW] Notification permission not granted');
-  //   // }
-  // }
-
-  else {
-    console.log("NOTHING TO RUN");
-  }
-
 });
 
-
-function showNotification_(header="Test Notification",body={
+function showNotification_(header = "Test Notification", body = {
   body: 'This is a test notification from SW.',
   icon: '/assets/icons/icon-192x192.png',
   badge: '/assets/icons/icon-72x72.png',
-}){
-  console.log('[SW] Showing notification...');
-
+}) {
   if (Notification.permission !== 'granted') {
-    console.log('[SW][WARNING] Notification permission not granted in SW context');
     return;
   }
-
-  console.log('permission was granted');
-
   self.registration.showNotification(header, body);
 }
 
@@ -249,24 +187,24 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
+/* ✅ Network-first for HTML so pull-to-refresh reloads from server */
 self.addEventListener('fetch', (event) => {
-
-  alert("fetch>>>",event);
-
   const request = event.request;
 
-  // Always go to network for main HTML documents
+  // Only apply network-first for navigations (HTML pages)
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match(request))
+      fetch(request)
+        .then(response => {
+          return response;
+        })
+        .catch(() => {
+          return caches.match(request);
+        })
     );
     return;
   }
 
-  // For everything else, try cache first, then network
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      return cached || fetch(request);
-    })
-  );
+  // For all other requests, just pass through (or add custom caching here)
+  event.respondWith(fetch(request));
 });
