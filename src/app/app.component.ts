@@ -38,6 +38,7 @@ export class AppComponent {
   joined = false;
 
   private lastTokenSent: string | null = null;
+  private openBet: string | null = null;
 
 
   // bindedTg
@@ -49,37 +50,12 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-    console.log('App');
-
 
     // ✅ Call this immediately when app starts
     this.requestNotificationPermission();
 
     this.showDownload()
 
-
-
-    // if ('serviceWorker' in navigator) {
-    //
-    //
-    //   navigator.serviceWorker.ready.then(registration => {
-    //
-    //     // registration.active?.postMessage({ // XXX: : 'TEST_NOTIFICATION' });
-    //
-    //     const tokenData = localStorage.getItem('token');
-    //     if (tokenData) {
-    //       const tokenObj = JSON.parse(tokenData);
-    //       if (tokenObj?.token) {
-    //         registration.active?.postMessage({
-    //           type: 'SET_TOKEN',
-    //           token: tokenObj.token
-    //         });
-    //       }
-    //     }
-    //   });
-    // } else {
-    //   alert('No Service Worker support');
-    // }
 
     // Run after every route navigation
     this.router.events
@@ -112,6 +88,16 @@ export class AppComponent {
           console.log('🔄 Token sent to SW:', tokenObj.token);
           this.lastTokenSent = tokenObj.token;
         }
+      }
+
+      if (!this.openBet) {
+        const reg = await navigator.serviceWorker?.ready;
+
+        this.openBet = this.storeData.get('betDir')?.ticket.filter((bet: any) =>
+          bet.status === 'open'
+        )
+        this.openBet?.length?reg.active?.postMessage({ type: 'UPDATE_BETS', bets:this.openBet }):0;
+
       }
     }
 
