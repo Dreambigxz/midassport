@@ -82,10 +82,7 @@ async function checkOpenBets() {
         if (['won', 'postponed', 'cancel', "loss", "notFound"].includes(json.status)) {
           await removeBetFromDB(bet.id);
           try {
-            self.registration.showNotification(`⚽️Bet ${bet.raw?.ticket_id}!`, {
-              body: `Your bet ${bet.id} current status ${json.status}.`,
-              icon: '/assets/icons/icon-192x192.png'
-            });
+            showNotification_(`⚽️Bet ${bet.raw?.ticket_id}!`, {body: `Your bet ${bet.id} current status ${json.status}.`,});
           } catch (e) {
             console.log('FAILED TO NOTIFY USER');
           }
@@ -170,15 +167,11 @@ self.addEventListener('message', async (event) => {
   }
 });
 
-function showNotification_(header = "Test Notification", body = {
-  body: 'This is a test notification from SW.',
-  icon: '/assets/icons/icon-192x192.png',
-  badge: '/assets/icons/icon-72x72.png',
-}) {
-  if (Notification.permission !== 'granted') {
-    return;
-  }
-  self.registration.showNotification(header, body);
+function showNotification_(header = "Test Notification", data = {body: 'This is a test notification from SW.'}) {
+  if (Notification.permission !== 'granted') return;
+  
+  Object.assign(data,{icon: '/assets/icons/icon-192x192.png',badge: '/assets/icons/icon-72x72.png',})
+  self.registration.showNotification(header, data);
 }
 
 self.addEventListener('notificationclick', (event) => {
