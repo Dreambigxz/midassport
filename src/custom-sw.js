@@ -187,12 +187,7 @@ function showNotification_(header = "✅ Welcome back", data = {body: "You're no
   self.registration.showNotification(header, data);
 }
 
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.openWindow('/')
-  );
-});
+
 
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */
 self.addEventListener('fetch', (event) => {
@@ -218,17 +213,28 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(fetch(request));
 });
 
-self.addEventListener('push', event => {
+self.addEventListener('push', function(event) {
+
+  console.log("ReceiveD PUSH Notification");
   let data = {};
   if (event.data) {
     data = event.data.json();
   }
-
-  const title = data.title || 'Notification';
+  console.log({data});
+  const title = data.title || "Notification";
   const options = {
-    body: data.body || 'You have a new message',
-    icon: '/assets/icons/icon-192x192.png'
+    body: data.body || "",
+    icon: data.icon || "/assets/icons/icon-192x192.png",
+    data: {
+      url: data.url || "/"
+    }
   };
-
   event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
 });
