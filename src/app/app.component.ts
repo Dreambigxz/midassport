@@ -142,7 +142,10 @@ export class AppComponent {
   }
 
   async registerPeriodicSync() {
-    if ('serviceWorker' in navigator && 'periodicSync' in navigator.serviceWorker) {
+    const hasPeriodicSync = 'periodicSync' in navigator.serviceWorker
+    console.log({hasPeriodicSync});
+
+    if ('serviceWorker' in navigator && hasPeriodicSync) {
       try {
         const reg = await navigator.serviceWorker.ready;
         await reg.periodicSync?.register('check-open-bets', { minInterval: 15 * 60 * 1000 });
