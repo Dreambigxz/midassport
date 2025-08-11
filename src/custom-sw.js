@@ -30,14 +30,14 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activated');
   event.waitUntil(clients.claim());
-  event.waitUntil(
-    (async () => {
-      const bets = await getBetsFromDB();
-      if (bets.length) {
-        startChecking();
-      }
-    })()
-  );
+  // event.waitUntil(
+  //   (async () => {
+  //     const bets = await getBetsFromDB();
+  //     if (bets.length) {
+  //       startChecking();
+  //     }
+  //   })()
+  // );
 });
 
 // IndexedDB helper
@@ -81,7 +81,9 @@ async function clearBetsDB() {
   return tx.complete;
 }
 
-async function checkOpenBets() {
+async function checkOpenBets(type="BACKGROUND") {
+
+  console.log("checkOpenBets>>", type);
   const bets = await getBetsFromDB();
   const now = Date.now();
 
@@ -171,14 +173,16 @@ self.addEventListener('message', async (event) => {
   } else if (event.data.type === 'REMOVE_BET') {
     await removeBetFromDB(event.data.betId);
   }
-  if (event.data.type === 'SET_PUBLIC_KEY') {
+  else if (event.data.type === 'SET_PUBLIC_KEY') {
     vapidPublicKey = event.data.key;
     console.log('[SW] VAPID public key received');
   }
-  if (['SUBSCRIBE', "UNSUBSCRIBE"].includes(event.data.type )) {
+  else if (['SUBSCRIBE', "UNSUBSCRIBE"].includes(event.data.type )) {
     fetchApi('notifications','POST', JSON.stringify(event.data.data))
   }
-
+  else if (event.data.type==="check-open-bets") {
+      checkOpenBets('FOREGROUND')
+  }
 
 });
 
@@ -188,7 +192,6 @@ function showNotification_(header = "✅ Welcome back", data = {body: "You're no
   Object.assign(data,{icon: '/assets/icons/icon-192x192.png',badge: '/assets/icons/icon-72x72.png',})
   self.registration.showNotification(header, data);
 }
-
 
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */
 self.addEventListener('fetch', (event) => {
@@ -236,4 +239,11 @@ self.addEventListener('notificationclick', event => {
   event.waitUntil(
     clients.openWindow(event.notification.data.url)
   );
+});
+
+self.addEventListener('periodicsync', (event) => {
+  console.log("periodicsync");
+  if (event.tag === 'check-open-bets') {
+    event.waitUntil(checkOpenBets());
+  }
 });
