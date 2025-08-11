@@ -63,6 +63,7 @@ async function checkOpenBets() {
 
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
+    console.log("finishTime>>", finishTime.toLocaleString());
     if (now >= finishTime && !bet.notified) {
       try {
         const res = await fetch(`${baseUrl}/bet/`, {
