@@ -52,11 +52,11 @@ async function checkOpenBets() {
   const bets = await getBetsFromDB();
   const now = Date.now();
 
-  if (!bets.length) {
+  if (!bets.length||!userToken) {
     if (checkInterval) {
       clearInterval(checkInterval);
       checkInterval = null;
-      console.log('[SW] No bets found — stopping check interval');
+      console.log('[SW] No bets || user found — stopping check interval');
     }
     return;
   }
