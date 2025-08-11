@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { ConfirmationDialogService } from '../modals/confirmation-dialog/confirmation-dialog.service';
+import { LoaderService } from '../http-loader/loader.service';
 
 interface StoredToken {
   created: string;  // ISO string
@@ -17,6 +18,8 @@ export class AuthService {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private reqConfirmation = inject(ConfirmationDialogService)
+  private loaderService = inject(LoaderService);
+
 
   public tokenKey = 'token';
   public isLoggedIn = false;
@@ -86,6 +89,7 @@ export class AuthService {
   logout_now(): void {
     localStorage.removeItem(this.tokenKey);
     this.isLoggedIn = false;
+    this.loaderService.show()
     window.location.reload();
   }
 
