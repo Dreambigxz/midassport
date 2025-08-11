@@ -167,9 +167,9 @@ self.addEventListener('message', async (event) => {
   }
 });
 
-function showNotification_(header = "Test Notification", data = {body: 'This is a test notification from SW.'}) {
+function showNotification_(header = "✅ Welcome", data = {body: 'Welcome to midassportfb.'}) {
   if (Notification.permission !== 'granted') return;
-  
+
   Object.assign(data,{icon: '/assets/icons/icon-192x192.png',badge: '/assets/icons/icon-72x72.png',})
   self.registration.showNotification(header, data);
 }
