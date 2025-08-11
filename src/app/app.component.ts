@@ -145,12 +145,16 @@ export class AppComponent {
     const hasPeriodicSync = 'periodicSync' in navigator.serviceWorker
     console.log({hasPeriodicSync});
 
-    if ('serviceWorker' in navigator && hasPeriodicSync) {
+    if ('serviceWorker' in navigator) {
       try {
         const reg = await navigator.serviceWorker.ready;
-        await reg.periodicSync?.register('check-open-bets', { minInterval: 15 * 60 * 1000 });
-
-        console.log('[App] Periodic sync registered');
+        if ('periodicSync' in reg) {
+          console.log('✅ Periodic Sync supported');
+          await reg.periodicSync?.register('check-open-bets', { minInterval: 15 * 60 * 1000 });
+          console.log('[App] Periodic sync registered');
+        } else {
+          console.log('❌ Periodic Sync NOT supported');
+        }
       } catch (err) {
         console.error('Periodic Sync registration failed:', err);
       }
