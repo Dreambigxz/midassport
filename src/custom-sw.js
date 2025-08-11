@@ -13,6 +13,7 @@ async function fetchApi(url,method,body) {
       ...(userToken ? { 'Authorization': `Token ${userToken}` } : {})
     }
   });
+  console.log({res});
 
   if (!res.ok) throw new Error('Network response not ok');
 
