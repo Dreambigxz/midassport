@@ -90,15 +90,16 @@ export class AppComponent {
         }
       }
 
-      if (!this.openBet) {
-        const reg = await navigator.serviceWorker?.ready;
+      setTimeout(async() => {
+        if (!this.openBet) {
+          const reg = await navigator.serviceWorker?.ready;
 
-        this.openBet = this.storeData.get('betDir')?.ticket.filter((bet: any) =>
-          bet.status === 'open'
-        )
-        this.openBet?.length?reg.active?.postMessage({ type: 'UPDATE_BETS', bets:this.openBet }):0;
-
-      }
+          this.openBet = this.storeData.get('betDir')?.ticket?.filter((bet: any) =>
+            bet.status === 'open'
+          )
+          this.openBet?.length?reg.active?.postMessage({ type: 'UPDATE_BETS', bets:this.openBet }):0;
+        }
+      }, 3000);
     }
 
   }

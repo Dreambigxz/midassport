@@ -161,20 +161,7 @@ export class MainComponent implements OnInit, OnDestroy {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
         }, 1000);
 
-        // console.log(res);
-        // if (showSpinner==="showSpinner"&&'serviceWorker' in navigator) {
-        //   navigator.serviceWorker.ready.then(registration => {
-        //     const bets = this.storeData.get('betDir')?.ticket.filter((bet: any) =>
-        //       bet.status === 'open'
-        //     )
-        //
-        //     // Send bets to the active SW
-        //     if (registration.active&&bets&&bets.length) {
-        //       registration.active.postMessage({ type: 'UPDATE_BETS', bets });
-        //       console.log('Sent bets to service worker');
-        //     }
-        //   });
-        // }
+        
       }
     });
   }

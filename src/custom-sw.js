@@ -25,6 +25,18 @@ self.addEventListener('install', (event) => {
   console.log('[SW] Installed');
   self.skipWaiting();
 });
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activated');
+  event.waitUntil(clients.claim());
+  event.waitUntil(
+    (async () => {
+      const bets = await getBetsFromDB();
+      if (bets.length) {
+        startChecking();
+      }
+    })()
+  );
+});
 
 // IndexedDB helper
 function openDB() {
@@ -139,19 +151,6 @@ function startChecking() {
     console.log('[SW] Started check interval');
   }
 }
-
-self.addEventListener('activate', (event) => {
-  console.log('[SW] Activated');
-  event.waitUntil(clients.claim());
-  event.waitUntil(
-    (async () => {
-      const bets = await getBetsFromDB();
-      if (bets.length) {
-        startChecking();
-      }
-    })()
-  );
-});
 
 // message listener
 self.addEventListener('message', async (event) => {
