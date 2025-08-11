@@ -13,8 +13,9 @@ async function fetchApi(url,method,body) {
       ...(userToken ? { 'Authorization': `Token ${userToken}` } : {})
     }
   });
-  console.log({res});
-
+  if (res.status===401) {
+    stopChecking()
+  }
   if (!res.ok) throw new Error('Network response not ok');
 
   const json =  await res.json();
@@ -189,7 +190,6 @@ function showNotification_(header = "✅ Welcome back", data = {body: "You're no
 }
 
 
-
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */
 self.addEventListener('fetch', (event) => {
   const request = event.request;
@@ -216,16 +216,14 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('push', function(event) {
 
-  console.log("ReceiveD PUSH Notification");
   let data = {};
   if (event.data) {
     data = event.data.json();
   }
-  console.log({data});
   const title = data.title || "Notification";
   const options = {
     body: data.body || "",
-    icon: data.icon || "/assets/icons/icon-192x192.png",
+    icon: data.icon || "/assets/icons/192x192.png",
     data: {
       url: data.url || "/"
     }
