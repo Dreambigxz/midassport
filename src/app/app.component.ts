@@ -96,7 +96,7 @@ export class AppComponent {
         console.log("openBet>>", this.openBet);
 
         if (this.openBet?.length&&!this.checkOpenBetInterval) {
-          this.checkOpenBetInterval=setInterval(this.startForeGround, 60 * 1000)
+          this.checkOpenBetInterval=0//setInterval(this.startForeGround, 60 * 1000)
           this.registerPeriodicSync("check-open-bets")
         }else{
           this.unRegisterPeriodicSync("check-open-bets")
@@ -156,7 +156,7 @@ export class AppComponent {
       }
   }
 
-  async startForeGround(){
+  async startForeGround(ticket:any){
     console.log('[App] Foreground bet check triggered', this.storeData.store);
     const bets = this.storeData.store['betDir']?.ticket?.filter((bet: any) => bet.status === 'open');
     console.log({bets});
