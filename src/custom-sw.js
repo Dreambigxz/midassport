@@ -159,10 +159,12 @@ function startChecking() {
 // message listener
 self.addEventListener('message', async (event) => {
   if (!event.data)return //not client
-  console.log({event});
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;
-    showNotification_();
+    // showNotification_();
+  }
+  else if (event.data.type==="showNotification") {
+    showNotification_(...Object.values(event.data.notify))
   }
   else if (event.data.type === 'UPDATE_BETS') {
     await updateBetsInDB(event.data.bets);
@@ -186,11 +188,11 @@ self.addEventListener('message', async (event) => {
 
 });
 
-function showNotification_(header = "✅ Welcome back", data = {body: "You're now login!"}) {
+function showNotification_(header,body) {
   if (Notification.permission !== 'granted') return;
 
-  Object.assign(data,{icon: '/assets/icons/icon-192x192.png',badge: '/assets/icons/icon-72x72.png',})
-  self.registration.showNotification(header, data);
+  Object.assign(data,)
+  self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', body});
 }
 
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */

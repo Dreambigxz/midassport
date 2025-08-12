@@ -76,19 +76,14 @@ export class RegisterComponent {
 
   onSubmit(){
 
-
-    console.log(this.RefCode);
-
     if (this.RefCode) {
-      console.log("Adding RefCode");
       this.form.patchValue({ RefCode: this.RefCode });
      }
     this.formHandler.submitForm(this.form,'AUTHENTICATIONS', 'register/?showSpinner',  (res) => {
-      console.log({res});
 
       if (res.status==='success') {
         // login user
-        this.authService.login(res.main.token).subscribe(() => {
+        this.authService.login(res.main.token,'register').subscribe(() => {
           // ✅ redirect to the page user wanted before login
          const redirectUrl = '/main';
          delete(localStorage["invitedBy"])

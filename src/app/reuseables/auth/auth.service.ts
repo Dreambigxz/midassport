@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   /** ✅ Save login and token */
-  login(token: string): Observable<boolean> {
+  login(token: string, authAction:any): Observable<boolean> {
     const payload: StoredToken = {
       created: new Date().toISOString(),
       exp: this.addHours(new Date(), 48).toISOString(),
@@ -73,6 +73,7 @@ export class AuthService {
     };
 
     localStorage.setItem(this.tokenKey, JSON.stringify(payload));
+    localStorage.setItem("clientAction",authAction)
     this.isLoggedIn = true;
 
     return of(true);

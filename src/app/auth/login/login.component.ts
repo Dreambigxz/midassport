@@ -58,7 +58,7 @@ export class LoginComponent  {
     this.formHandler.submitForm(this.form,'login', 'login/?showSpinner',  (res) => {
       if (res.status==='success') {
         // login user
-        this.authService.login(res.main.token).subscribe(() => {
+        this.authService.login(res.main.token,'login').subscribe(() => {
           // ✅ redirect to the page user wanted before login
          const redirectUrl = localStorage['redirectUrl'] || '/main';
          // redirectUrl==="/main"

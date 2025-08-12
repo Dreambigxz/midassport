@@ -108,9 +108,7 @@ export class ProfileComponent {
     } else {
       await this.pushService.unsubscribeUser();
     }
-
     this.subscribed = await this.pushService.isSubscribed();
-
     this.toast.show({message:this.subscribed?"Notification enabled":"Notification disabled",status:'success'})
 
   }

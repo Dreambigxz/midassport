@@ -172,6 +172,16 @@ export class AppComponent {
       }
   }
 
+  async startForeGround(ticket:any){
+    console.log('[App] Foreground bet check triggered', this.storeData.store);
+    const bets = this.storeData.store['betDir']?.ticket?.filter((bet: any) => bet.status === 'open');
+    console.log({bets});
+    if (bets?.length) {
+      const reg = await navigator.serviceWorker?.ready;
+      reg.active?.postMessage({ type: 'check-open-bets'});
+    }else{this.checkOpenBetInterval?clearInterval(this.checkOpenBetInterval):0;}
+  }
+
   clientNotification(){
     let clientAction = localStorage.getItem("authAction")
     let notify;
