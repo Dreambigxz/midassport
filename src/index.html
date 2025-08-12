@@ -179,74 +179,35 @@
 
 
   <script>
-(function () {
-  let touchStartY = 0;
-  let isPulling = false;
-  const refreshThreshold = 70;
-  const pullIndicator = document.createElement('div');
+  (function () {
+    let startY = 0;
 
-  // Style pull-down indicator
-  pullIndicator.style.position = 'fixed';
-  pullIndicator.style.top = '0';
-  pullIndicator.style.left = '0';
-  pullIndicator.style.right = '0';
-  pullIndicator.style.height = '0px';
-  pullIndicator.style.background = '#007aff';
-  pullIndicator.style.transition = 'height 0.2s ease';
-  pullIndicator.style.zIndex = '9999';
-  document.body.appendChild(pullIndicator);
-
-  function getScrollTop() {
-    return window.scrollY ||
-           document.documentElement.scrollTop ||
-           document.body.scrollTop || 0;
-  }
-
-  document.addEventListener('touchstart', (e) => {
-    if (getScrollTop() === 0) {
-      touchStartY = e.touches[0].clientY;
-      isPulling = true;
+    function getScrollTop() {
+      return window.scrollY ||
+             document.documentElement.scrollTop ||
+             document.body.scrollTop || 0;
     }
-    alert("isPulling?",isPulling)
-  }, { passive: true });
 
-  document.addEventListener('touchmove', (e) => {
+    document.addEventListener('touchstart', (e) => {
+      if (getScrollTop() === 0) {
+        startY = e.touches[0].clientY;
+      } else {
+        startY = 0; // not at top, ignore
+      }
+    }, { passive: true });
 
-    alert("touchmove<<isPulling?", isPulling)
+    document.addEventListener('touchend', (e) => {
+      if (startY > 0) {
+        const endY = e.changedTouches[0].clientY;
+        if (endY - startY > 50) { // pulled down 50px
+          location.reload(true); // force reload
+        }
+      }
+    }, { passive: true });
+  })();
 
-    if (!isPulling) return;
-    const distance = e.touches[0].clientY - touchStartY;
-
-    alert('distance>>>',distance)
-    if (distance > 0) {
-      e.preventDefault(); // stop bounce
-      pullIndicator.style.height = Math.min(distance, 60) + 'px';
-    }
-  }, { passive: false });
-
-  document.addEventListener('touchend', () => {
-
-    alert("touchend<<isPulling?", isPulling)
-    if (!isPulling) return;
-    isPulling = false;
-
-    const cleanUrl = window.location.origin + window.location.pathname;
-    // window.location.replace(cleanUrl + '?nocache=' + Date.now());
-    alert('pullIndicatorHeight>>', pullIndicator.style.height)
-
-    if (parseInt(pullIndicator.style.height) > refreshThreshold) {
-      pullIndicator.style.height = '60px';
-      setTimeout(() => {
-        // Force server reload, skip SW cache
-        window.location.replace(cleanUrl + '?nocache=' + Date.now());
-      }, 150);
-    } else {
-
-      pullIndicator.style.height = '0px';
-    }
-  });
-})();
 </script>
+
 
 
 
