@@ -99,9 +99,9 @@ async function checkOpenBets(type="BACKGROUND") {
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
     console.log("finishTime>>", finishTime);
-    if (now >= finishTime && !bet.notified || true) {
+    if (now >= finishTime && !bet.notified) {
       try {
-        const res = await fetchApi("bet","POST",JSON.stringify({ betId: bet.id, processor: "check_bet_status" }))
+        const res = await fetchApi("bet","POST",JSON.stringify({ betId: bet.id, processor: "check_bet_status", type }))
 
         if (res&&['won', 'postponed', 'cancel', "loss", "notFound"].includes(res.status)) {
           await removeBetFromDB(bet.id);
@@ -190,7 +190,6 @@ self.addEventListener('message', async (event) => {
 
 function showNotification_(header,body) {
 
-  console.log('showNotification>>', {header,body});
   if (Notification.permission !== 'granted') return;
 
   self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', body});
@@ -199,8 +198,6 @@ function showNotification_(header,body) {
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */
 self.addEventListener('fetch', (event) => {
   const request = event.request;
-
-  console.log('FETCH>>', event)
 
   // Only apply network-first for navigations (HTML pages)
   if (request.mode === 'navigate') {
