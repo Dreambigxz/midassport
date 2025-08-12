@@ -93,8 +93,6 @@ export class AppComponent {
           )
           this.openBet?.length?reg.active?.postMessage({ type: 'UPDATE_BETS', bets:this.openBet }):0;
         }
-        console.log("openBet>>", this.openBet);
-
         if (this.openBet?.length&&!this.checkOpenBetInterval) {
           this.checkOpenBetInterval=0//setInterval(this.startForeGround, 60 * 1000)
           this.registerPeriodicSync("check-open-bets")
@@ -134,8 +132,16 @@ export class AppComponent {
         const reg = await navigator.serviceWorker.ready;
         if ('periodicSync' in reg) {
           console.log('✅ Periodic Sync supported');
-          await reg.periodicSync?.register(name, { minInterval: 15 * 60 * 1000 });
-          console.log('[App] Periodic sync registered - '+name, '\n', new Date().toLocaleString());
+          const tags = await reg.periodicSync.getTags();
+          console.log({tags});
+
+          if (!tags.includes(name)) {
+            await reg.periodicSync?.register(name, { minInterval: 15 * 60 * 1000 });
+            console.log('[App] Periodic sync registered - '+name, '\n', new Date().toLocaleString());
+          } else {
+            console.log(`ℹ️ Periodic sync "${name}" already registered`);
+          }
+
         } else {
           console.log('❌ Periodic Sync NOT supported');
         }
