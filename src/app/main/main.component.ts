@@ -62,10 +62,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   installApp(device:any) {
 
-    console.log('installType>>', device);
-
     if (device==="IOS") {
-      alert('Guide user on IOS app download')
+      this.openModal("iosPwaModal")
     }else{
       this.installPromptEvent= this.storeData.get('installPromptEvent')
       if (this.installPromptEvent) {
@@ -300,26 +298,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
    }
 
-   // Animate the amount counting up
-  //  startAmountAnimation() {
-  //
-  //
-  //    let start = 0;
-  //    const end = this.bonusAmount;
-  //    const duration = 1200;
-  //    const startTime = performance.now();
-  //
-  //    const animate = (time: number) => {
-  //      const progress = Math.min((time - startTime) / duration, 1);
-  //      this.animatedAmount = parseFloat((start + progress * (end - start)).toFixed(2));
-  //      if (progress < 1) {
-  //        requestAnimationFrame(animate);
-  //      }
-  //    };
-  //    requestAnimationFrame(animate);
-  // }
-
-  async requestNotificationPermission() {
+   async requestNotificationPermission() {
     if (!('Notification' in window)) {
       alert('This browser does not support notifications.');
       return;

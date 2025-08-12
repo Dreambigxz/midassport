@@ -53,10 +53,6 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-    // ✅ Call this immediately when app starts
-    this.requestNotificationPermission();
-    // this.showDownload()
-
     // Run after every route navigation
     this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
@@ -66,7 +62,8 @@ export class AppComponent {
 
   private async syncTokenWithSW() {
 
-    this.showDownload()
+    this.showDownload();
+    this.requestNotificationPermission();
 
     if ('serviceWorker' in navigator) {
 
@@ -111,8 +108,6 @@ export class AppComponent {
   }
 
   showDownload(){
-
-      console.log("SETTING PWA DOWLOAD");
 
       if (this.isIOS() && !this.isInStandaloneMode()) {
         this.storeData.set('installIOS',true)

@@ -250,3 +250,12 @@ small {
   opacity: 0.2;
 
 }
+
+#iosPwaModal ol {
+  padding-left: 1.5rem; /* space for numbers */
+  list-style-position: outside;
+}
+#iosPwaModal ol li {
+  padding-left: 0.25rem;
+  text-indent: 0;
+}
