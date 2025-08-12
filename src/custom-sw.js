@@ -166,7 +166,7 @@ self.addEventListener('message', async (event) => {
   }
   else if (event.data.type === 'UPDATE_BETS') {
     await updateBetsInDB(event.data.bets);
-    startChecking();
+    // startChecking();
   } else if (event.data.type === 'CLEAR_BETS') {
     await clearBetsDB();
     stopChecking();
