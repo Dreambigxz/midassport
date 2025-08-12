@@ -71,12 +71,12 @@
             <li>
                 <a class="single-profile-wrap">
                     <i class="fas fa-bell"></i>
-                    Notificationß
+                    Notifications
                     <i class="ri-arrow-right-s-line"></i>
                 </a>
             </li>
             <li>
-              <div class="single-profile-wrap">
+              <div class="single-profile-wrap" *ngIf="!storeData.store['disabledNotification']">
                 <i class="fas fa-bell"></i>
                 Push Notification
                 <label class="switch">

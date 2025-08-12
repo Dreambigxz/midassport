@@ -132,14 +132,21 @@ export class AppComponent {
 
   async requestNotificationPermission() {
 
-    if (!('Notification' in window)||localStorage.getItem('promptedNoti')) return;
+    if (!'Notification' in window)return
+
 
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      localStorage.setItem('promptedNoti', 'true')
+      if(localStorage.getItem('pushedNotification')) return;
+
       await this.pushService.init()
       this.subscribed = await this.pushService.isSubscribed();
       if (!this.subscribed) {await this.pushService.subscribeUser()}
+
+      localStorage.setItem('pushedNotification', 'true')
+
+    }else{
+      this.storeData.set('disabledNotification',true)
     }
   }
 
