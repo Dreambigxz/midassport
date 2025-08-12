@@ -193,7 +193,6 @@ function showNotification_(header,body) {
   console.log('showNotification>>', {header,body});
   if (Notification.permission !== 'granted') return;
 
-  Object.assign(data,)
   self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', body});
 }
 

@@ -179,7 +179,7 @@ export class AppComponent {
     let notify;
     if (clientAction==='register') {
       notify ={header: `📨Welcome to ${this.siteName}!`,body:"Your registration was successful ✅"}
-    }else if(clientAction==='register'){
+    }else if(clientAction==='login'){
       notify ={header: `Welcome back!"`,body:"You're now logged in ✅"}
 
     }
