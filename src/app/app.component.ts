@@ -132,7 +132,7 @@ export class AppComponent {
 
   async requestNotificationPermission() {
 
-    if (!'Notification' in window)return
+    if (!('Notification' in window))return
 
 
     const permission = await Notification.requestPermission();
