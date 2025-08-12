@@ -200,7 +200,7 @@
     if (startY > 0) {
       const endY = e.changedTouches[0].clientY;
       if (endY - startY > 50) { // pulled down 50px
-        location.reload(true); // force reload
+        window.location.reload(true); // force reload
       }
     }
   }, { passive: true });

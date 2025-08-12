@@ -57,27 +57,31 @@ export class MainComponent implements OnInit, OnDestroy {
     secured: { display: [], data: [] }
   };
   current = 'main';
-
   telegramBonusModalActive = false
-
   installPromptEvent: any;
-  installApp() {
-    this.installPromptEvent= this.storeData.get('installPromptEvent')
-    if (this.installPromptEvent) {
-      this.installPromptEvent.prompt();
-      this.installPromptEvent.userChoice.then((choiceResult: any) => {
-        if (choiceResult.outcome === 'accepted') {
-          this.storeData.store['can_download_app']=false
-        }
-        this.installPromptEvent = null;
-      });
+
+  installApp(device:any) {
+
+    console.log('installType>>', device);
+
+    if (device==="IOS") {
+      alert('Guide user on IOS app download')
+    }else{
+      this.installPromptEvent= this.storeData.get('installPromptEvent')
+      if (this.installPromptEvent) {
+        this.installPromptEvent.prompt();
+        this.installPromptEvent.userChoice.then((choiceResult: any) => {
+          if (choiceResult.outcome === 'accepted') {
+            this.storeData.store['can_download_app']=false
+          }
+          this.installPromptEvent = null;
+        });
+      }
     }
+
   }
 
   ngOnInit(): void {
-
-
-    // Run JS file
 
     // Watch for route changes
     this.router.events.pipe(
@@ -161,7 +165,7 @@ export class MainComponent implements OnInit, OnDestroy {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
         }, 1000);
 
-        
+
       }
     });
   }

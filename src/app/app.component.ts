@@ -42,17 +42,20 @@ export class AppComponent {
   private lastTokenSent: string | null = null;
   private openBet: string | null = null;
 
-
-  isIOS() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  isIOS(): boolean {
+   return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
   }
 
+  isInStandaloneMode(): boolean {
+    return (window.matchMedia('(display-mode: standalone)').matches) ||
+           ((navigator as any).standalone === true);
+  }
 
   ngOnInit(): void {
 
     // ✅ Call this immediately when app starts
     this.requestNotificationPermission();
-    this.showDownload()
+    // this.showDownload()
 
     // Run after every route navigation
     this.router.events
@@ -63,7 +66,10 @@ export class AppComponent {
 
   private async syncTokenWithSW() {
 
+    this.showDownload()
+
     if ('serviceWorker' in navigator) {
+
       // 1️⃣ Get your stored user token from local storage or an auth service
       const tokenData = localStorage.getItem('token');
       if (!tokenData) return;
@@ -105,17 +111,21 @@ export class AppComponent {
   }
 
   showDownload(){
-      if (this.isIOS()) {
-       // iOS + Safari browser
-       /* show user the guiid on add to home  if the pwa app has not been installed*/
+
+      console.log("SETTING PWA DOWLOAD");
+
+      if (this.isIOS() && !this.isInStandaloneMode()) {
+        this.storeData.set('installIOS',true)
+        this.storeData.set('device','IOS')
+
       } else {
-       // Android or desktop
-       window.addEventListener('beforeinstallprompt', (event) => {
-           event.preventDefault();
-           this.storeData.store['installPromptEvent'] = event;
-           this.storeData.store['can_download_app']=true
-       });
-     }
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            this.storeData.set('installPromptEvent',event)
+            this.storeData.set('can_download_app',true)
+            this.storeData.set('device','Android')
+        });
+    }
   }
 
   async requestNotificationPermission() {

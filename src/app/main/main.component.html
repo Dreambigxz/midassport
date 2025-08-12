@@ -65,8 +65,8 @@
       </a>
       <div
         class="icon-item"
-        [class.in-active]="!storeData.store['can_download_app']"
-        (click)="installApp()"
+        [class.in-active]="!storeData.store['can_download_app']&&!storeData.store['installIOS']"
+        (click)="installApp(storeData.store['device'])"
       >
         <div class="icon-circle app"><i class="fas fa-mobile-alt"></i></div>
         <div class="label">App</div>
