@@ -158,10 +158,10 @@ function startChecking() {
 
 // message listener
 self.addEventListener('message', async (event) => {
+  console.log({event});
   if (!event.data)return //not client
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;
-    // showNotification_();
   }
   else if (event.data.type==="showNotification") {
     showNotification_(...Object.values(event.data.notify))
@@ -189,6 +189,8 @@ self.addEventListener('message', async (event) => {
 });
 
 function showNotification_(header,body) {
+
+  console.log('showNotification>>', {header,body});
   if (Notification.permission !== 'granted') return;
 
   Object.assign(data,)
