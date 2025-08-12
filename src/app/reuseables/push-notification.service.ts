@@ -9,6 +9,9 @@ export class PushNotificationService {
   private swRegistration: ServiceWorkerRegistration | null = null;
 
   async init() {
+
+    console.log("INIT<<>>");
+
     if ('serviceWorker' in navigator) {
       this.swRegistration = await navigator.serviceWorker.ready;
       // Send VAPID key to SW

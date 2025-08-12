@@ -90,7 +90,9 @@ export class TicketsComponent {
       this.sevenDaysAgo.setDate(this.now.getDate() - 7);
       this.dateFrom = this.sevenDaysAgo.toISOString().split('T')[0]
 
-      if (!this.storeData.get('betDir')) {
+      console.log("betDir", this.storeData.get('betDir'));
+
+      if (!this.storeData.get('betDir')||!this.storeData.get('betDir').ticket) {
         this.reqServerData.get('bet/?showSpinner').subscribe({
           next: res => this.categorizeTicket()
         })

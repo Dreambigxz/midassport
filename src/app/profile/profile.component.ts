@@ -51,17 +51,11 @@ export class ProfileComponent {
     // Run JS file
     loadScript('assets/js/main.js');
 
+    if (!this.storeData.get('profile')) {this.reqServerData.get('profile').subscribe()}
+
     // Wait for subscription check
     await this.pushService.init()
     this.subscribed = await this.pushService.isSubscribed();
-
-    if (!this.storeData.get('profile')) {
-      this.reqServerData.get('profile').subscribe({
-        next: res => {
-          console.log({ res });
-        }
-      });
-    }
   }
 
   ngAfterViewInit() {

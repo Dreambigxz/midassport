@@ -27,10 +27,6 @@ export class StoreDataService {
 
   /** Get data by key */
   get<T = any>(key: string): T | undefined {
-    // console.log({key});
-    //
-    // console.log(this.store[key]);
-
     return this.store[key];
   }
 
