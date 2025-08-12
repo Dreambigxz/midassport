@@ -131,6 +131,7 @@ export class AppComponent {
   }
 
   async requestNotificationPermission() {
+
     if (!('Notification' in window)||localStorage.getItem('promptedNoti')) return;
 
     const permission = await Notification.requestPermission();
@@ -173,10 +174,9 @@ export class AppComponent {
   }
 
   clientNotification(){
-    let clientAction = localStorage.getItem("authAction")
-    let notify;
-
+    let clientAction = localStorage.getItem("clientAction")
     if(!clientAction)return
+    let notify;
     if (clientAction==='register') {
       notify ={header: `📨Welcome to ${this.siteName}!`,body:"Your registration was successful ✅"}
     }else if(clientAction==='register'){
