@@ -184,8 +184,8 @@
 
     function getScrollTop() {
       return window.scrollY ||
-             document.documentElement.scrollTop ||
-             document.body.scrollTop || 0;
+        document.documentElement.scrollTop ||
+        document.body.scrollTop || 0;
     }
 
     document.addEventListener('touchstart', (e) => {
@@ -200,7 +200,7 @@
       if (startY > 0) {
         const endY = e.changedTouches[0].clientY;
         if (endY - startY > 50) { // pulled down 50px
-          location.reload(true); // force reload
+          // location.reload(true); // force reload
         }
       }
     }, { passive: true });
