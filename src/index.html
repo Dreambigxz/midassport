@@ -207,11 +207,17 @@
       touchStartY = e.touches[0].clientY;
       isPulling = true;
     }
+    alert("isPulling?",isPulling)
   }, { passive: true });
 
   document.addEventListener('touchmove', (e) => {
+
+    alert("touchmove<<isPulling?", isPulling)
+
     if (!isPulling) return;
     const distance = e.touches[0].clientY - touchStartY;
+
+    alert('distance>>>',distance)
     if (distance > 0) {
       e.preventDefault(); // stop bounce
       pullIndicator.style.height = Math.min(distance, 60) + 'px';
@@ -219,17 +225,23 @@
   }, { passive: false });
 
   document.addEventListener('touchend', () => {
+
+    alert("touchend<<isPulling?", isPulling)
     if (!isPulling) return;
     isPulling = false;
+
+    const cleanUrl = window.location.origin + window.location.pathname;
+    // window.location.replace(cleanUrl + '?nocache=' + Date.now());
+    alert('pullIndicatorHeight>>', pullIndicator.style.height)
 
     if (parseInt(pullIndicator.style.height) > refreshThreshold) {
       pullIndicator.style.height = '60px';
       setTimeout(() => {
         // Force server reload, skip SW cache
-        const cleanUrl = window.location.origin + window.location.pathname;
         window.location.replace(cleanUrl + '?nocache=' + Date.now());
       }, 150);
     } else {
+
       pullIndicator.style.height = '0px';
     }
   });

@@ -131,18 +131,11 @@ export class AppComponent {
       try {
         const reg = await navigator.serviceWorker.ready;
         if ('periodicSync' in reg) {
-          console.log('✅ Periodic Sync supported');
           const tags = await reg.periodicSync?.getTags();
-          console.log({tags});
           if (!tags?.includes(name)) {
             await reg.periodicSync?.register(name, { minInterval: 15 * 60 * 1000 });
             console.log('[App] Periodic sync registered - '+name, '\n', new Date().toLocaleString());
-          } else {
-            console.log(`ℹ️ Periodic sync "${name}" already registered`);
           }
-
-        } else {
-          console.log('❌ Periodic Sync NOT supported');
         }
       } catch (err) {
         console.error('Periodic Sync registration failed:', err);
@@ -153,8 +146,11 @@ export class AppComponent {
       const reg = await navigator.serviceWorker.ready;
       if ('periodicSync' in reg) {
         try {
-          await reg.periodicSync?.unregister(name);
-          console.log(`🛑 Periodic sync ${name} unregistered`);
+          const tags = await reg.periodicSync?.getTags();
+          if (tags?.includes(name)) {
+            await reg.periodicSync?.unregister(name);
+            console.log(`🛑 Periodic sync ${name} unregistered`);
+          }
         } catch (err) {
           console.error('Failed to unregister periodic sync:', err);
         }
