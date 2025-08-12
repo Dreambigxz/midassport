@@ -179,11 +179,8 @@
 
 
   <script>
-
     (function () {
       let startY = 0;
-      var preLoder = $("#preloader");
-
 
       function getScrollTop() {
         return window.scrollY ||
@@ -203,8 +200,8 @@
         if (startY > 0) {
           const endY = e.changedTouches[0].clientY;
           if (endY - startY > 50) { // pulled down 50px
-            preLoder.fadeIn(0);
             location.reload(true); // force reload
+            var preLoder.fadeIn(0);
           }
         }
       }, { passive: true });
