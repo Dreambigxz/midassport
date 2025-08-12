@@ -132,10 +132,9 @@ export class AppComponent {
         const reg = await navigator.serviceWorker.ready;
         if ('periodicSync' in reg) {
           console.log('✅ Periodic Sync supported');
-          const tags = await reg.periodicSync.getTags();
+          const tags = await reg.periodicSync?.getTags();
           console.log({tags});
-
-          if (!tags.includes(name)) {
+          if (!tags?.includes(name)) {
             await reg.periodicSync?.register(name, { minInterval: 15 * 60 * 1000 });
             console.log('[App] Periodic sync registered - '+name, '\n', new Date().toLocaleString());
           } else {
