@@ -9,6 +9,7 @@ import { loadScript } from './reuseables/helper';
 import { filter } from 'rxjs/operators';
 
 import { Modal } from 'bootstrap';
+import { PushNotificationService } from './reuseables/push-notification.service';
 
 declare global {
   interface Navigator {
@@ -29,6 +30,8 @@ export class AppComponent {
   reqServerData = inject(RequestDataService);
   storeData = inject(StoreDataService);
   router=inject(Router)
+  pushService= inject(PushNotificationService)
+
 
   telegramUser: any;
 
@@ -36,6 +39,7 @@ export class AppComponent {
   joinLink: string | null = null;
   checking = false;
   joined = false;
+  subscribed = false;
 
   checkOpenBetInterval: number | null= null
 
@@ -63,7 +67,6 @@ export class AppComponent {
   private async syncTokenWithSW() {
 
     this.showDownload();
-    this.requestNotificationPermission();
 
     if ('serviceWorker' in navigator) {
 
@@ -102,6 +105,7 @@ export class AppComponent {
         }else{
           this.unRegisterPeriodicSync("check-open-bets")
         }
+        this.requestNotificationPermission();
       }, 3000);
     }
 
@@ -129,6 +133,9 @@ export class AppComponent {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       console.log('✅ Notification permission granted');
+      await this.pushService.init()
+      this.subscribed = await this.pushService.isSubscribed();
+      if (!this.subscribed) {await this.pushService.subscribeUser()}
     }
   }
 
