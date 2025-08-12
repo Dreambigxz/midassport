@@ -54,19 +54,10 @@ export class AppComponent {
     this.requestNotificationPermission();
     this.showDownload()
 
-    // setTimeout(() => {
-    //   this.startForeGround()
-    // }, 300);
-
-
     // Run after every route navigation
     this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe(() => {
-        console.log('📍 Route changed — checking bets');
-        this.syncTokenWithSW()
-      });
-
+    .subscribe(() => {this.syncTokenWithSW()});
 
   }
 
@@ -151,7 +142,6 @@ export class AppComponent {
       } catch (err) {
         console.error('Periodic Sync registration failed:', err);
       }
-
   }
 
   async unRegisterPeriodicSync(name:any){
