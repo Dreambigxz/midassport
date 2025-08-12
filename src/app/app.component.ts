@@ -157,7 +157,7 @@ export class AppComponent {
   }
 
   async startForeGround(){
-    console.log('[App] Foreground bet check triggered');
+    console.log('[App] Foreground bet check triggered', this.storeData.store);
     const bets = this.storeData.store['betDir']?.ticket?.filter((bet: any) => bet.status === 'open');
     console.log({bets});
     if (bets?.length) {
