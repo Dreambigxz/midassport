@@ -242,7 +242,7 @@ self.addEventListener('notificationclick', event => {
 });
 
 self.addEventListener('periodicsync', (event) => {
-  console.log("periodicsync");
+  console.log("periodicsync", event);
   if (event.tag === 'check-open-bets') {
     event.waitUntil(checkOpenBets());
   }

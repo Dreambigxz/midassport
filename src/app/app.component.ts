@@ -37,11 +37,11 @@ export class AppComponent {
   checking = false;
   joined = false;
 
+  checkOpenBetInterval: number | null= null
+
   private lastTokenSent: string | null = null;
   private openBet: string | null = null;
 
-
-  // bindedTg
 
   isIOS() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -50,25 +50,14 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-
     // ✅ Call this immediately when app starts
     this.requestNotificationPermission();
-    this.registerPeriodicSync()
     this.showDownload()
 
-    // Foreground check loop (runs only when visible)
-    setInterval(async () => {
-       if (document.visibilityState === 'visible') {
-         console.log('[App] Foreground bet check triggered');
-         const bets = await this.storeData.get('betDir')?.ticket?.filter((bet: any) => bet.status === 'open');
-         console.log({bets});
+    // setTimeout(() => {
+    //   this.startForeGround()
+    // }, 300);
 
-         if (bets?.length) {
-           const reg = await navigator.serviceWorker?.ready;
-           reg.active?.postMessage({ type: 'check-open-bets'});
-         }
-       }
-     }, 60 * 1000); // Every 1 min
 
     // Run after every route navigation
     this.router.events
@@ -113,6 +102,14 @@ export class AppComponent {
           )
           this.openBet?.length?reg.active?.postMessage({ type: 'UPDATE_BETS', bets:this.openBet }):0;
         }
+        console.log("openBet>>", this.openBet);
+
+        if (this.openBet?.length&&!this.checkOpenBetInterval) {
+          this.checkOpenBetInterval=setInterval(this.startForeGround, 60 * 1000)
+          this.registerPeriodicSync("check-open-bets")
+        }else{
+          this.unRegisterPeriodicSync("check-open-bets")
+        }
       }, 3000);
     }
 
@@ -141,25 +138,42 @@ export class AppComponent {
     }
   }
 
-  async registerPeriodicSync() {
-    const hasPeriodicSync = 'periodicSync' in navigator.serviceWorker
-    console.log({hasPeriodicSync});
-
-    if ('serviceWorker' in navigator) {
+  async registerPeriodicSync(name:any) {
       try {
         const reg = await navigator.serviceWorker.ready;
         if ('periodicSync' in reg) {
           console.log('✅ Periodic Sync supported');
-          await reg.periodicSync?.register('check-open-bets', { minInterval: 15 * 60 * 1000 });
-          console.log('[App] Periodic sync registered');
+          await reg.periodicSync?.register(name, { minInterval: 15 * 60 * 1000 });
+          console.log('[App] Periodic sync registered - '+name, '\n', new Date().toLocaleString());
         } else {
           console.log('❌ Periodic Sync NOT supported');
         }
       } catch (err) {
         console.error('Periodic Sync registration failed:', err);
       }
-    }
+
   }
 
+  async unRegisterPeriodicSync(name:any){
+      const reg = await navigator.serviceWorker.ready;
+      if ('periodicSync' in reg) {
+        try {
+          await reg.periodicSync?.unregister(name);
+          console.log(`🛑 Periodic sync ${name} unregistered`);
+        } catch (err) {
+          console.error('Failed to unregister periodic sync:', err);
+        }
+      }
+  }
+
+  async startForeGround(){
+    console.log('[App] Foreground bet check triggered');
+    const bets = await this.storeData.get('betDir')?.ticket?.filter((bet: any) => bet.status === 'open');
+    console.log({bets});
+    if (bets?.length) {
+      const reg = await navigator.serviceWorker?.ready;
+      reg.active?.postMessage({ type: 'check-open-bets'});
+    }else{this.checkOpenBetInterval?clearInterval(this.checkOpenBetInterval):0;}
+  }
 
 }
