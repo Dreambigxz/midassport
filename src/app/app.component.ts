@@ -132,7 +132,7 @@ export class AppComponent {
 
   async requestNotificationPermission() {
 
-    if (!('Notification' in window))return
+    if (!('Notification' in window)){this.storeData.set('disabledNotification',true);return}
 
 
     const permission = await Notification.requestPermission();
@@ -146,7 +146,7 @@ export class AppComponent {
       localStorage.setItem('pushedNotification', 'true')
 
     }else{
-      this.storeData.set('disabledNotification',true)
+      // this.storeData.set('disabledNotification',true)
     }
   }
 
@@ -188,9 +188,10 @@ export class AppComponent {
       notify ={header: `📨Welcome to ${this.siteName}!`,body:"Your registration was successful ✅"}
     }else if(clientAction==='login'){
       notify ={header: `Welcome back!"`,body:"You're now logged in ✅"}
-
     }
+
     this.swRegistration?.active?.postMessage({ type: 'showNotification', notify })
+
     delete(localStorage['clientAction'])
   }
 
