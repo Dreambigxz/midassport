@@ -179,6 +179,8 @@
 
 
   <script>
+    var preLoder = $("#preloader");
+
     (function () {
       let startY = 0;
 
@@ -200,10 +202,8 @@
         if (startY > 0) {
           const endY = e.changedTouches[0].clientY;
           if (endY - startY > 50) { // pulled down 50px
-            location.reload(true); // force reload
-            var preLoder = $("#preloader");
             preLoder.fadeIn(0);
-
+            location.reload(true); // force reload
           }
         }
       }, { passive: true });
