@@ -158,6 +158,8 @@ export class MainComponent implements OnInit, OnDestroy {
   loadFixtures(showSpinner="showSpinner") {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
+        console.log({res});
+
         this.categorizeMatches();
         setTimeout(() => {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
@@ -171,12 +173,12 @@ export class MainComponent implements OnInit, OnDestroy {
   categorizeMatches() {
     const cpgs = this.storeData.get('company_games');
     this.fixtures = this.storeData.get('soccer');
-    this.allMatches = this.fixtures.fixtures.response;
+    this.allMatches = this.fixtures//.fixtures.response;
 
     if (this.storeData.get('nextDayData')) {
       this.allMatches = [
         ...this.allMatches,
-        ...this.storeData.store['nextDayData'].fixtures.response
+        ...this.storeData.store['nextDayData']//.fixtures.response
       ];
     }
 
@@ -184,19 +186,19 @@ export class MainComponent implements OnInit, OnDestroy {
     const sortedData: { [key: string]: any } = {
       secured: [],
       notStarted: this.allMatches.filter((m: any) =>
-        new Date(m.fixture.timestamp * 1000) > now
+        new Date(m.fixture.fixture.timestamp * 1000) > now
       ),
       live: this.allMatches.filter((m: any) =>
-        ['HT', '2H', '1H'].includes(m.fixture.status.short)
+        ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short)
       ),
       finished: this.allMatches.filter((m: any) =>
-        m.fixture.status.short === 'FT'
+        m.fixture.fixture.status.short === 'FT'
       )
     };
 
     cpgs.forEach((element: any) => {
       const isSecured = sortedData['notStarted'].filter(
-        (m: any) => m.fixture.id == element.fixtureID
+        (m: any) => m.fixture.fixture.id == element.fixtureID
       );
       if (isSecured.length) {
         isSecured[0]['secured'] = true;

@@ -78,6 +78,7 @@ export class AppComponent {
       const tokenObj = JSON.parse(tokenData);
       this.swRegistration = await navigator.serviceWorker.ready;
 
+
       // 2️⃣ Only send if the SW hasn't got this token yet
       if (this.lastTokenSent !== tokenObj.token) {
         // const reg = await navigator.serviceWorker?.ready;
@@ -92,9 +93,23 @@ export class AppComponent {
       }
 
       setTimeout(async() => {
+        if (!this.openBet) {
+          // const reg = await navigator.serviceWorker?.ready;
+
+          this.openBet = this.storeData.get('betDir')?.ticket?.filter((bet: any) =>
+            bet.status === 'open'
+          )
+          this.openBet?.length?this.swRegistration?.active?.postMessage({ type: 'UPDATE_BETS', bets:this.openBet }):0;
+        }
+        if (this.openBet?.length&&!this.checkOpenBetInterval) {
+          this.checkOpenBetInterval=0//setInterval(this.startForeGround, 60 * 1000)
+          this.registerPeriodicSync("check-open-bets")
+        }else{
+          this.unRegisterPeriodicSync("check-open-bets")
+        }
         await this.requestNotificationPermission();
         this.clientNotification()
-      }, 1000);
+      }, 3000);
     }
 
   }

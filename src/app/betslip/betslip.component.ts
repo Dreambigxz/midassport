@@ -70,8 +70,8 @@ export class BetslipComponent {
 
 
     if (this.storeData.get('nextDayData')){
-      this.fixtures.fixtures.response = [...this.fixtures.fixtures.response, ...this.storeData.store['nextDayData'].fixtures.response ]
-      this.fixtures.odds = {...this.fixtures.odds, ...this.storeData.store['nextDayData'].odds }
+      this.fixtures = [...this.fixtures, ...this.storeData.store['nextDayData'] ]
+      // this.fixtures.odds = {...this.fixtures.odds, ...this.storeData.store['nextDayData'].odds }
     }
     this.route.paramMap.subscribe(params => {
       if (!this.fixtures) {
@@ -79,8 +79,6 @@ export class BetslipComponent {
           next:res=>{
             this.fixtures=this.storeData.store['soccer']
             this.setData(params.get('id'))
-            console.log({res});
-
           }
         });
       }else{
@@ -91,12 +89,10 @@ export class BetslipComponent {
 
   setData(id:any){
     id=parseInt(id);this.fixtureID=id
-    const [fixture]= this.fixtures.fixtures.response.filter((user:any)=>user.fixture.id===id)
-    this.predictionRows =this.fixtures['odds'][id]
+    const [fixture]= this.fixtures.filter((m:any)=>m.fixture.fixture.id===id)
+    this.predictionRows =fixture.odds//['odds'][id]
     this.fixture=fixture
-
     this.divControlers.showPredictionBoard=true
-
   }
 
   setTime(timestamp:any){
@@ -112,9 +108,7 @@ export class BetslipComponent {
   stakeAmount:any = 0
 
 
-  onRowClick(row: any[],index:number) {
-    console.log('Row clicked:', index, row);
-  }
+  onRowClick(row: any[],index:number) {}
   onCellClick(cell: { value: string; odds: string }) {
     this.selectedScore=cell
     this.toast.show({'message':'Selection added to slip', status:'success'})
@@ -123,8 +117,6 @@ export class BetslipComponent {
   }
 
   setBetAmount(event: KeyboardEvent) {
-
-    console.log({event});
 
     const inputValue = (event.target as HTMLInputElement).value;
     this.stakeAmount=inputValue
@@ -151,21 +143,19 @@ export class BetslipComponent {
     this.reqConfirmation.confirmAction(()=>{
       this.reqServerData.post('bet/?showSpinner',{...slipData,processor}).subscribe({
         next:res=>{
-          console.log({res});
           // save new bet to betsDB
-          if ('serviceWorker' in navigator && res.status === "success") {
-            navigator.serviceWorker.ready.then(registration => {
-              const bets = res.main.betDir.ticket.filter((bet: any) =>
-                bet.status === 'open'
-              )
-
-              // Send bets to the active SW
-              if (registration.active) {
-                registration.active.postMessage({ type: 'UPDATE_BETS', bets });
-                console.log('Sent bets to service worker');
-              }
-            });
-          }
+          // if ('serviceWorker' in navigator && res.status === "success") {
+          //   navigator.serviceWorker.ready.then(registration => {
+          //     const bets = res.main.betDir.ticket.filter((bet: any) =>
+          //       bet.status === 'open'
+          //     )
+          //
+          //     // Send bets to the active SW
+          //     if (registration.active) {
+          //       registration.active.postMessage({ type: 'UPDATE_BETS', bets });
+          //     }
+          //   });
+          // }
         }
       });
     },'Confirm', `Continue ${processor.split('_')[0].replace('e','')}ing bet with ${this.storeData.get('wallet')['base']['symbol']}${slipData.stakeAmount} ?`)
@@ -184,23 +174,8 @@ export class BetslipComponent {
 
   stakeAll() {
     // for example, set betAmount to wallet balance
-    console.log({"this.stakeAmount":this.stakeAmount});
-
     this.stakeAmount = (this.storeData.get('wallet')?.balance?.new)?.toFixed(3) || 0;
-
     this.setProfit()
-
-
-    // count clicks
-  //   this.stakeClickCount++;
-  //
-  //   if (this.stakeClickCount >= 5) {
-  //     this.showEasterEgg = true;
-  //     setTimeout(() => {
-  //       this.showEasterEgg = false;
-  //       this.stakeClickCount = 0;
-  //     }, 3000); // hide after 3s
-  //   }
   }
 
 }

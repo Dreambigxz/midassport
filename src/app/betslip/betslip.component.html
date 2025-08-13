@@ -12,18 +12,18 @@
 
         <div *ngIf="fixture" class="container">
             <div class="single-product-wrap">
-                <h6 class="title">{{fixture.league.name}}</h6>
+                <h6 class="title">{{fixture.fixture.league.name}}</h6>
                 <div class="details">
-                    <div class="thumb"><img src="{{fixture.teams.home.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.home.name}}</h6></div>
+                    <div class="thumb"><img src="{{fixture.fixture.teams.home.logo}}" alt="img"><h6 class="team-name">{{fixture.fixture.teams.home.name}}</h6></div>
                     <div class="betting-wrap">
                         <h2></h2>
                         <div class="time">
                             <i class="fa fa-circle"></i>
-                            {{setTime(fixture.fixture.timestamp)}}
+                            {{setTime(fixture.fixture.fixture.timestamp)}}
                         </div>
-                        <!-- <a [routerLink]="['/betslip',fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
+                        <!-- <a [routerLink]="['/betslip',fixture.fixture.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
                     </div>
-                    <div class="thumb"><img src="{{fixture.teams.away.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.away.name}}</h6></div>
+                    <div class="thumb"><img src="{{fixture.fixture.teams.away.logo}}" alt="img"><h6 class="team-name">{{fixture.fixture.teams.away.name}}</h6></div>
                 </div>
                 <!-- <div class="betting-type">
                     <ul>
@@ -86,7 +86,7 @@
 
             <div  *ngIf="!divControlers.showPredictionBoard" class="slip-info">
               <div class="bet-slip-card">
-                  <h6 class="title">{{fixture.league.name}}</h6>
+                  <h6 class="title">{{fixture.fixture.league.name}}</h6>
                   <ul class="bet-result">
                       <li>⚽️Score: <span>{{selectedScore.value}}</span></li>
                       <li>♻️Profit: <span>{{selectedScore.odds}}</span></li>
