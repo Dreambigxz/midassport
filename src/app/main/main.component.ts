@@ -158,8 +158,6 @@ export class MainComponent implements OnInit, OnDestroy {
   loadFixtures(showSpinner="showSpinner") {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
-        console.log({res});
-
         this.categorizeMatches();
         setTimeout(() => {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
@@ -171,6 +169,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   categorizeMatches() {
+
     const cpgs = this.storeData.get('company_games');
     this.fixtures = this.storeData.get('soccer');
     this.allMatches = this.fixtures//.fixtures.response;
