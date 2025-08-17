@@ -41,7 +41,6 @@ export class SearchComponent {
 
   }
 
-
   loadFixtures(){this.reqServerData.get('soccer/').subscribe({next: res => this.filterNotStarted()})}
 
   filterNotStarted(){

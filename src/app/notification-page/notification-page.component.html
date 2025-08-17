@@ -1,0 +1,55 @@
+
+
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+<!-- HEADER -->
+<header class="header header--page header--fixed">
+  <div class="header__inner">
+    <div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+    <div class="header__text">🔔Notifications</div>
+    <div class="header__icon open-panel" data-panel="right" data-arrow="left">
+    </div>
+              </div>
+</header>
+
+<!-- PAGE CONTENT -->
+<div class="page__content page__content--with-header">
+
+  <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+      <span class="loader"></span>
+    </div>
+
+  <ng-template #pageAvailable>
+    <!-- <h2>🔔 Notifications</h2> -->
+    <div *ngIf='display[0]' (scroll)="onScroll($event)" class="event-list {{notifications.length>loadData.batchSize?'scroll-box':''}}">
+      <div *ngFor="let n of display" [ngClass]="{ 'unread': n.unread }" class="notification-item">
+        <h4>{{ n.header }} <span class="time">{{ timeSince(n.timestamp) }}</span></h4>
+        <p>{{ n.message }}</p>
+        <button *ngIf="n.unread" (click)="markAsRead(n)">Mark as Read</button>
+        <!-- <button *ngIf="g.key==='unseen'&&!n.read" (click)="markAsRead(n)">Mark as Read</button> -->
+      </div>
+
+      <div *ngIf="notifications.length>loadData.batchSize">
+        <div *ngIf="loadData.currentIndex < notifications.length" class="loading">Scroll to load more...</div>
+        <div *ngIf="loadData.currentIndex >= notifications.length" class="done">No more items</div>
+      </div>
+
+    </div>
+
+
+      <!-- <div *ngFor="let g of ObjectiveList | keyvalue"> -->
+        <!-- {{g.key}} -->
+        <!-- <div *ngFor="let n of g.value" [ngClass]="{ 'unread': g.key==='unseen'&&!n.read }" class="notification-item"> -->
+
+      <!-- </div> -->
+
+
+
+
+  </ng-template>
+
+</div>
+
+</div>

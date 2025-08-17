@@ -33,11 +33,7 @@ export class InviteRewardsComponent {
 
     loadScript('assets/js/main.js');
     if (!this.storeData.get('invite-rewards')) {
-        this.reqServerData.get("invite-rewards?showSpinner").subscribe({
-          next:(res)=>{
-            // this.loaderService.show()
-          }
-        })
+        this.reqServerData.get("invite-rewards?showSpinner").subscribe()
     }
   }
 

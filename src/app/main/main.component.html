@@ -22,9 +22,9 @@
 
       <div class="btn-wrap">
         <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
-        <a class="icon-btn">
+        <a [routerLink]="['/notifications']" class="icon-btn">
           <i class="ri-notification-3-line"></i>
-          <span class="badge">2</span>
+          <span class="badge">{{storeData.store['unreadNotification']}}</span>
         </a>
       </div>
     </div>

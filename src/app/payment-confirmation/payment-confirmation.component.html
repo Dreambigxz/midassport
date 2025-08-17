@@ -1,0 +1,175 @@
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">{{directory}}</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+    </div>
+	</header>
+
+	<!-- PAGE CONTENT -->
+	<div class="page__content page__content--with-header">
+
+    <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+      <h2 class="title">Amount : {{currencySymbol}}{{totalAmount|number}} ~ <span class="text-info">${{totalAmountDollar|number}}</span></h2>
+
+      <p></p>
+      <div *ngIf="directory==='Withdraw'" class="withdraw">
+
+        <div *ngFor="let tra of transaction;let i = index" class="">
+						<div *ngIf="tra.method!=='EGP'||tra.method==='EGP'&&tra.amount<=5000||username==='admin'">
+								<div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
+		              <div class="row">
+		                <span class="label">👨‍💻:</span>
+		                <span class="value">{{ tra.username }} </span>
+		              </div>
+
+									<div class="row">
+		                <span class="label">AMOUNT‍:</span>
+		                <span class="value">{{tra.method}}{{ tra.amount|number }} </span>
+		              </div>
+
+		              <div class="row">
+		                <span class="label">Time:</span>
+		                <span class="value">{{ timeSince(tra.timestamp) }}</span>
+		              </div>
+
+		              <div class="row">
+		                <span class="label">Status:</span>
+		                <span
+		                  class="value status"
+		                  [ngClass]="{
+		                    'status-pending': tra.status === 'pending',
+		                    'status-confirmed': tra.status === 'Confirmed',
+		                    'status-declined': tra.status === 'Declined'
+		                  }"
+		                >
+		                  {{ tra.status }}
+		                </span>
+		              </div>
+
+
+		              <div class="info-{{i}} hide">
+		                <div class="row">
+		                  <span class="label">Account:</span>
+		                  <span class="value">{{ extraField(tra,'account_number') }} <i (click)="copyContent(extraField(tra,'account_number'),quickMessage)" class="fa fa-copy"></i></span>
+		                </div>
+
+		                <div class="row">
+		                  <span class="label">Name:</span>
+		                  <span class="value">{{ extraField(tra,'account_holder') }}</span>
+		                </div>
+
+		                <div class="row">
+		                  <span class="label">Bank:</span>
+		                  <span class="value">{{ extraField(tra,'bank') }}</span>
+		                </div>
+
+		                <div class="button-group" *ngIf="tra.status === 'pending'">
+		                  <button class="confirm" (click)="TransactionHandler(tra, 'success')">Confirm</button>
+		                  <button class="decline" (click)="TransactionHandler(tra, 'declined')">Decline</button>
+		                </div>
+		              </div>
+		              <div (click)="openDetails(tra,['info-'+i,'details-'+i])" class="proof details-{{i}}">
+		                <a  class="post__more button button--purple button--ex-small">Details</a>
+		                <!-- <img class="proof-image" [src]="tra.proofImageUrl" alt="tra Proof" /> -->
+		              </div>
+		          </div>
+						</div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="directory==='Deposit'" class="deposit">
+
+        <div *ngFor="let tra of transaction;let i = index" class="">
+
+            <div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
+              <div class="row">
+                <span class="label">👨‍💻:</span>
+                <span class="value">{{ tra.username }} </span>
+              </div>
+							<div class="row">
+                <span class="label">AMOUNT‍:</span>
+                <span class="value">{{tra.method}}{{ tra.amount|number }} </span>
+              </div>
+
+              <div class="row">
+                <span class="label">Time:</span>
+                <span class="value">{{ timeSince(tra.timestamp) }}</span>
+              </div>
+
+              <div class="row">
+                <span class="label">Status:</span>
+                <span
+                  class="value status"
+                  [ngClass]="{
+                    'status-pending': tra.status === 'pending',
+                    'status-confirmed': tra.status === 'Confirmed',
+                    'status-declined': tra.status === 'Declined'
+                  }"
+                >
+                  {{ tra.status }}
+                </span>
+              </div>
+
+
+              <div class="info-{{i}}">
+                <div class="row">
+                  <span class="label">Senders Name:</span>
+                  <span class="value">{{ tra.txref }} </span>
+                </div>
+
+                <div class="row">
+                  <span class="label">transactionID:</span>
+                  <span class="value">{{ tra.transactionID }}</span>
+                </div>
+
+                <!-- <div  class="proof details-{{i}}">
+                  <img class="proof-image" src="{{tra.file_url}}" alt="tra Proof" />
+                </div> -->
+                <!-- Thumbnail / Small Proof Image -->
+                <!-- <img
+                  [src]="tra.file_url"
+                  alt="Proof of Payment"
+                  class="thumbnail"
+                  (click)="openPreview()"
+                /> -->
+                <a (click)="openPreview()" class="post__more button button--purple button--ex-small">Receipt</a>
+
+
+                <!-- Modal Overlay -->
+                <div class="modal-backdrop" *ngIf="previewVisible" (click)="closePreview()">
+                  <div class="modal-content" (click)="$event.stopPropagation()">
+                    <img [src]="tra.file_url" alt="Full Proof" />
+                    <button class="close-button" (click)="closePreview()">✖</button>
+                  </div>
+                </div>
+
+
+                <div class="button-group" *ngIf="tra.status === 'pending'">
+                  <button class="confirm" (click)="TransactionHandler(tra, 'success')">Confirm</button>
+                  <button class="decline" (click)="TransactionHandler(tra, 'declined')">Decline</button>
+                </div>
+              </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </ng-template>
+
+  </div>
+
+</div>

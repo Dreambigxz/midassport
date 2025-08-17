@@ -138,7 +138,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.intervalId = setInterval(() => {
       this.loadFixtures("hideSpinner");
-    }, 70000);
+    }, 60000);
 
     if (!this.storeData.get('soccer')) {
       this.loadFixtures();

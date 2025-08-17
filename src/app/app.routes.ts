@@ -14,7 +14,7 @@ import { RegisterComponent } from "./auth/register/register.component";
 import { ForgetPasswordComponent } from "./auth/forget-password/forget-password.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { InviteRewardsComponent } from "./promotions/invite-rewards/invite-rewards.component";
-
+import {NotificationsComponent} from './notifications/notifications.component'
 import { authGuard } from './reuseables/auth/auth.guard';
 
 export const routes: Routes = [
@@ -104,6 +104,12 @@ export const routes: Routes = [
     component: ProfileComponent,
     title: 'Profile',
     canActivate: [authGuard]
+  },
+
+  {
+    path:'notifications',
+    component:NotificationsComponent,
+    title:"Notification"
   },
   // AUTH
   {

@@ -1,1 +1,55 @@
-<p>notifications works!</p>
+<app-spinner></app-spinner>
+
+<div class="single-page-area">
+    <div class="title-area">
+        <a class="btn back-page-btn" href="main-home.html"><i class="ri-arrow-left-s-line"></i></a>
+        <h3 class="ps-4">Notifications  </h3>
+        <!-- <a class="ms-auto" href="#"><i class="fas fa-ellipsis-v"></i></a> -->
+    </div>
+    <div *ngIf="storeData.store['notification'] as data" class="container py-3">
+
+      <!-- Unseen Notifications -->
+      <h6 class="mb-3">🔔 New </h6>
+      <div *ngIf="data.unseen.length > 0; else noUnread">
+        <div class="notification-wrap">
+          <div class="notification-card border-start border-4 border-primary mb-2 p-2 bg-dark"
+               *ngFor="let note of data.unseen">
+            <div class="icon">
+              <img src="assets/img/icon/notification-icon2.png" alt="img">
+            </div>
+            <div class="details">
+              <h6>{{ note.header }}</h6>
+              <p>{{ note.message }}</p>
+              <span>{{ formatTime(note.timestamp) }}</span>
+              <br>
+              <button class="btn btn-sm btn-outline-success mt-1" (click)="markAsRead(note)">Mark as Read</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noUnread>
+        <p class="text-muted">No unread notifications 🎉</p>
+      </ng-template>
+
+      <hr class="my-4">
+
+      <!-- Seen Notifications -->
+      <h6 class="mb-3">📬 Read</h6>
+      <div class="notification-wrap">
+        <div class="notification-card  mb-2 p-2"
+             *ngFor="let note of data.seen">
+          <div class="icon">
+            <img src="assets/img/icon/notification-icon2.png" alt="img">
+          </div>
+          <div class="details">
+            <h6>{{ note.header }}</h6>
+            <p>{{ note.message }}</p>
+            <span>{{ formatTime(note.timestamp) }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+</div>
