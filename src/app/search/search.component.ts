@@ -45,7 +45,7 @@ export class SearchComponent {
   loadFixtures(){this.reqServerData.get('soccer/').subscribe({next: res => this.filterNotStarted()})}
 
   filterNotStarted(){
-    this.fixtures=this.storeData.store['soccer'].fixtures.response
+    this.fixtures=this.storeData.store['soccer']//.fixtures.response
     this.notStarted=this.fixtures.filter((m:any) => {
       return  new Date(m.fixture.timestamp*1000) > new Date();
     });
