@@ -98,7 +98,6 @@ async function checkOpenBets(type="BACKGROUND") {
 
   for (let bet of bets) {
     const finishTime = new Date(bet.startTime).getTime() + (108 * 60 * 1000);
-    console.log("finishTime>>", finishTime);
     if (now >= finishTime && !bet.notified) {
       try {
         const res = await fetchApi("bet","POST",JSON.stringify({ betId: bet.id, processor: "check_bet_status", type }))
@@ -192,7 +191,7 @@ function showNotification_(header,body) {
 
   if (Notification.permission !== 'granted') return;
 
-  self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', body});
+  self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', url: '/main' body});
 }
 
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */
