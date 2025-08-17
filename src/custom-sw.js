@@ -191,7 +191,7 @@ function showNotification_(header,body) {
 
   if (Notification.permission !== 'granted') return;
 
-  self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', url: '/main' body});
+  self.registration.showNotification(header, {icon: '/assets/icons/192x192.png',badge: '/assets/icons/72x72.png', url: '/main', body});
 }
 
 /* ✅ Network-first for HTML so pull-to-refresh reloads from server */
