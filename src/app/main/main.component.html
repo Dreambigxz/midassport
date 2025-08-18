@@ -132,7 +132,6 @@
         <div
           id="secured__matches"
           class="slider-content"
-          [class.scroll-box]="categorizedMatchesData.secured['data'].length > batchSize"
           style="display:none"
         >
           <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
@@ -166,7 +165,6 @@
         <div
           id="upcoming__matches"
           class="slider-content"
-          [class.scroll-box]="categorizedMatchesData.upcoming['data'].length > batchSize"
           style="display:none"
         >
           <div *ngFor="let m of categorizedMatchesData.upcoming['display']" class="single-product-wrap">
@@ -204,7 +202,6 @@
         <div
           id="events__matches"
           class="slider-content"
-          [class.scroll-box]="categorizedMatchesData.notStarted['data'].length > batchSize"
           style="display:none"
         >
           <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
@@ -242,7 +239,6 @@
         <div
           id="live__matches"
           class="slider-content"
-          [class.scroll-box]="categorizedMatchesData.live['data'].length > batchSize"
           style="display:none"
         >
           <ng-container *ngIf="categorizedMatchesData.live['display'].length; else Live">
@@ -288,7 +284,6 @@
         <div
           id="finished__matches"
           class="slider-content"
-          [class.scroll-box]="categorizedMatchesData.finished['data'].length > batchSize"
           style="display:none"
         >
           <div *ngFor="let m of categorizedMatchesData.finished['display']" class="single-product-wrap">
