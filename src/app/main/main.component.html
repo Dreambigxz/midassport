@@ -6,17 +6,25 @@
   <div class="main-home-area">
 
     <!-- Profile Area -->
-    <div class="profile-area">
+    <div *ngIf="storeData.store['wallet'] as walletData" class="profile-area">
       <div class="media">
-        <div class="thumb" (click)="router.navigate(['profile'])">
-          <img src="assets/img/comment/my-profile.png" alt="Profile Image" style="width:40px!important" />
+        <div class="flex">
+          <div class="thumb" (click)="router.navigate(['profile'])">
+            <img src="assets/img/comment/my-profile.png" alt="Profile Image" style="width:40px!important" />
+          </div>
+          <br>
+          <span
+            class="vip">VIP {{ walletData.vip }}</span>
+
         </div>
-        <div *ngIf="storeData.store['wallet'] as walletData" class="media-body">
+
+        <div  class="media-body">
           <span class="profile-name">Hello, {{ storeData['store']['username'] }}</span>
           <div translate="no" class="balance">
             {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }}
             <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span>
           </div>
+
         </div>
       </div>
 
@@ -27,7 +35,12 @@
           <span class="badge">{{storeData.store['unreadNotification']}}</span>
         </a>
       </div>
+
+
     </div>
+
+
+
 
     <!-- Banner Slider -->
     <div class="banner-slider owl-carousel pd-top-110 mb-4">
@@ -77,6 +90,20 @@
       </div>
     </div>
 
+
+    <!-- <div *ngIf="storeData.store['wallet'] as walletData" class="p-6 text-center">
+
+      <div
+        class="inline-block px-6 py-3 rounded-2xl shadow-md font-semibold"
+        [ngClass]="{
+          'bg-gray-300 text-gray-700': walletData.vip === 0,
+          'bg-yellow-500 text-white': walletData.vip > 0
+        }"
+      >
+        <span *ngIf="walletData.vip === 0">No VIP</span>
+        <span *ngIf="walletData.vip > 0">VIP {{ walletData.vip }}</span>
+      </div>
+    </div> -->
     <!-- Sports Market -->
     <div class="sports-wrap mt-4">
       <h6 class="mb-3">⚽️ Market</h6>
@@ -104,7 +131,6 @@
         <!-- Secured Matches -->
         <div
           id="secured__matches"
-          (scroll)="onScroll($event, 'secured')"
           class="slider-content"
           [class.scroll-box]="categorizedMatchesData.secured['data'].length > batchSize"
           style="display:none"
@@ -139,7 +165,6 @@
         <!-- Upcoming Matches -->
         <div
           id="upcoming__matches"
-          (scroll)="onScroll($event, 'upcoming')"
           class="slider-content"
           [class.scroll-box]="categorizedMatchesData.upcoming['data'].length > batchSize"
           style="display:none"
@@ -164,13 +189,20 @@
               </div>
             </div>
           </div>
+
+          <button
+            *ngIf="hasMore('upcoming')"
+            (click)="loadMore('upcoming')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
         </div>
 
         <!-- Events Matches -->
 
         <div
           id="events__matches"
-          (scroll)="onScroll($event, 'notStarted')"
           class="slider-content"
           [class.scroll-box]="categorizedMatchesData.notStarted['data'].length > batchSize"
           style="display:none"
@@ -195,13 +227,20 @@
               </div>
             </div>
           </div>
+
+          <button
+            *ngIf="hasMore('notStarted')"
+            (click)="loadMore('notStarted')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
         </div>
 
         <!-- Live Matches -->
 
         <div
           id="live__matches"
-          (scroll)="onScroll($event, 'live')"
           class="slider-content"
           [class.scroll-box]="categorizedMatchesData.live['data'].length > batchSize"
           style="display:none"
@@ -234,12 +273,20 @@
           <ng-template #Live>
             <div class="no-data">No data found</div>
           </ng-template>
+
+          <button
+            *ngIf="hasMore('live')"
+            (click)="loadMore('live')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
+
         </div>
 
         <!-- Finished Matches -->
         <div
           id="finished__matches"
-          (scroll)="onScroll($event, 'finished')"
           class="slider-content"
           [class.scroll-box]="categorizedMatchesData.finished['data'].length > batchSize"
           style="display:none"
@@ -263,6 +310,14 @@
               </div>
             </div>
           </div>
+
+          <button
+            *ngIf="hasMore('finished')"
+            (click)="loadMore('finished')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
         </div>
 
       </div>

@@ -174,6 +174,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.fixtures = this.storeData.get('soccer');
     this.allMatches = this.fixtures//.fixtures.response;
 
+    console.log(this.allMatches);
+
     if (this.storeData.get('nextDayData')) {
       this.allMatches = [
         ...this.allMatches,
@@ -188,7 +190,8 @@ export class MainComponent implements OnInit, OnDestroy {
         new Date(m.fixture.fixture.timestamp * 1000) > now
       ),
       live: this.allMatches.filter((m: any) =>
-        ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short)
+        // ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short) ||
+        m.fixture.goals.home !==  null && m.fixture.fixture.status.short !== 'FT'
       ),
       finished: this.allMatches.filter((m: any) =>
         m.fixture.fixture.status.short === 'FT'
@@ -208,15 +211,26 @@ export class MainComponent implements OnInit, OnDestroy {
     sortedData['upcoming'] = sortedData['notStarted'].slice(0, 10);
 
     Object.keys(this.categorizedMatchesData).forEach(k => {
+      // this.loadData[k] = {
+      //   displayedItems: [],
+      //   batchSize: 6,
+      //   currentIndex: 0,
+      //   data: sortedData[k]
+      // };
       this.loadData[k] = {
-        displayedItems: [],
-        batchSize: 6,
-        currentIndex: 0,
+        displayedItems: sortedData[k].slice(0, this.batchSize),
+        batchSize: this.batchSize,
+        currentIndex: this.batchSize,
         data: sortedData[k]
       };
+
+      // this.categorizedMatchesData[k as MatchCategory].data = sortedData[k];
+      // this.categorizedMatchesData[k as MatchCategory].display =
+      //   sortedData[k].slice(0, this.batchSize);
+
       this.categorizedMatchesData[k as MatchCategory].data = sortedData[k];
-      this.categorizedMatchesData[k as MatchCategory].display =
-        sortedData[k].slice(0, this.batchSize);
+        this.categorizedMatchesData[k as MatchCategory].display =
+          this.loadData[k].displayedItems;
     });
 
     console.log('DONE SETTING', this.categorizedMatchesData, new Date());
@@ -312,5 +326,26 @@ export class MainComponent implements OnInit, OnDestroy {
       alert('❌ Notification permission denied');
     }
 }
+
+  // handling Loadore Matches><
+
+  loadMore(category: MatchCategory) {
+    const state = this.loadData[category];
+    const nextIndex = state.currentIndex + state.batchSize;
+
+    // append next batch
+    const moreItems = state.data.slice(state.currentIndex, nextIndex);
+    state.displayedItems = [...state.displayedItems, ...moreItems];
+
+    // update display + index
+    this.categorizedMatchesData[category].display = state.displayedItems;
+    state.currentIndex = nextIndex;
+  }
+
+  hasMore(category: MatchCategory) {
+    const state = this.loadData[category];
+    return state.currentIndex < state.data.length;
+  }
+
 
 }
