@@ -261,15 +261,7 @@ small {
 }
 
 /* style vip */
-span.vip {
-    /* background: linear-gradient(90deg, #facc15, #f59e0b, #d97706); */
-    /* color: red; */
-    position: absolute;
-    font-size: 12px;
-    font-weight: bolder;
-    margin-top: -10px;
-    margin-left: 5px;
-}
+
 
 span.vip {
   background: linear-gradient(90deg, #facc15, #f59e0b, #d97706);
