@@ -176,8 +176,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.fixtures = this.storeData.get('soccer');
     this.allMatches = this.fixtures//.fixtures.response;
 
-    console.log(this.allMatches);
-
     if (this.storeData.get('nextDayData')) {
       this.allMatches = [
         ...this.allMatches,

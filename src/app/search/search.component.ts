@@ -56,9 +56,9 @@ export class SearchComponent {
     const term = this.searchText.toLowerCase();
 
     this.filteredItems = this.notStarted.filter((item:any) =>
-      item.fixtures.teams.home.name.toLowerCase().includes(term)||
-      item.fixtures.teams.away.name.toLowerCase().includes(term)||
-      item.fixtures.league.name.toLowerCase().includes(term)
+      item.fixture.teams.home.name.toLowerCase().includes(term)||
+      item.fixture.teams.away.name.toLowerCase().includes(term)||
+      item.fixture.league.name.toLowerCase().includes(term)
       // &&new Date(item.fixture.timestamp*1000) > new Date()
     );
     if (!term) this.filteredItems=[]
