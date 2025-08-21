@@ -15,6 +15,7 @@ import { ForgetPasswordComponent } from "./auth/forget-password/forget-password.
 import { ProfileComponent } from "./profile/profile.component";
 import { InviteRewardsComponent } from "./promotions/invite-rewards/invite-rewards.component";
 import {NotificationsComponent} from './notifications/notifications.component'
+import {PaymentConfirmationComponent} from './payment-confirmation/payment-confirmation.component'
 import { authGuard } from './reuseables/auth/auth.guard';
 
 export const routes: Routes = [
@@ -113,6 +114,13 @@ export const routes: Routes = [
     canActivate: [authGuard]
 
   },
+  {
+    path: 'confirm-payment',
+    component: PaymentConfirmationComponent,
+    title: 'Confirmation',
+    canActivate: [authGuard]
+
+  },
   // AUTH
   {
     path: 'login',
@@ -129,6 +137,7 @@ export const routes: Routes = [
     component: ForgetPasswordComponent,
     title: 'Reset Password'
   },
+
   // 404 fallback
   {
     path: '**',

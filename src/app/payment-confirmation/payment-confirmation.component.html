@@ -1,19 +1,21 @@
-<div class="body-overlay"></div>
+<app-spinner></app-spinner>
 
-<div class="page" data-page="intro-metro">
+<div class="single-page-area">
 
-	<!-- HEADER -->
-	<header class="header header--page header--fixed">
-		<div class="header__inner">
-			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
-			<div class="header__text">{{directory}}</div>
-			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
-      </div>
-    </div>
-	</header>
+        <div class="title-area">
+            <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+            <h3>{{directory}}</h3>
+            <div translate="no" *ngIf="storeData.store['wallet'] as walletData" class="balance">
+              {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+              <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+            </div>
+        </div>
+
+
+        <!-- <div class="container"> -->
 
 	<!-- PAGE CONTENT -->
-	<div class="page__content page__content--with-header">
+	<div class="container">
 
     <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
         <span class="loader"></span>
@@ -25,7 +27,7 @@
       <p></p>
       <div *ngIf="directory==='Withdraw'" class="withdraw">
 
-        <div *ngFor="let tra of transaction;let i = index" class="">
+        <div style="border-radius:15px" *ngFor="let tra of transaction;let i = index" class="bg-dark">
 						<div *ngIf="tra.method!=='EGP'||tra.method==='EGP'&&tra.amount<=5000||username==='admin'">
 								<div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
 		              <div class="row">
@@ -61,7 +63,7 @@
 		              <div class="info-{{i}} hide">
 		                <div class="row">
 		                  <span class="label">Account:</span>
-		                  <span class="value">{{ extraField(tra,'account_number') }} <i (click)="copyContent(extraField(tra,'account_number'),quickMessage)" class="fa fa-copy"></i></span>
+		                  <span class="value">{{ extraField(tra,'account_number') }} <i (click)="copyContent(toast,extraField(tra,'account_number'),'Account number copied')" class="fa fa-copy"></i></span>
 		                </div>
 
 		                <div class="row">
@@ -92,25 +94,25 @@
 
       <div *ngIf="directory==='Deposit'" class="deposit">
 
-        <div *ngFor="let tra of transaction;let i = index" class="">
+        <div style="border-radius:15px"  *ngFor="let tra of transaction;let i = index" class="bg-dark text-white bordered">
 
             <div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
               <div class="row">
-                <span class="label">👨‍💻:</span>
+                <span class="label">👨‍💻User:</span>
                 <span class="value">{{ tra.username }} </span>
               </div>
 							<div class="row">
-                <span class="label">AMOUNT‍:</span>
+                <span class="label">🤑AMOUNT‍:</span>
                 <span class="value">{{tra.method}}{{ tra.amount|number }} </span>
               </div>
 
               <div class="row">
-                <span class="label">Time:</span>
+                <span class="label">⏰Time:</span>
                 <span class="value">{{ timeSince(tra.timestamp) }}</span>
               </div>
 
               <div class="row">
-                <span class="label">Status:</span>
+                <span class="label">📥Status:</span>
                 <span
                   class="value status"
                   [ngClass]="{
@@ -123,9 +125,14 @@
                 </span>
               </div>
 
+							<div class="row">
+                <span class="label">🧾Receipt:</span>
+                <span (click)="openPreview()" class="value button">Open</span>
+              </div>
+
 
               <div class="info-{{i}}">
-                <div class="row">
+                <!-- <div class="row">
                   <span class="label">Senders Name:</span>
                   <span class="value">{{ tra.txref }} </span>
                 </div>
@@ -133,7 +140,7 @@
                 <div class="row">
                   <span class="label">transactionID:</span>
                   <span class="value">{{ tra.transactionID }}</span>
-                </div>
+                </div> -->
 
                 <!-- <div  class="proof details-{{i}}">
                   <img class="proof-image" src="{{tra.file_url}}" alt="tra Proof" />
@@ -145,13 +152,14 @@
                   class="thumbnail"
                   (click)="openPreview()"
                 /> -->
-                <a (click)="openPreview()" class="post__more button button--purple button--ex-small">Receipt</a>
+                <!-- <a (click)="openPreview()" class="btn btn-secondary">Receipt</a> -->
+								<!-- <button style="font-size:10px" (click)="openPreview()" type="button" name="button">Receipt</button> -->
 
 
                 <!-- Modal Overlay -->
                 <div class="modal-backdrop" *ngIf="previewVisible" (click)="closePreview()">
                   <div class="modal-content" (click)="$event.stopPropagation()">
-                    <img [src]="tra.file_url" alt="Full Proof" />
+                    <img [src]="tra.proof" alt="Full Proof" />
                     <button class="close-button" (click)="closePreview()">✖</button>
                   </div>
                 </div>

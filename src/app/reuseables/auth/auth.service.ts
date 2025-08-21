@@ -16,6 +16,7 @@ interface StoredToken {
   providedIn: 'root',
 })
 export class AuthService {
+
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private reqConfirmation = inject(ConfirmationDialogService)
@@ -109,4 +110,5 @@ export class AuthService {
       )
     }
   }
+  
 }

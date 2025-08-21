@@ -44,19 +44,21 @@ export class SearchComponent {
   loadFixtures(){this.reqServerData.get('soccer/').subscribe({next: res => this.filterNotStarted()})}
 
   filterNotStarted(){
+
     this.fixtures=this.storeData.store['soccer']//.fixtures.response
     this.notStarted=this.fixtures.filter((m:any) => {
-      return  new Date(m.fixture.timestamp*1000) > new Date();
+      return  new Date(m.fixture.fixture.timestamp*1000) > new Date();
     });
+
   }
 
   onSearch() {
     const term = this.searchText.toLowerCase();
 
     this.filteredItems = this.notStarted.filter((item:any) =>
-      item.teams.home.name.toLowerCase().includes(term)||
-      item.teams.away.name.toLowerCase().includes(term)||
-      item.league.name.toLowerCase().includes(term)
+      item.fixtures.teams.home.name.toLowerCase().includes(term)||
+      item.fixtures.teams.away.name.toLowerCase().includes(term)||
+      item.fixtures.league.name.toLowerCase().includes(term)
       // &&new Date(item.fixture.timestamp*1000) > new Date()
     );
     if (!term) this.filteredItems=[]

@@ -1,8 +1,8 @@
 .container {
-  max-width: 600px;
+  /* max-width: 600px; */
   margin: 20px auto;
   padding: 24px;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,8 +29,8 @@
 }
 
 .value {
-  color: #333;
-  max-width: 60%;
+  color: #fff;
+  /* max-width: 60%; */
   text-align: right;
 }
 
@@ -150,4 +150,8 @@ button.decline:hover {
 
 .close-button:hover {
   background: #d32f2f;
+}
+
+.page__content.page__content--with-header.mt-10 {
+    margin-top: 3em;
 }

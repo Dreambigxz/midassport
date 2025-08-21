@@ -2,42 +2,41 @@ import { Component, inject, ViewChild, ElementRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 
-import { ApiService } from "../api/api.service";
-import { AuthService } from "../auth/auth.service";
-import { DataService } from "../user/data.service";
+import { RequestDataService } from '../reuseables/http-loader/request-data.service';
+import { StoreDataService } from '../reuseables/http-loader/store-data.service';
+import { SpinnerComponent } from '../reuseables/http-loader/spinner.component';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { timeSince, copyContent, quickMessage } from '../../helper';
-import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
+import { timeSince, copyContent, loadScript } from '../reuseables/helper';
+import { ToastService } from '../reuseables/toast/toast.service';
+import { ConfirmationDialogService } from '../reuseables/modals/confirmation-dialog/confirmation-dialog.service';
+
+// import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
 
 @Component({
   selector: 'app-payment-confirmation',
-  imports: [CommonModule],
+  imports: [CommonModule,SpinnerComponent],
   templateUrl: './payment-confirmation.component.html',
   styleUrl: './payment-confirmation.component.css'
 })
 export class PaymentConfirmationComponent {
 
 
-  constructor(
-
-    private router: Router,
-    private route: ActivatedRoute,
-    public dialog: MatDialog,
-    public quickMessage: quickMessage,
-
-  ) {}
-
   @ViewChild('viewInfo') viewInfo!: ElementRef<HTMLInputElement>;
 
-  history = window.history
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
+  // public dialog: MatDialog
+
+  window = window
   directory = 'confirmation'
   isLoadingContent=false
 
-  serviceData = inject(DataService)
-  apiService = inject(ApiService)
-  authService = inject(AuthService)
+  storeData = inject(StoreDataService)
+  reqServerData = inject(RequestDataService)
+  toast = inject(ToastService)
+  reqConfirmation = inject(ConfirmationDialogService)
 
   configuration ={
     name:{
@@ -50,9 +49,16 @@ export class PaymentConfirmationComponent {
   totalAmountDollar=0
   currencySymbol = ''
 
-  username = (this.serviceData.userData as any).username
+  copyContent = copyContent
+
+  previewVisible = false;
+  timeSince = timeSince
+  transaction:any
+
+  username:any = 'nouser'
 
   ngOnInit():void{
+
     let req_data = this.route.snapshot.queryParamMap.get('page')
     let method = this.route.snapshot.queryParamMap.get('method')
     !req_data?req_data='deposit':0;
@@ -60,57 +66,70 @@ export class PaymentConfirmationComponent {
 
     let url = 'confirmation'+window.location.search
 
-    this.apiService.tokenData(url, this.authService.tokenKey,'get', {})
-    .subscribe(response => {
-      console.log({response});
+      let postUrl = `agent-confirmation?method=${method}`
+      if (req_data){
+        postUrl=postUrl+`&page=${req_data}`
+      }
+      this.reqServerData.get(postUrl)
+      // this.reqServerData.get(`agent-confirmation?method=${method}&page=${req_data}`)
+      .subscribe(response => {
+            console.log({response});
 
-      this.serviceData.update(response)
-      this.username=response.username
-      this.isLoadingContent = false
-      this.directory=response.type
-      this.transaction=response.table
-      this.currencySymbol=response.symbol
-      this.totalAmount=response.total_amount
-      this.totalAmountDollar=response.total_amount_usd
-    }, error=>{
-      this.isLoadingContent = false
-    }
-  )
+            this.isLoadingContent = false
+            this.directory=response.type
+            this.transaction=response.table
+            this.currencySymbol=response.symbol
+            this.totalAmount=response.total_amount
+            this.totalAmountDollar=response.total_amount_usd
+      })
+
+      loadScript('assets/js/main.js');
 
   }
 
-  transaction:any
-
   TransactionHandler(transaction:any,status:any) {
-    console.log({transaction,status});
 
-    const dialogRef = this.dialog.open(SimpleDialogComponent,{data:{message:"Are you sure you want to continue?",header:status, color:status==='success'?'green':'red',confirmation:true},})
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.isLoadingContent=true
-        this.apiService.tokenData('confirmation/', this.authService.tokenKey,'post', {action:status,id:transaction.id})
-        .subscribe(response => {
+    this.reqConfirmation.confirmAction(
+      ()=>{
+        this.reqServerData.post('agent-confirmation/',{action:status,id:transaction.id})
+        .subscribe((response)=>{
+          console.log({response});
+
           this.isLoadingContent=false;
           transaction.status = status;
           this.totalAmount-= transaction.amount
           this.totalAmountDollar -= transaction.init_amount
 
-          let dialogRef = this.dialog.open(SimpleDialogComponent,{data:{message:response.message,header:response.header,color:response.success?'green':'red'}})
-
-        }, error =>{
-          this.isLoadingContent=false
-          if (error.statusText === "Unauthorized") {this.authService.logout()}else{
-            this.dialog.open(SimpleDialogComponent,{
-              data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
-            })
-          }
-        });
-      }
-    });
+        })
+      },
+      status,
+      "Are you sure you want to continue?"
+    )
+    // const dialogRef = this.dialog.open(SimpleDialogComponent,{data:{message:"Are you sure you want to continue?",header:status, color:status==='success'?'green':'red',confirmation:true},})
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     this.isLoadingContent=true
+    //     this.apiService.tokenData('confirmation/', this.authService.tokenKey,'post', {action:status,id:transaction.id})
+    //     .subscribe(response => {
+    //       this.isLoadingContent=false;
+    //       transaction.status = status;
+    //       this.totalAmount-= transaction.amount
+    //       this.totalAmountDollar -= transaction.init_amount
+    //
+    //       let dialogRef = this.dialog.open(SimpleDialogComponent,{data:{message:response.message,header:response.header,color:response.success?'green':'red'}})
+    //
+    //     }, error =>{
+    //       this.isLoadingContent=false
+    //       if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+    //         this.dialog.open(SimpleDialogComponent,{
+    //           data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+    //         })
+    //       }
+    //     });
+    //   }
+    // });
 
   }
-
-  timeSince = timeSince
 
   openDetails(tra:any,cls:any){
     let element=document.querySelector('.'+cls[0])
@@ -125,17 +144,13 @@ export class PaymentConfirmationComponent {
 
   extraField(tra:any,type:any){
 
-    let  data = JSON.parse(tra.extraField)
+    let  data = tra.extraField//xJSON.parse(tra.extraField)
     if (type==='bank'){
       return data[type].text
     }
 
     return data[type]
   }
-
-  copyContent = copyContent
-
-  previewVisible = false;
 
   openPreview() {
     this.previewVisible = true;

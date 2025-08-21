@@ -21,7 +21,7 @@ export class FormHandlerService {
             if (callback) callback(res);
           }),
           catchError((err) => {
-            this.toast.show(err)
+            this.toast.show("Error timeout! please try again.")
             return of(null);
           })
         )

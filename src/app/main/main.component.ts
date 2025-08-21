@@ -60,6 +60,8 @@ export class MainComponent implements OnInit, OnDestroy {
   telegramBonusModalActive = false
   installPromptEvent: any;
 
+  bonusAmount: number = 3;
+
   installApp(device:any) {
 
     if (device==="IOS") {
@@ -211,29 +213,17 @@ export class MainComponent implements OnInit, OnDestroy {
     sortedData['upcoming'] = sortedData['notStarted'].slice(0, 10);
 
     Object.keys(this.categorizedMatchesData).forEach(k => {
-      // this.loadData[k] = {
-      //   displayedItems: [],
-      //   batchSize: 6,
-      //   currentIndex: 0,
-      //   data: sortedData[k]
-      // };
+
       this.loadData[k] = {
         displayedItems: sortedData[k].slice(0, this.batchSize),
         batchSize: this.batchSize,
         currentIndex: this.batchSize,
         data: sortedData[k]
       };
-
-      // this.categorizedMatchesData[k as MatchCategory].data = sortedData[k];
-      // this.categorizedMatchesData[k as MatchCategory].display =
-      //   sortedData[k].slice(0, this.batchSize);
-
       this.categorizedMatchesData[k as MatchCategory].data = sortedData[k];
         this.categorizedMatchesData[k as MatchCategory].display =
           this.loadData[k].displayedItems;
     });
-
-    console.log('DONE SETTING', this.categorizedMatchesData, new Date());
 
     if (!this.categorizedMatchesData.notStarted.data.length) {
       this.nextDayData();
@@ -269,13 +259,6 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  // displat BONUS OFFER
-  // @ViewChild('canvasContainer', { static: false }) canvasContainer!: ElementRef;
-  //  animatedAmount: number = 0;
-   bonusAmount: number = 3;
-   // private animationFrame: any;
-   // private modalInstance: any;
 
    // Programmatic open
    openModal(modalID:string|"telegramBonusModal") {
@@ -328,7 +311,6 @@ export class MainComponent implements OnInit, OnDestroy {
 }
 
   // handling Loadore Matches><
-
   loadMore(category: MatchCategory) {
     const state = this.loadData[category];
     const nextIndex = state.currentIndex + state.batchSize;
