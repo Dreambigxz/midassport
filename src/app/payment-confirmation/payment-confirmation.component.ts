@@ -25,7 +25,7 @@ export class PaymentConfirmationComponent {
 
   @ViewChild('viewInfo') viewInfo!: ElementRef<HTMLInputElement>;
 
-  private router = inject(Router)
+  public router = inject(Router)
   private route = inject(ActivatedRoute)
   // public dialog: MatDialog
 

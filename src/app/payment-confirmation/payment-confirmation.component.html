@@ -5,9 +5,9 @@
         <div class="title-area">
             <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
             <h3>{{directory}}</h3>
-            <div translate="no" *ngIf="storeData.store['wallet'] as walletData" class="balance">
-              {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
-              <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+            <div  (click)="router.navigate(['mainn'])" class="records balance">
+              Dashboard <i class="fa fa-home"></i>
+
             </div>
         </div>
 
