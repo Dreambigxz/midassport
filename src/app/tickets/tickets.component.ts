@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 
 import { RouterLink, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-tickets',
   imports: [
@@ -84,6 +85,7 @@ export class TicketsComponent {
     }
   }
 
+  activeTab : string = "running"
   ngOnInit(): void {
       loadScript('assets/js/main.js');
 
@@ -94,7 +96,12 @@ export class TicketsComponent {
 
       if (!this.storeData.get('betDir')||!this.storeData.get('betDir').ticket) {
         this.reqServerData.get('bet/?showSpinner').subscribe({
-          next: res => this.categorizeTicket()
+
+          next: res => {
+            console.log(res);
+
+            this.categorizeTicket()
+          }
         })
       }
       else{
@@ -108,6 +115,8 @@ export class TicketsComponent {
     if (this.storeData.get('betDir')['records']) {Object.keys(this.storeData.get('betDir')['records']).forEach(k => {this.records[k as recordskey] = {...this.records[k as recordskey],...this.storeData.get('betDir')['records'][k]}})}
 
     this.ticket = this.storeData.get('betDir')['ticket']
+    console.log('ticket>>', this.ticket);
+
     Object.keys(this.categorizeTicketData).forEach((k:any) => {
       this.categorizeTicketData[k as TicketCategory]=this.ticket?.filter((t:any) => {
         return  t.status === k;

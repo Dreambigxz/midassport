@@ -76,23 +76,23 @@
 
             <div class="sports-slider slider-nav">
 
-                <div class="sports-slider-item">
+                <div (click)="activeTab = 'running'" class="sports-slider-item">
                   <i class="fa fa-circle me-2"></i> Running
 
                 </div>
-                <div class="sports-slider-item">
+                <div (click)="activeTab = 'won'" class="sports-slider-item">
                     Won
                 </div>
-                <div class="sports-slider-item">
+                <div (click)="activeTab = 'loss'" class="sports-slider-item">
                      Loss
                 </div>
-                <div  class="sports-slider-item">
+                <div (click)="activeTab = 'canc'"  class="sports-slider-item">
                     Cancel
                 </div>
 
             </div>
 
-            <div class="date-filter container">
+              <div class="date-filter container">
                 <label>
                   From:
                   <input type="date" [(ngModel)]="dateFrom" />
@@ -106,7 +106,10 @@
               </div>
 
               <div class="sports-slider-wrap slider-for">
-                    <div style="display:none" id="running__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content  active">
+
+                <!-- Secured Matches -->
+                <div *ngIf="activeTab === 'running'" class="slider-content">
+                    <div  id="running__matches" *ngIf="storeData.store['wallet'] as walletData" >
                       <div *ngIf="categorizeTicketData.open?.length > 0; else noData">
                         <div *ngFor="let ticket of categorizeTicketData.open" class="bet-slip-card mt-4">
                             <!-- <span>{{ticket.start_date|date}}</span> -->
@@ -161,9 +164,11 @@
                         </div>
                       </ng-template>
                     </div>
+                </div>
 
+                  <div *ngIf="activeTab === 'won'" class="slider-content">
                     <!-- won tickets -->
-                    <div style="display:none" id="won__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content">
+                    <div  id="won__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content">
 
                       <div *ngIf="categorizeTicketData.won?.length > 0; else noData">
                         <div *ngFor="let ticket of categorizeTicketData.won" class="bet-slip-card mt-4">
@@ -209,97 +214,103 @@
                         </div>
                       </ng-template>
                     </div>
+                  </div>
 
-                    <!-- los tickets -->
-                    <div style="display:none" id="loss__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content">
+                    <!-- loss tickets -->
+                    <div *ngIf="activeTab === 'loss'" class="slider-content">
 
-                      <div *ngIf="categorizeTicketData.loss?.length > 0; else noData">
-                        <div *ngFor="let ticket of categorizeTicketData.loss" class="bet-slip-card mt-4">
-                            <!-- <span>{{ticket.start_date|date}}</span> -->
-                            <div class="">
+                      <div  id="loss__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content">
 
-                            </div>
-                            <p>#{{ticket.ticket_id}}</p>
-                            <div class="m-header flex">
-                              <h6 class="title league">{{ticket.fixture[0].league.name}}</h6>
+                        <div *ngIf="categorizeTicketData.loss?.length > 0; else noData">
+                          <div *ngFor="let ticket of categorizeTicketData.loss" class="bet-slip-card mt-4">
+                              <!-- <span>{{ticket.start_date|date}}</span> -->
+                              <div class="">
 
-                              <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
-                            </div>
-                            <ul class="bet-result">
-                              <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
-                              <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
-                              <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
-                                <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
-                            </ul>
-
-                            <div *ngIf="activeTicket===ticket.ticket_id" class="team-info">
-                              <div *ngFor="let fixture of ticket.fixture" class="single-product-wrap">
-                                  <div class="details">
-                                      <div class="thumb"><img src="{{fixture.teams.home.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.home.name}}</h6></div>
-                                      <div class="betting-wrap">
-                                        <h2><span class="{{parseInt(fixture.goals.home)>parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.home}}</span> : <span class="{{parseInt(fixture.goals.home)<parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.away}}</span></h2>
-                                      </div>
-                                      <div class="thumb"><img src="{{fixture.teams.away.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.away.name}}</h6></div>
-                                  </div>
                               </div>
-                            </div>
+                              <p>#{{ticket.ticket_id}}</p>
+                              <div class="m-header flex">
+                                <h6 class="title league">{{ticket.fixture[0].league.name}}</h6>
 
-                            <span (click)="activeTicket=ticket.ticket_id" *ngIf="activeTicket!==ticket.ticket_id" class="btn btn-outline-dark btn-sm ng-tns-c880506055-0">Show Score ▼</span>
+                                <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
+                              </div>
+                              <ul class="bet-result">
+                                <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
+                                <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
+                                <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
+                                  <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
+                              </ul>
 
-                            <button class="status"> 🔴</button>
+                              <div *ngIf="activeTicket===ticket.ticket_id" class="team-info">
+                                <div *ngFor="let fixture of ticket.fixture" class="single-product-wrap">
+                                    <div class="details">
+                                        <div class="thumb"><img src="{{fixture.teams.home.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.home.name}}</h6></div>
+                                        <div class="betting-wrap">
+                                          <h2><span class="{{parseInt(fixture.goals.home)>parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.home}}</span> : <span class="{{parseInt(fixture.goals.home)<parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.away}}</span></h2>
+                                        </div>
+                                        <div class="thumb"><img src="{{fixture.teams.away.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.away.name}}</h6></div>
+                                    </div>
+                                </div>
+                              </div>
 
+                              <span (click)="activeTicket=ticket.ticket_id" *ngIf="activeTicket!==ticket.ticket_id" class="btn btn-outline-dark btn-sm ng-tns-c880506055-0">Show Score ▼</span>
+
+                              <button class="status"> 🔴</button>
+
+                          </div>
                         </div>
+                        <ng-template #noData>
+                          <div class="empty-div">
+                            No data available.
+                          </div>
+                        </ng-template>
+
                       </div>
-                      <ng-template #noData>
-                        <div class="empty-div">
-                          No data available.
-                        </div>
-                      </ng-template>
-
                     </div>
 
-                    <div style="display:none" id="cancel__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content">
+                    <div *ngIf="activeTab === 'canc'" class="slider-content">
+                      <div  id="cancel__matches" *ngIf="storeData.store['wallet'] as walletData"  class="slider-content">
 
-                      <div *ngIf="categorizeTicketData.postponed?.length > 0; else noData">
-                        <div *ngFor="let ticket of categorizeTicketData.postponed" class="bet-slip-card mt-4">
+                        <div *ngIf="categorizeTicketData.postponed?.length > 0; else noData">
+                          <div *ngFor="let ticket of categorizeTicketData.postponed" class="bet-slip-card mt-4">
 
-                            <p>#{{ticket.ticket_id}}</p>
-                            <div class="m-header flex">
-                              <h6 class="title league">{{ticket.fixture[0].league.name}}</h6>
+                              <p>#{{ticket.ticket_id}}</p>
+                              <div class="m-header flex">
+                                <h6 class="title league">{{ticket.fixture[0].league.name}}</h6>
 
-                              <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
-                            </div>
-                            <ul class="bet-result">
-                              <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
-                              <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
-                              <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
-                                <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
-                            </ul>
-
-                            <div *ngIf="activeTicket===ticket.ticket_id" class="team-info">
-                              <div *ngFor="let fixture of ticket.fixture" class="single-product-wrap">
-                                  <div class="details">
-                                      <div class="thumb"><img src="{{fixture.teams.home.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.home.name}}</h6></div>
-                                      <div class="betting-wrap">
-                                        <h2><span class="{{parseInt(fixture.goals.home)>parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.home}}</span> : <span class="{{parseInt(fixture.goals.home)<parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.away}}</span></h2>
-                                      </div>
-                                      <div class="thumb"><img src="{{fixture.teams.away.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.away.name}}</h6></div>
-                                  </div>
+                                <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
                               </div>
-                            </div>
+                              <ul class="bet-result">
+                                <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
+                                <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
+                                <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
+                                  <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
+                              </ul>
 
-                            <span (click)="activeTicket=ticket.ticket_id" *ngIf="activeTicket!==ticket.ticket_id" class="btn btn-outline-dark btn-sm ng-tns-c880506055-0">Show Score ▼</span>
+                              <div *ngIf="activeTicket===ticket.ticket_id" class="team-info">
+                                <div *ngFor="let fixture of ticket.fixture" class="single-product-wrap">
+                                    <div class="details">
+                                        <div class="thumb"><img src="{{fixture.teams.home.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.home.name}}</h6></div>
+                                        <div class="betting-wrap">
+                                          <h2><span class="{{parseInt(fixture.goals.home)>parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.home}}</span> : <span class="{{parseInt(fixture.goals.home)<parseInt(fixture.goals.away)?'team-won':''}}">{{fixture.goals.away}}</span></h2>
+                                        </div>
+                                        <div class="thumb"><img src="{{fixture.teams.away.logo}}" alt="img"><h6 class="team-name">{{fixture.teams.away.name}}</h6></div>
+                                    </div>
+                                </div>
+                              </div>
 
-                            <button class="status">⚫️</button>
+                              <span (click)="activeTicket=ticket.ticket_id" *ngIf="activeTicket!==ticket.ticket_id" class="btn btn-outline-dark btn-sm ng-tns-c880506055-0">Show Score ▼</span>
 
+                              <button class="status">⚫️</button>
+
+                          </div>
                         </div>
+                        <ng-template #noData>
+                          <div class="empty-div">
+                            No data available.
+                          </div>
+                        </ng-template>
+
                       </div>
-                      <ng-template #noData>
-                        <div class="empty-div">
-                          No data available.
-                        </div>
-                      </ng-template>
-
                     </div>
 
             </div>
