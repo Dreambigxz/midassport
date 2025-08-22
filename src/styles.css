@@ -277,7 +277,6 @@ span.vip {
 /* ring animation */
 .bell-ring {
   display: inline-block;
-  /* font-size: 24px;            /* tweak size as needed */ */
   transform-origin: top center;
   animation: ring 1.2s ease-in-out infinite;
 }
