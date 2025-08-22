@@ -96,13 +96,8 @@ export class TicketsComponent {
 
       if (!this.storeData.get('betDir')||!this.storeData.get('betDir').ticket) {
         this.reqServerData.get('bet/?showSpinner').subscribe({
-
-          next: res => {
-            console.log(res);
-
-            this.categorizeTicket()
-          }
-        })
+          next: res => this.categorizeTicket()
+      })
       }
       else{
         this.categorizeTicket()
@@ -115,7 +110,6 @@ export class TicketsComponent {
     if (this.storeData.get('betDir')['records']) {Object.keys(this.storeData.get('betDir')['records']).forEach(k => {this.records[k as recordskey] = {...this.records[k as recordskey],...this.storeData.get('betDir')['records'][k]}})}
 
     this.ticket = this.storeData.get('betDir')['ticket']
-    console.log('ticket>>', this.ticket);
 
     Object.keys(this.categorizeTicketData).forEach((k:any) => {
       this.categorizeTicketData[k as TicketCategory]=this.ticket?.filter((t:any) => {
