@@ -31,7 +31,7 @@
 
       <div class="btn-wrap">
         <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
-        <a [routerLink]="['/notifications']" class="icon-btn">
+        <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">
           <i class="ri-notification-3-line"></i>
           <span class="badge">{{storeData.store['unreadNotification']}}</span>
         </a>

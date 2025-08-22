@@ -268,3 +268,53 @@ span.vip {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.icon-btn{
+  font-size: 16px;
+}
+
+/* bell ring */
+/* ring animation */
+.bell-ring {
+  display: inline-block;
+  /* font-size: 24px;            /* tweak size as needed */ */
+  transform-origin: top center;
+  animation: ring 1.2s ease-in-out infinite;
+}
+
+/* subtle unread dot (optional) */
+.badge-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #ff3b30;
+  box-shadow: 0 0 0 2px #fff; /* outline to separate from background */
+}
+
+/* pause when user hovers */
+button:hover .bell-ring {
+  animation-play-state: paused;
+}
+
+/* keyframes */
+@keyframes ring {
+  0%   { transform: rotate(0); }
+  10%  { transform: rotate(15deg); }
+  20%  { transform: rotate(-13deg); }
+  30%  { transform: rotate(11deg); }
+  40%  { transform: rotate(-9deg); }
+  50%  { transform: rotate(7deg); }
+  60%  { transform: rotate(-5deg); }
+  70%  { transform: rotate(3deg); }
+  80%  { transform: rotate(-2deg); }
+  90%  { transform: rotate(1deg); }
+  100% { transform: rotate(0); }
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .bell-ring { animation: none; }
+}
