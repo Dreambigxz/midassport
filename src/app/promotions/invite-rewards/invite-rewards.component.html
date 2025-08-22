@@ -23,10 +23,10 @@
 
                       <br>
                       <div class="d-flex">
-                            <h6>Current Level</h6> - <h6 translate="no" class="text-green">{{storeData.store['invite-rewards'].level}}</h6>
+                            <h6>Current Level</h6> - <h6 translate="no" class="text-green">{{storeData.store['invite-rewards']?.level}}</h6>
                         </div>
                       <div class="d-flex">
-                            <h6>Total Invited</h6> - <h6 translate="no" class="text-green">{{storeData.store['invite-rewards'].total_invites}}</h6>
+                            <h6>Total Invited</h6> - <h6 translate="no" class="text-green">{{storeData.store['invite-rewards']?.total_invites}}</h6>
                         </div>
 
 
@@ -92,8 +92,8 @@
                           </div>
                       </div>
                   </div>
-                  <ng-container *ngIf="storeData.store['invite-rewards']['earning_history'].length;else noData">
-                    <ul *ngFor="let tx of storeData.store['invite-rewards']['earning_history']" class="transaction-list">
+                  <ng-container *ngIf="storeData.store['invite-rewards']?.earning_history.length;else noData">
+                    <ul *ngFor="let tx of storeData.store['invite-rewards']?.earning_history" class="transaction-list">
                         <li class="deposit">
                             <button class="icon" data-bs-toggle="modal" data-bs-target="#deposit-modal"><i class="ri-arrow-right-up-line"></i></button>
                             <div class="details">

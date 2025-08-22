@@ -323,7 +323,10 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   hasMore(category: MatchCategory) {
+
     const state = this.loadData[category];
+    if (!state) return false;   // safeguard
+
     return state.currentIndex < state.data.length;
   }
 
