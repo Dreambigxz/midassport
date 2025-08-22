@@ -171,11 +171,16 @@
             $(this).addClass('onboard-btn-active');
         });
 
-        $('.sports-slider-item').click(function (e) {
-          let id = this.innerText.trim().toLowerCase().split(' ')[0]+'__matches'
-          $('.slider-content.active').removeClass('active');
-          $('.slider-content#'+id).addClass('active');
-        })
+        // $('.sports-slider-item').click(function (e) {
+        //   let id = this.innerText.trim().toLowerCase().split(' ')[0]+'__matches'
+        //   console.log({id});
+        //   let active = document.querySelector(".slider-content.active")
+        //   console.log(active);
+        //   // active?.remove('active')
+        //   $('.slider-content.active').removeClass('active');
+        //
+        //   $('.slider-content#'+id).addClass('active');
+        // })
 
         /* -------------------------------------------------------------
             carousels js

@@ -62,6 +62,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   bonusAmount: number = 3;
 
+  activeTab: string = 'secured'; // default active tab
+
   installApp(device:any) {
 
     if (device==="IOS") {
@@ -186,12 +188,14 @@ export class MainComponent implements OnInit, OnDestroy {
     const now = new Date();
     const sortedData: { [key: string]: any } = {
       secured: [],
-      notStarted: this.allMatches.filter((m: any) =>
-        new Date(m.fixture.fixture.timestamp * 1000) > now
-      ),
+      notStarted: this.allMatches
+      .filter((m: any) => new Date(m.fixture.fixture.timestamp * 1000) > now)
+      .sort((a: any, b: any) => a.fixture.fixture.timestamp - b.fixture.fixture.timestamp),
+
       live: this.allMatches.filter((m: any) =>
-        // ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short) ||
-        m.fixture.goals.home !==  null && m.fixture.fixture.status.short !== 'FT'
+        ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short) 
+        // m.fixture.goals.home !==  null && m.fixture.fixture.status.short !== 'FT'
+         // new Date(m.fixture.fixture.timestamp * 1000) < now && m.fixture.fixture.status.short !== 'FT'
       ),
       finished: this.allMatches.filter((m: any) =>
         m.fixture.fixture.status.short === 'FT'

@@ -1,7 +1,7 @@
 let checkInterval = null;
 let userToken = null;
 let vapidPublicKey = null;
-baseUrl = "https://fbapp01-125e9985037c.herokuapp.com/api";
+baseUrl = "https://midassport-7dcbdba7377b.herokuapp.com/api";
 
 async function fetchApi(url,method,body) {
   console.log('FETCHING<<>>', {url,method,body});

@@ -110,19 +110,19 @@
       <h6 class="mb-3">⚽️ Market</h6>
 
       <div class="sports-slider slider-nav">
-        <div class="sports-slider-item" (click)="activeTab = 'secured'">
-          <i class="fa fa-lock me-2"></i> Secured
+        <div class="sports-slider-item">
+          <i class="fa fa-lock me-2" style="color: transparent;"></i> Secured
         </div>
-        <!-- <div class="sports-slider-item" (click)="activeTab = 'upcoming'">
-          <i class="fa fa-circle me-2"></i> Upcoming
-        </div> -->
-        <div class="sports-slider-item" (click)="activeTab = 'notStarted'">
+        <div class="sports-slider-item upcomingTab">
+          <i class="fa fa-circle me-2" style="color: transparent;"></i> Upcoming
+        </div>
+        <div class="sports-slider-item">
           <i class="fa fa-circle me-2" style="color: #ffa63d;"></i> Events
         </div>
-        <div class="sports-slider-item" (click)="activeTab = 'live'">
+        <div class="sports-slider-item">
           <i class="fa fa-circle me-2" style="color: green;"></i> Live Now
         </div>
-        <div class="sports-slider-item" (click)="activeTab = 'finished'">
+        <div class="sports-slider-item">
           <i class="fa fa-circle me-2" style="color: #999;"></i> Finished
         </div>
       </div>
@@ -130,167 +130,119 @@
       <div class="sports-slider-wrap slider-for">
 
         <!-- Secured Matches -->
-        <div *ngIf="activeTab === 'secured'" class="slider-content">
-
-            <div
-              id="secured__matches"
-              class="slider-content"
-            >
-              <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
-                <div *ngFor="let m of categorizedMatchesData.secured['display']" class="single-product-wrap">
-                  <h6 class="title">{{ m.fixture.league.name }}</h6>
-                  <div class="details">
-                    <div class="thumb">
-                      <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
-                      <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
-                    </div>
-                    <div class="betting-wrap">
-                      <div class="time">
-                        <i class="fa fa-circle"></i>
-                        {{ setTime(m.fixture.fixture.timestamp) }}
-                      </div>
-                      <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
-                    </div>
-                    <div class="thumb">
-                      <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
-                      <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
-                    </div>
-                  </div>
+        <div
+          id="secured__matches"
+          class="slider-content"
+          style="display:none"
+        >
+          <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
+            <div *ngFor="let m of categorizedMatchesData.secured['display']" class="single-product-wrap">
+              <h6 class="title">{{ m.fixture.league.name }}</h6>
+              <div class="details">
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
                 </div>
-              </ng-container>
-              <ng-template #noSecured>
-                <div class="no-data">No data found</div>
-              </ng-template>
+                <div class="betting-wrap">
+                  <div class="time">
+                    <i class="fa fa-circle"></i>
+                    {{ setTime(m.fixture.fixture.timestamp) }}
+                  </div>
+                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                </div>
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                </div>
+              </div>
             </div>
+          </ng-container>
+          <ng-template #noSecured>
+            <div class="no-data">No data found</div>
+          </ng-template>
         </div>
 
         <!-- Upcoming Matches -->
-        <div *ngIf="activeTab === 'upcoming'" class="slider-content">
-
-          <div
-            id="upcoming__matches"
-            class="slider-content"
-          >
-            <div *ngFor="let m of categorizedMatchesData.upcoming['display']" class="single-product-wrap">
-              <h6 class="title">{{ m.fixture.league.name }}</h6>
-              <div class="details">
-                <div class="thumb">
-                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
-                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+        <div
+          id="upcoming__matches"
+          class="slider-content"
+          style="display:none"
+        >
+          <div *ngFor="let m of categorizedMatchesData.upcoming['display']" class="single-product-wrap">
+            <h6 class="title">{{ m.fixture.league.name }}</h6>
+            <div class="details">
+              <div class="thumb">
+                <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+              </div>
+              <div class="betting-wrap">
+                <div class="time">
+                  <i class="fa fa-circle"></i>
+                  {{ setTime(m.fixture.fixture.timestamp) }}
                 </div>
-                <div class="betting-wrap">
-                  <div class="time">
-                    <i class="fa fa-circle"></i>
-                    {{ setTime(m.fixture.fixture.timestamp) }}
-                  </div>
-                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
-                </div>
-                <div class="thumb">
-                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
-                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
-                </div>
+                <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+              </div>
+              <div class="thumb">
+                <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
               </div>
             </div>
-            <button
-              *ngIf="hasMore('upcoming')"
-              (click)="loadMore('upcoming')"
-              class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
-            >
-              Load More
-            </button>
           </div>
+          <button
+            *ngIf="hasMore('upcoming')"
+            (click)="loadMore('upcoming')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
         </div>
-        <!-- Events Matches -->
-        <div *ngIf="activeTab === 'notStarted'" class="slider-content">
 
-          <div
-            id="events__matches"
-            class="slider-content"
-          >
-            <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
-              <h6 class="title">{{ m.fixture.league.name }}</h6>
-              <div class="details">
-                <div class="thumb">
-                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
-                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+        <!-- Events Matches -->
+
+        <div
+          id="events__matches"
+          class="slider-content"
+          style="display:none"
+        >
+          <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
+            <h6 class="title">{{ m.fixture.league.name }}</h6>
+            <div class="details">
+              <div class="thumb">
+                <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+              </div>
+              <div class="betting-wrap">
+                <div class="time">
+                  <i class="fa fa-circle"></i>
+                  {{ setTime(m.fixture.fixture.timestamp) }}
                 </div>
-                <div class="betting-wrap">
-                  <div class="time">
-                    <i class="fa fa-circle"></i>
-                    {{ setTime(m.fixture.fixture.timestamp) }}
-                  </div>
-                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
-                </div>
-                <div class="thumb">
-                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
-                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
-                </div>
+                <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+              </div>
+              <div class="thumb">
+                <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
               </div>
             </div>
-
-            <button
-              *ngIf="hasMore('notStarted')"
-              (click)="loadMore('notStarted')"
-              class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
-            >
-              Load More
-            </button>
           </div>
+
+          <button
+            *ngIf="hasMore('notStarted')"
+            (click)="loadMore('notStarted')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
         </div>
 
         <!-- Live Matches -->
-        <div *ngIf="activeTab === 'live'" class="slider-content">
-            <div
-              id="live__matches"
-              class="slider-content active"
-            >
-              <ng-container *ngIf="categorizedMatchesData.live['display'].length; else Live">
-                <div *ngFor="let m of categorizedMatchesData.live['display']" class="single-product-wrap">
-                  <h6 class="title">{{ m.fixture.league.name }}</h6>
-                  <div class="details">
-                    <div class="thumb">
-                      <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
-                      <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
-                    </div>
-                    <div class="betting-wrap">
-                      <h2>
-                        <span [class.team-won]="parseInt(m.fixture.goals.home) > parseInt(m.fixture.goals.away)">{{ m.fixture.goals.home }}</span> :
-                        <span [class.team-won]="parseInt(m.fixture.goals.home) < parseInt(m.fixture.goals.away)">{{ m.fixture.goals.away }}</span>
-                      </h2>
-                      <div class="time">
-                        <i class="fa fa-circle"></i>
-                        {{ m.fixture.fixture.status.elapsed }}
-                      </div>
-                    </div>
-                    <div class="thumb">
-                      <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
-                      <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-template #Live>
-                <div class="no-data">No data found</div>
-              </ng-template>
-              <button
-                *ngIf="hasMore('live')"
-                (click)="loadMore('live')"
-                class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
-              >
-                Load More
-              </button>
-
-            </div>
-        </div>
-
-        <div *ngIf="activeTab === 'finished'" class="slider-content">
-
-          <!-- Finished Matches -->
-          <div
-            id="finished__matches"
-            class="slider-content"
-          >
-            <div *ngFor="let m of categorizedMatchesData.finished['display']" class="single-product-wrap">
+        <!--           style="display:none"
+         -->
+        <div
+          id="live__matches"
+          class="slider-content active"
+        >
+          <ng-container *ngIf="categorizedMatchesData.live['display'].length; else Live">
+            <div *ngFor="let m of categorizedMatchesData.live['display']" class="single-product-wrap">
               <h6 class="title">{{ m.fixture.league.name }}</h6>
               <div class="details">
                 <div class="thumb">
@@ -302,6 +254,10 @@
                     <span [class.team-won]="parseInt(m.fixture.goals.home) > parseInt(m.fixture.goals.away)">{{ m.fixture.goals.home }}</span> :
                     <span [class.team-won]="parseInt(m.fixture.goals.home) < parseInt(m.fixture.goals.away)">{{ m.fixture.goals.away }}</span>
                   </h2>
+                  <div class="time">
+                    <i class="fa fa-circle"></i>
+                    {{ m.fixture.fixture.status.elapsed }}
+                  </div>
                 </div>
                 <div class="thumb">
                   <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
@@ -309,14 +265,52 @@
                 </div>
               </div>
             </div>
-            <button
-              *ngIf="hasMore('finished')"
-              (click)="loadMore('finished')"
-              class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
-            >
-              Load More
-            </button>
+          </ng-container>
+          <ng-template #Live>
+            <div class="no-data">No data found</div>
+          </ng-template>
+          <button
+            *ngIf="hasMore('live')"
+            (click)="loadMore('live')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
+
+        </div>
+
+        <!-- Finished Matches -->
+        <div
+          id="finished__matches"
+          class="slider-content"
+          style="display:none"
+        >
+          <div *ngFor="let m of categorizedMatchesData.finished['display']" class="single-product-wrap">
+            <h6 class="title">{{ m.fixture.league.name }}</h6>
+            <div class="details">
+              <div class="thumb">
+                <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+              </div>
+              <div class="betting-wrap">
+                <h2>
+                  <span [class.team-won]="parseInt(m.fixture.goals.home) > parseInt(m.fixture.goals.away)">{{ m.fixture.goals.home }}</span> :
+                  <span [class.team-won]="parseInt(m.fixture.goals.home) < parseInt(m.fixture.goals.away)">{{ m.fixture.goals.away }}</span>
+                </h2>
+              </div>
+              <div class="thumb">
+                <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+              </div>
+            </div>
           </div>
+          <button
+            *ngIf="hasMore('finished')"
+            (click)="loadMore('finished')"
+            class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+          >
+            Load More
+          </button>
         </div>
 
       </div>
