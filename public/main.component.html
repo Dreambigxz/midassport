@@ -1,0 +1,418 @@
+<app-spinner></app-spinner>
+<app-telegram-bonus></app-telegram-bonus>
+
+<div class="container">
+
+  <div class="main-home-area">
+
+    <!-- Profile Area -->
+    <div *ngIf="storeData.store['wallet'] as walletData" class="profile-area">
+      <div class="media">
+        <div class="flex">
+          <div class="thumb" (click)="router.navigate(['profile'])">
+            <img src="assets/img/comment/my-profile.png" alt="Profile Image" style="width:40px!important" />
+          </div>
+          <br>
+          <span
+            class="vip">VIP {{ walletData.vip }}
+          </span>
+
+        </div>
+
+        <div  class="media-body">
+          <span class="profile-name">Hello, {{ storeData['store']['username'] }}</span>
+          <div translate="no" class="balance">
+            {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }}
+            <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="btn-wrap">
+        <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
+        <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">
+          <i class="ri-notification-3-line"></i>
+          <span class="badge">{{storeData.store['unreadNotification']}}</span>
+        </a>
+      </div>
+
+
+    </div>
+
+
+
+
+    <!-- Banner Slider -->
+    <div class="banner-slider owl-carousel pd-top-110 mb-4">
+      <div class="item"><img src="assets/img/banner/1.png" alt="Banner 1" /></div>
+      <div class="item"><img src="assets/img/banner/2.png" alt="Banner 2" /></div>
+      <div class="item"><img src="assets/img/banner/3.png" alt="Banner 3" /></div>
+    </div>
+
+
+    <!-- Quick Navigation -->
+    <div class="icon-grid">
+      <div class="icon-item" (click)="router.navigate(['wallet', 'deposit'])">
+        <div class="icon-circle deposit"><i class="fas fa-wallet"></i></div>
+        <div class="label">Deposit</div>
+      </div>
+      <div class="icon-item" (click)="router.navigate(['wallet', 'withdraw'])">
+        <div class="icon-circle withdraw"><i class="fas fa-hand-holding-usd"></i></div>
+        <div class="label">Withdraw</div>
+      </div>
+      <div class="icon-item" (click)="router.navigate(['wallet', 'transactions'])">
+        <div class="icon-circle transactions"><i class="fas fa-exchange-alt"></i></div>
+        <div class="label">Transactions</div>
+      </div>
+      <div class="icon-item" (click)="router.navigate(['invite-rewards'])">
+        <div class="icon-circle gift"><i class="fas fa-gift"></i></div>
+        <div class="label">Rewards</div>
+      </div>
+      <a class="icon-item" [href]="storeData.store['telegramHelp']" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle help"><i class="fas fa-question-circle"></i></div>
+        <div class="label">Help</div>
+      </a>
+      <a class="icon-item" [href]="storeData.store['telegramChannel']" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle telegram"><i class="fab fa-telegram-plane"></i></div>
+        <div class="label">Telegram</div>
+      </a>
+      <div
+        class="icon-item"
+        [class.in-active]="!storeData.store['can_download_app']&&!storeData.store['installIOS']"
+        (click)="installApp(storeData.store['device'])"
+      >
+        <div class="icon-circle app"><i class="fas fa-mobile-alt"></i></div>
+        <div class="label">App</div>
+      </div>
+      <div class="icon-item" (click)="authService.logout(false)">
+        <div class="icon-circle logout"><i class="fas fa-power-off"></i></div>
+        <div class="label">Logout</div>
+      </div>
+    </div>
+
+
+    <!-- <div *ngIf="storeData.store['wallet'] as walletData" class="p-6 text-center">
+
+      <div
+        class="inline-block px-6 py-3 rounded-2xl shadow-md font-semibold"
+        [ngClass]="{
+          'bg-gray-300 text-gray-700': walletData.vip === 0,
+          'bg-yellow-500 text-white': walletData.vip > 0
+        }"
+      >
+        <span *ngIf="walletData.vip === 0">No VIP</span>
+        <span *ngIf="walletData.vip > 0">VIP {{ walletData.vip }}</span>
+      </div>
+    </div> -->
+    <!-- Sports Market -->
+    <div class="sports-wrap mt-4">
+      <h6 class="mb-3">⚽️ Market</h6>
+
+      <div class="sports-slider slider-nav">
+        <div class="sports-slider-item" (click)="activeTab = 'secured'">
+          <i class="fa fa-lock me-2"></i> Secured
+        </div>
+        <!-- <div class="sports-slider-item" (click)="activeTab = 'upcoming'">
+          <i class="fa fa-circle me-2"></i> Upcoming
+        </div> -->
+        <div class="sports-slider-item notStarted" (click)="activeTab = 'notStarted'">
+          <i class="fa fa-circle me-2" style="color: #ffa63d;"></i> Events
+        </div>
+        <div class="sports-slider-item" (click)="activeTab = 'live'">
+          <i class="fa fa-circle me-2" style="color: green;"></i> Live Now
+        </div>
+        <div class="sports-slider-item" (click)="activeTab = 'finished'">
+          <i class="fa fa-circle me-2" style="color: #999;"></i> Finished
+        </div>
+      </div>
+
+      <div class="sports-slider-wrap slider-for">
+
+        <!-- Secured Matches -->
+        <div *ngIf="activeTab === 'secured'" class="slider-content">
+
+            <div
+              id="secured__matches"
+              class="slider-content"
+            >
+              <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
+                <div *ngFor="let m of categorizedMatchesData.secured['display']" class="single-product-wrap">
+                  <h6 class="title">{{ m.fixture.league.name }}</h6>
+                  <div class="details">
+                    <div class="thumb">
+                      <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                      <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+                    </div>
+                    <div class="betting-wrap">
+                      <div class="time">
+                        <i class="fa fa-circle"></i>
+                        {{ setTime(m.fixture.fixture.timestamp) }}
+                      </div>
+                      <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                    </div>
+                    <div class="thumb">
+                      <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                      <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noSecured>
+                <div class="no-data">No data found</div>
+              </ng-template>
+            </div>
+        </div>
+
+        <!-- Upcoming Matches -->
+        <div *ngIf="activeTab === 'upcoming'" class="slider-content">
+
+          <div
+            id="upcoming__matches"
+            class="slider-content"
+          >
+            <div *ngFor="let m of categorizedMatchesData.upcoming['display']" class="single-product-wrap">
+              <h6 class="title">{{ m.fixture.league.name }}</h6>
+              <div class="details">
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+                </div>
+                <div class="betting-wrap">
+                  <div class="time">
+                    <i class="fa fa-circle"></i>
+                    {{ setTime(m.fixture.fixture.timestamp) }}
+                  </div>
+                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                </div>
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                </div>
+              </div>
+            </div>
+            <button
+              *ngIf="hasMore('upcoming')"
+              (click)="loadMore('upcoming')"
+              class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+            >
+              Load More
+            </button>
+          </div>
+        </div>
+        <!-- Events Matches -->
+        <div *ngIf="activeTab === 'notStarted'" class="slider-content">
+
+          <div
+            id="events__matches"
+            class="slider-content"
+          >
+            <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
+              <h6 class="title">{{ m.fixture.league.name }}</h6>
+              <div class="details">
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+                </div>
+                <div class="betting-wrap">
+                  <div class="time">
+                    <i class="fa fa-circle"></i>
+                    {{ setTime(m.fixture.fixture.timestamp) }}
+                  </div>
+                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                </div>
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                </div>
+              </div>
+            </div>
+
+            <button
+              *ngIf="hasMore('notStarted')"
+              (click)="loadMore('notStarted')"
+              class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+            >
+              Load More
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Matches -->
+        <div *ngIf="activeTab === 'live'" class="slider-content">
+            <div
+              id="live__matches"
+              class="slider-content active"
+            >
+              <ng-container *ngIf="categorizedMatchesData.live['display'].length; else Live">
+                <div *ngFor="let m of categorizedMatchesData.live['display']" class="single-product-wrap">
+                  <h6 class="title">{{ m.fixture.league.name }}</h6>
+                  <div class="details">
+                    <div class="thumb">
+                      <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                      <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+                    </div>
+                    <div class="betting-wrap">
+                      <h2>
+                        <span [class.team-won]="parseInt(m.fixture.goals.home) > parseInt(m.fixture.goals.away)">{{ m.fixture.goals.home }}</span> :
+                        <span [class.team-won]="parseInt(m.fixture.goals.home) < parseInt(m.fixture.goals.away)">{{ m.fixture.goals.away }}</span>
+                      </h2>
+                      <div class="time">
+                        <i class="fa fa-circle"></i>
+                        {{ m.fixture.fixture.status.elapsed }}
+                      </div>
+                    </div>
+                    <div class="thumb">
+                      <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                      <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #Live>
+                <div class="no-data">No data found</div>
+              </ng-template>
+              <button
+                *ngIf="hasMore('live')"
+                (click)="loadMore('live')"
+                class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+              >
+                Load More
+              </button>
+
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'finished'" class="slider-content">
+
+          <!-- Finished Matches -->
+          <div
+            id="finished__matches"
+            class="slider-content"
+          >
+            <div *ngFor="let m of categorizedMatchesData.finished['display']" class="single-product-wrap">
+              <h6 class="title">{{ m.fixture.league.name }}</h6>
+              <div class="details">
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+                </div>
+                <div class="betting-wrap">
+                  <h2>
+                    <span [class.team-won]="parseInt(m.fixture.goals.home) > parseInt(m.fixture.goals.away)">{{ m.fixture.goals.home }}</span> :
+                    <span [class.team-won]="parseInt(m.fixture.goals.home) < parseInt(m.fixture.goals.away)">{{ m.fixture.goals.away }}</span>
+                  </h2>
+                </div>
+                <div class="thumb">
+                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                </div>
+              </div>
+            </div>
+            <button
+              *ngIf="hasMore('finished')"
+              (click)="loadMore('finished')"
+              class="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 load-more"
+            >
+              Load More
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer Navigation -->
+    <div class="main-footer-bottom d-block text-center">
+      <ul>
+        <li>
+          <a [routerLink]="['/main']" [class.active]="current === 'main'">
+            <img src="assets/img/icon/svg/home.svg" alt="Home Icon" /> Home
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/tickets']" class="menu-bar" [class.active]="current === 'ticket'">
+            <img src="assets/img/icon/svg/ticket.svg" alt="Ticket Icon" /> Tickets
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/promotions']" [class.active]="current === 'promotions'">
+            <img src="assets/img/icon/svg/document.svg" alt="Promotion Icon" /> Promotion
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/profile']" [class.active]="current === 'profile'">
+            <img src="assets/img/icon/svg/profile.svg" alt="Profile Icon" /> Me
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Bonus Modal -->
+  <div
+    *ngIf="storeData.store['wallet'] as walletData"
+    class="modal fade"
+    id="bonusModal"
+    tabindex="-1"
+    aria-labelledby="bonusModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4 text-center">
+        <h2 id="bonusModalLabel">🎉 Congratulations!</h2>
+        <p>You got a sign-up bonus</p>
+
+        <!-- 3D Animation Canvas -->
+        <div #canvasContainer class="canvas-container mx-auto"></div>
+
+        <!-- Animated Amount -->
+        <h1 class="text-success fw-bold mt-3 bonus-text">
+          $ {{ walletData.settings.sign_up_bonus }}
+        </h1>
+
+        <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ios install guide odal -->
+<div class="modal fade" id="iosPwaModal" tabindex="-1" aria-labelledby="iosPwaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold" id="iosPwaModalLabel">Installation Guide</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>To install this app on your iPhone or iPad:</p>
+        <ol>
+          <li>
+            <small class="text-warning">On Safari browser? </small>
+            Tap the <strong>Share</strong> button
+            <span class="d-inline-block align-middle">📤</span> at the bottom
+            <br>
+            <small class="text-warning">On Chrome browser? </small>
+            Tap the <strong>Share</strong> button
+            <span class="d-inline-block align-middle">📤</span> at the top of the search bar
+          </li>
+          <li>
+            Scroll down and tap <strong>Add to Home Screen</strong>.
+          </li>
+          <li>
+            Tap <strong>Add</strong> in the top right corner.
+          </li>
+        </ol>
+        <p class="text-muted small">
+          Once added, you can launch it like a regular app from your home screen.
+        </p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
