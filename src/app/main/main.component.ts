@@ -193,7 +193,7 @@ export class MainComponent implements OnInit, OnDestroy {
       .sort((a: any, b: any) => a.fixture.fixture.timestamp - b.fixture.fixture.timestamp),
 
       live: this.allMatches.filter((m: any) =>
-        ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short) 
+        ['HT', '2H', '1H'].includes(m.fixture.fixture.status.short)
         // m.fixture.goals.home !==  null && m.fixture.fixture.status.short !== 'FT'
          // new Date(m.fixture.fixture.timestamp * 1000) < now && m.fixture.fixture.status.short !== 'FT'
       ),
@@ -234,10 +234,11 @@ export class MainComponent implements OnInit, OnDestroy {
       // 👇 ADD THIS: Switch to "Upcoming" if Secured is empty
     if (!this.categorizedMatchesData.secured.data.length) {
       setTimeout(() => {
-        const upcomingTab = document.querySelector('.sports-slider-item.upcomingTab') as HTMLElement;
+        const notStarted = document.querySelector('.sports-slider-item.notStarted') as HTMLElement;
 
-        if (upcomingTab) {
-          upcomingTab.click();
+        if (notStarted) {
+          this.activeTab='notStarted'
+          notStarted.click();
         }
       }, 1000); // wait a bit for DOM ready
     }

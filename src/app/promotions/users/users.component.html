@@ -50,7 +50,7 @@
                                 <tbody *ngIf="storeData.store['promotionLevel_'+diretory] as tables">
                                     <tr *ngFor="let table of tables">
                                         <th scope="row">{{table.referred_user}}</th>
-                                        <td class="text-success">${{table.amount|number:(table.amount < 0.01 ? '1.4-4' : '1.2-2')}}</td>
+                                        <td class="text-success">${{table.amount|number:(table.amount < 0.01 ? '1.5-5' : '1.2-2')}}</td>
                                         <td>{{table.type}}</td>
                                         <td class="text-date">{{table.created_at|date:'mediumDate'}}</td>
                                     </tr>
