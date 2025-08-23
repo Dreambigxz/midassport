@@ -40,10 +40,16 @@ export class PromotionsComponent {
     }else{this.makeRefLink()}
   }
 
-  makeRefLink(){
-      const RefCode = this.storeData.get('refDir')['RefCode']
-      this.refLink = window.location.host+'/register?RefCode='+RefCode
+  // makeRefLink(){
+  //     const RefCode = this.storeData.get('refDir')['RefCode']
+  //     this.refLink = window.location.host+'/register?RefCode='+RefCode
+  // }
+
+  makeRefLink() {
+    const RefCode = this.storeData.get('refDir')['RefCode'];
+    this.refLink = `${window.location.origin}/register?RefCode=${RefCode}`;
   }
+
 
   copyRefCode(){
     copyContent(this.toast,this.refLink,'Invite link copied!',)
