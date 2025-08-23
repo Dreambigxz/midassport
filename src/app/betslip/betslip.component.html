@@ -157,3 +157,32 @@
         </div>
 
 </div>
+
+<!-- copy booking link modal -->
+<div class="modal fade" id="bookingLinkmodal" tabindex="-1" aria-labelledby="bookingLinkmodalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold" id="bookingLinkmodalLabel">Game Link</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="invite-wrap">
+
+          <p>Copy game link</p>
+
+          <div class="input-wrap">
+              <input type="text" class="form-control" placeholder="{{booking_link}}">
+              <button (click)="copyContent(toast,booking_link,'Link copied')"  type="button" class="btn-clipboard"><svg class="svg-inline--fa fa-clone fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="clone" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 0H144c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h320c26.51 0 48-21.49 48-48v-48h48c26.51 0 48-21.49 48-48V48c0-26.51-21.49-48-48-48zM362 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h42v224c0 26.51 21.49 48 48 48h224v42a6 6 0 0 1-6 6zm96-96H150a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h308a6 6 0 0 1 6 6v308a6 6 0 0 1-6 6z"></path></svg><!-- <i class="far fa-clone"></i> Font Awesome fontawesome.com --></button>
+          </div>
+
+        </div>
+      </div>
+      <!-- <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>

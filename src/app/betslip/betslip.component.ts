@@ -13,6 +13,7 @@ import { ConfirmationDialogService } from '../reuseables/modals/confirmation-dia
 import {  loadScript , copyContent} from '../reuseables/helper';
 
 import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
+import { Modal } from 'bootstrap';
 
 
 import {
@@ -60,6 +61,8 @@ export class BetslipComponent {
   startDate:any
   totalProfit:any = 0
 
+  copyContent=copyContent
+
   toggleDiv(name:DivControlKey) {
     this.divControlers[name] = !this.divControlers[name];
   }
@@ -73,26 +76,37 @@ export class BetslipComponent {
       this.fixtures = [...this.fixtures, ...this.storeData.store['nextDayData'] ]
       // this.fixtures.odds = {...this.fixtures.odds, ...this.storeData.store['nextDayData'].odds }
     }
-    this.route.paramMap.subscribe(params => {
       if (!this.fixtures) {
         this.reqServerData.get('soccer/?showSpinner').subscribe({
           next:res=>{
             this.fixtures=this.storeData.store['soccer']
-            this.setData(params.get('id'))
+            this.setData()
           }
         });
       }else{
-        this.setData(params.get('id'))
+        this.setData()
       }
-    });
   }
 
-  setData(id:any){
-    id=parseInt(id);this.fixtureID=id
+  setData(){
+
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!)
+
+    const [secured] =  this.storeData.get('company_games').filter(
+      (m: any) => m.fixtureID == id
+    )//this.route.snapshot.queryParamMap.get('secured')
+
+    // id=parseInt(id);
+    this.fixtureID=id
     const [fixture]= this.fixtures.filter((m:any)=>m.fixture.fixture.id===id)
     this.predictionRows =fixture.odds//['odds'][id]
     this.fixture=fixture
     this.divControlers.showPredictionBoard=true
+
+    if (secured) {
+      // setSecured properties
+      this.onCellClick(secured.data)
+    }
   }
 
   setTime(timestamp:any){
@@ -106,6 +120,7 @@ export class BetslipComponent {
   predictionRows:any =[]
   selectedScore:any
   stakeAmount:any = 0
+  booking_link:any = ''
 
 
   onRowClick(row: any[],index:number) {}
@@ -143,21 +158,13 @@ export class BetslipComponent {
     this.reqConfirmation.confirmAction(()=>{
       this.reqServerData.post('bet/?showSpinner',{...slipData,processor}).subscribe({
         next:res=>{
-          // save new bet to betsDB
-          // if ('serviceWorker' in navigator && res.status === "success") {
-          //   navigator.serviceWorker.ready.then(registration => {
-          //     const bets = res.main.betDir.ticket.filter((bet: any) =>
-          //       bet.status === 'open'
-          //     )
-          //
-          //     // Send bets to the active SW
-          //     if (registration.active) {
-          //       registration.active.postMessage({ type: 'UPDATE_BETS', bets });
-          //     }
-          //   });
-          // }
-        }
-      });
+          if (processor.includes('book')) {
+              this.booking_link = `${window.location.origin}/betslip/${this.fixtureID}`
+              console.log(this.booking_link);
+              this.openModal("bookingLinkmodal")
+          }
+      }
+    })
     },'Confirm', `Continue ${processor.split('_')[0].replace('e','')}ing bet with ${this.storeData.get('wallet')['base']['symbol']}${slipData.stakeAmount} ?`)
 
   }
@@ -177,5 +184,15 @@ export class BetslipComponent {
     this.stakeAmount = (this.storeData.get('wallet')?.balance?.new)?.toFixed(3) || 0;
     this.setProfit()
   }
+
+  // Programmatic open
+  openModal(modalID:string|"bookingLinkmodal") {
+    const modalEl = document.getElementById(modalID);
+    if (modalEl) {
+      new Modal(modalEl).show();
+    }
+
+  }
+
 
 }
