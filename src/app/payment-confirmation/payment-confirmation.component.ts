@@ -49,7 +49,7 @@ export class PaymentConfirmationComponent {
   totalAmountDollar=0
   currencySymbol = ''
 
-  copyContent = copyContent
+  // openDetails = copyContent
 
   previewVisible = false;
   timeSince = timeSince
@@ -158,6 +158,12 @@ export class PaymentConfirmationComponent {
 
   closePreview() {
     this.previewVisible = false;
+  }
+
+  copyContent(text:any,message:any){
+    console.log('COPY CONTENT CLIKED');
+
+    copyContent(this.toast,text,message)
   }
 
 }

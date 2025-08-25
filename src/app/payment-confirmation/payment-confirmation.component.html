@@ -28,7 +28,7 @@
       <div *ngIf="directory==='Withdraw'" class="withdraw">
 
         <div style="border-radius:15px" *ngFor="let tra of transaction;let i = index" class="bg-dark">
-						<div *ngIf="tra.method!=='EGP'||tra.method==='EGP'&&tra.amount<=5000||username==='admin'">
+						<!-- <div *ngIf="tra.method!=='EGP'||tra.method==='EGP'&&tra.amount<=5000||username==='admin'"> -->
 								<div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
 		              <div class="row">
 		                <span class="label">👨‍💻:</span>
@@ -61,9 +61,9 @@
 
 
 		              <div class="info-{{i}} hide">
-		                <div class="row">
+		                <div (click)="copyContent(extraField(tra,'account_number'),'Account number copied')" class="row">
 		                  <span class="label">Account:</span>
-		                  <span class="value">{{ extraField(tra,'account_number') }} <i (click)="copyContent(toast,extraField(tra,'account_number'),'Account number copied')" class="fa fa-copy"></i></span>
+		                  <span class="value">{{ extraField(tra,'account_number') }} <i  class="fa fa-copy"></i></span>
 		                </div>
 
 		                <div class="row">
@@ -86,7 +86,7 @@
 		                <!-- <img class="proof-image" [src]="tra.proofImageUrl" alt="tra Proof" /> -->
 		              </div>
 		          </div>
-						</div>
+						<!-- </div> -->
 
         </div>
 
