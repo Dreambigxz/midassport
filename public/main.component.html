@@ -149,7 +149,10 @@
                         <i class="fa fa-circle"></i>
                         {{ setTime(m.fixture.fixture.timestamp) }}
                       </div>
-                      <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                      <div class="">
+                        VS
+                      </div>
+                      <!-- <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
                     </div>
                     <div class="thumb">
                       <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
@@ -219,7 +222,11 @@
                     <i class="fa fa-circle"></i>
                     {{ setTime(m.fixture.fixture.timestamp) }}
                   </div>
-                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+
+                  <div class="">
+                    VS
+                  </div>
+                  <!-- <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
                 </div>
                 <div class="thumb">
                   <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />

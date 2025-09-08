@@ -108,12 +108,12 @@ select {
 .logo-bounce {
   width: 120px; /* adjust size */
   height: auto;
-  /* animation: bounceIn 1.5s ease; */
+  /* animation: bounce 1.5s ease; */
   animation: bounceIn 1.5s infinite ease-in-out;
 
 }
 
-@keyframes bounceIn {
+@keyframes bounce {
   0% {
     transform: scale(0.3) translateY(-200px);
     opacity: 0;
@@ -316,4 +316,19 @@ button:hover .bell-ring {
 /* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .bell-ring { animation: none; }
+}
+
+span.vs-title {
+  font-size: 2em;
+  margin-right: auto;
+  font-family: "Great Vibes", "Brush Script MT", "Segoe Script", cursive;
+
+  /* gradient text */
+  background: linear-gradient(90deg, #ff7eb3, #ff758c, #ffce00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* for Firefox */
+  background-clip: text;
+  color: transparent;
 }

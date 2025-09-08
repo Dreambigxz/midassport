@@ -140,9 +140,9 @@ export class MainComponent implements OnInit, OnDestroy {
     if (this.isPolling) return; // avoid duplicate intervals
     this.isPolling = true;
 
-    this.intervalId = setInterval(() => {
-      this.loadFixtures("hideSpinner");
-    }, 60000);
+    // this.intervalId = setInterval(() => {
+    //   this.loadFixtures("hideSpinner");
+    // }, 60000);
 
     if (!this.storeData.get('soccer')) {
       this.loadFixtures();

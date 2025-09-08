@@ -5,8 +5,18 @@
 
   <div class="main-home-area">
 
+
     <!-- Profile Area -->
     <div *ngIf="storeData.store['wallet'] as walletData" class="profile-area">
+
+      <div class="btn-wrap">
+        <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
+        <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">
+          <i class="ri-notification-3-line"></i>
+          <span class="badge">{{storeData.store['unreadNotification']}}</span>
+        </a>
+      </div>
+
       <div class="media">
         <div class="flex">
           <div class="thumb" (click)="router.navigate(['profile'])">
@@ -21,21 +31,22 @@
 
         <div  class="media-body">
           <span class="profile-name">Hello, {{ storeData['store']['username'] }}</span>
-          <div translate="no" class="balance">
-            {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }}
+          <div translate="no" class="balance title">
+            <h6>            {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }}</h6>
             <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span>
           </div>
 
         </div>
       </div>
 
-      <div class="btn-wrap">
+
+      <!-- <div class="btn-wrap">
         <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
         <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">
           <i class="ri-notification-3-line"></i>
           <span class="badge">{{storeData.store['unreadNotification']}}</span>
         </a>
-      </div>
+      </div> -->
 
 
     </div>
@@ -44,10 +55,10 @@
 
 
     <!-- Banner Slider -->
-    <div class="banner-slider owl-carousel pd-top-110 mb-4">
-      <div class="item"><img src="assets/img/banner/1.png" alt="Banner 1" /></div>
-      <div class="item"><img src="assets/img/banner/2.png" alt="Banner 2" /></div>
-      <div class="item"><img src="assets/img/banner/3.png" alt="Banner 3" /></div>
+    <div class="banner-slider owl-carousel pd-top-110 mb-4 mmt-10">
+      <div class="item"><img src="assets/img/banner/1.jpeg" alt="Banner 1" /></div>
+      <div class="item"><img src="assets/img/banner/2.jpeg" alt="Banner 2" /></div>
+      <div class="item"><img src="assets/img/banner/3.jpeg" alt="Banner 3" /></div>
     </div>
 
 
@@ -139,17 +150,19 @@
               <ng-container *ngIf="categorizedMatchesData.secured['display'].length; else noSecured">
                 <div *ngFor="let m of categorizedMatchesData.secured['display']" class="single-product-wrap">
                   <h6 class="title">{{ m.fixture.league.name }}</h6>
-                  <div class="details">
+                  <div (click)="router.navigate(['/betslip', m.fixture.fixture.id])" class="details">
                     <div class="thumb">
                       <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
                       <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
                     </div>
                     <div class="betting-wrap">
+                      <span class="vs-title">VS</span>
+
                       <div class="time">
                         <i class="fa fa-circle"></i>
                         {{ setTime(m.fixture.fixture.timestamp) }}
                       </div>
-                      <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                      <!-- <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
                     </div>
                     <div class="thumb">
                       <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
@@ -209,17 +222,20 @@
           >
             <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
               <h6 class="title">{{ m.fixture.league.name }}</h6>
-              <div class="details">
+              <div (click)="router.navigate(['/betslip', m.fixture.fixture.id])" class="details">
                 <div class="thumb">
                   <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
                   <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
                 </div>
                 <div class="betting-wrap">
+
+                  <span class="vs-title">VS</span>
+
                   <div class="time">
                     <i class="fa fa-circle"></i>
                     {{ setTime(m.fixture.fixture.timestamp) }}
                   </div>
-                  <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a>
+                  <!-- <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
                 </div>
                 <div class="thumb">
                   <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
