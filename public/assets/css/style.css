@@ -5171,7 +5171,7 @@ ul {
   color: #b1184b;
 }
 .main-footer-bottom ul li a.active img, .main-footer-bottom ul li a:hover img {
-  filter: none;
+  filter: sepia(1);
 }
 
 /*dark area************/
@@ -5181,13 +5181,13 @@ body.dark {
   --white-color: #032928;
   --paragraph-color: #BDBDBE;
   --border-color: rgba(255, 255, 255, 0.10);
-  background: #191818;
+  background: #032928;
 }
 body.dark .bg-main {
-  background: #191818;
+  background: #032928;
 }
 body.dark .demo-feature {
-  background: #191818;
+  background: #032928;
 }
 body.dark .demo-feature .demo-feature-wrap {
   border: 1px solid #3c3473;
@@ -5202,7 +5202,7 @@ body.dark .phoneWrapper .mobile-mockup2 {
   filter: brightness(9);
 }
 body.dark .or-border span {
-  background: #191818;
+  background: #032928;
 }
 body.dark .back-page-btn {
   background: #021e1d;
