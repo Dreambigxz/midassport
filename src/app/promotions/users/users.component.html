@@ -1,12 +1,12 @@
 <app-spinner></app-spinner>
 
-<div class="single-page-area">
+<div *ngIf="storeData.store['wallet'] as walletData" class="single-page-area">
 
         <div class="title-area">
             <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
             <h3>Users {{diretory}}</h3>
-            <div translate="no" *ngIf="storeData.store['wallet'] as walletData" class="balance">
-              {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+            <div translate="no"  class="balance">
+              {{walletData['init_currency']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
               <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
             </div>
         </div>
@@ -28,7 +28,7 @@
                             <tbody *ngIf="storeData.store['promotionLevel_'+diretory] as tables">
                                 <tr *ngFor="let table of tables">
                                     <th scope="row">{{table.user}}</th>
-                                    <td class="text-danger">$0</td>
+                                    <td class="text-danger">{{walletData['init_currency']['symbol']}}0</td>
                                     <td class="text-date">{{table.created_at|date:'mediumDate'}}</td>
                                 </tr>
 
@@ -50,7 +50,7 @@
                                 <tbody *ngIf="storeData.store['promotionLevel_'+diretory] as tables">
                                     <tr *ngFor="let table of tables">
                                         <th scope="row">{{table.referred_user}}</th>
-                                        <td class="text-success">${{table.amount|number:(table.amount < 0.01 ? '1.5-5' : '1.2-2')}}</td>
+                                        <td class="text-success">{{walletData['init_currency']['symbol']}}{{currencyConverter(table.amount)|number:(table.amount < 0.01 ? '1.5-5' : '1.2-2')}}</td>
                                         <td>{{table.type}}</td>
                                         <td class="text-date">{{table.created_at|date:'mediumDate'}}</td>
                                     </tr>

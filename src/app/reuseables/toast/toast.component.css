@@ -1,3 +1,4 @@
+
 .custom-toast {
   display: flex;
   align-items: center;
@@ -9,6 +10,9 @@
   font-size: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   top: 100%; left: 0 ;
+
+  background: transparent !important; // remove Angular Material bg
+  box-shadow: none !important;
 
 
   .icon {

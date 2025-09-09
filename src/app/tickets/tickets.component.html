@@ -6,8 +6,8 @@
             <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
             <h3>Tickets</h3>
             <div translate="no" *ngIf="storeData.store['wallet'] as walletData" class="balance">
-              {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
-              <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+              {{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['balance']['new'])|number:'1.1-1'}}
+              <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
             </div>
         </div>
 
@@ -26,12 +26,12 @@
                                 <div class="card-details">
                                     <div class="date secure"><i class="fa fa-lock"></i> Secured</div>
                                     <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
-                                    <div class="blog-meta">
+                                    <div *ngIf="storeData.store['wallet'] as walletData"  class="blog-meta">
                                       <div class="">
-                                        <span class="title">won</span>:<span class="count">{{records.true.won.count}}</span>/<span class="amount">${{records.true.won.amount|number:'1.1-1'}}</span>
+                                        <span class="title">won</span>:<span class="count">{{records.true.won.count}}</span>/<small class="amount">{{walletData['init_currency']['symbol']}}{{currencyConverter(records.true.won.amount)|number:'1.1-1'}}</small>
                                       </div>
                                       <div class="">
-                                        <span class="title">loss</span>:<span class="count">{{records.true.loss.count}}</span>/<span class="amount">${{records.true.loss.amount|number:'1.1-1'}}</span>
+                                        <span class="title">loss</span>:<span class="count">{{records.true.loss.count}}</span>/<small class="amount">{{walletData['init_currency']['symbol']}}{{currencyConverter(records.true.loss.amount)|number:'1.1-1'}}</small>
                                       </div>
                                     </div>
                                 </div>
@@ -43,14 +43,14 @@
                                 <div class="card-details">
                                     <div class="date risk"><i class="fa fa-unlock"></i> Risk</div>
 
-                                    <div class="blog-meta">
+                                    <div *ngIf="storeData.store['wallet'] as walletData"  class="blog-meta">
                                       <div class="">
-                                        <span class="title">won</span>:<span class="count">{{records.false.won.count}}</span>/<span class="amount">${{records.false.won.amount|number:'1.1-1'}}</span>
+                                        <span class="title">won</span>:<span class="count">{{records.false.won.count}}</span>/<small class="amount">{{walletData['init_currency']['symbol']}}{{currencyConverter(records.false.won.amount)|number:'1.1-1'}}</small>
 
                                       </div>
                                       <!-- <br> -->
                                       <div class="">
-                                        <span class="title">loss</span>:<span class="count">{{records.false.loss.count}}</span>/<span class="amount">${{records.false.loss.amount|number:'1.1-1'}}</span>
+                                        <span class="title">loss</span>:<span class="count">{{records.false.loss.count}}</span>/<small class="amount">{{walletData['init_currency']['symbol']}}{{currencyConverter(records.false.loss.amount)|number:'1.1-1'}}</small>
 
                                       </div>
                                     </div>
@@ -107,7 +107,7 @@
 
               <div class="sports-slider-wrap slider-for">
 
-                <!-- Secured Matches -->
+                <!-- running Matches -->
                 <div *ngIf="activeTab === 'running'" class="slider-content">
                     <div  id="running__matches" *ngIf="storeData.store['wallet'] as walletData" >
                       <div *ngIf="categorizeTicketData.open?.length > 0; else noData">
@@ -120,8 +120,8 @@
                               <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
                             </div>
                             <ul class="bet-result">
-                              <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
-                                  <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
+                              <li>🛄Stake:<span translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(ticket.stake_amount)|number:'1.1-1'}}</span></li>
+                                  <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['init_currency']['symbol']}}{{currencyConverter(PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status))|number:'1.1-1'}}</span></li>
                               <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
                                 <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
                             </ul>

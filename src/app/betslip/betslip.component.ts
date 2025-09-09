@@ -51,7 +51,6 @@ export class BetslipComponent {
   toast = inject(ToastService)
   reqConfirmation = inject(ConfirmationDialogService)
 
-
   fixtures=this.storeData.store['soccer']
   fixture:any
   fixtureID:any;
@@ -194,5 +193,9 @@ export class BetslipComponent {
 
   }
 
+  currencyConverter(amount:any){
+    const payment_method = this.storeData.get('wallet').init_currency
+    return amount * payment_method.rate
+  }
 
 }

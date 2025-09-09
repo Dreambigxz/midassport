@@ -1,6 +1,7 @@
 <app-spinner></app-spinner>
 <app-telegram-bonus></app-telegram-bonus>
 
+<!-- 032928 -->
 <div class="container">
 
   <div class="main-home-area">
@@ -32,7 +33,10 @@
         <div  class="media-body">
           <span class="profile-name">Hello, {{ storeData['store']['username'] }}</span>
           <div translate="no" class="balance title">
-            <h6>            {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }}</h6>
+            <h6>
+              <!-- {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }} -->
+              {{ walletData['init_currency']['symbol'] }}{{ currencyConverter(walletData['balance']['new']) | number: '1.2-2' }}
+            </h6>
             <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span>
           </div>
 

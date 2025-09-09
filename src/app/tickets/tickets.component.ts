@@ -181,4 +181,9 @@ export class TicketsComponent {
 
   }
 
+  currencyConverter(amount:any){
+    const payment_method = this.storeData.get('wallet').init_currency
+    return amount * payment_method.rate
+  }
+
 }

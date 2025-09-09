@@ -5,8 +5,9 @@
             <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
             <h3>Bet slip</h3>
             <div translate="no" class="balance">
-              {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:"1.2-2"}}
-              <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span></div>
+              {{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['balance']['new'])|number:"1.2-2"}}
+              <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
+            </div>
         </div>
 
 
@@ -90,14 +91,14 @@
                   <ul class="bet-result">
                       <li>⚽️Score: <span>{{selectedScore.value}}</span></li>
                       <li>♻️Profit: <span>{{selectedScore.odds}}</span></li>
-                      <li>💹Total Return: <span translate="no" class="total-return">{{walletData['base']['symbol']}}<span>{{totalProfit|number}}</span></span></li>
+                      <li>💹Total Return: <span translate="no" class="total-return">{{walletData['init_currency']['symbol']}}<span>{{totalProfit|number}}</span></span></li>
                   </ul>
                   <!-- <button><i class="ri-close-line"></i></button> -->
               </div>
                 <div class="amount-wrap">
                   <div class="title-wrap">
                       <h6>Amount To Play</h6>
-                      <span translate="no">{{walletData['base']['symbol']}}{{storeData.store['bet_settings']?.minimum}} - {{storeData.store['bet_settings']?.maximum|number}} </span>
+                      <span translate="no">{{walletData['init_currency']['symbol']}}{{storeData.store['bet_settings']?.minimum}} - {{storeData.store['bet_settings']?.maximum|number}} </span>
                   </div>
 
 

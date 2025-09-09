@@ -25,6 +25,7 @@ type MatchCategory = 'upcoming' | 'notStarted' | 'live' | 'finished' | 'secured'
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
+
 export class MainComponent implements OnInit, OnDestroy {
 
   reqServerData = inject(RequestDataService);
@@ -162,6 +163,8 @@ export class MainComponent implements OnInit, OnDestroy {
   loadFixtures(showSpinner="showSpinner") {
     this.reqServerData.get(`soccer/?${showSpinner}`).subscribe({
       next: res => {
+        console.log({res});
+
         this.categorizeMatches();
         setTimeout(() => {
           !this.storeData.store['joined']?[this.openModal("telegramBonusModal"),this.telegramBonusModalActive=true]:0;
@@ -333,6 +336,13 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!state) return false;   // safeguard
 
     return state.currentIndex < state.data.length;
+  }
+
+  // currency convereter
+
+  currencyConverter(amount:any){
+    const payment_method = this.storeData.get('wallet').init_currency
+    return amount * payment_method.rate
   }
 
 

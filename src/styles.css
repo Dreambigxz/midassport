@@ -332,3 +332,7 @@ span.vs-title {
   background-clip: text;
   color: transparent;
 }
+
+.mdc-snackbar__surface.mat-mdc-snackbar-surface {
+    background: #032928 !important;
+}

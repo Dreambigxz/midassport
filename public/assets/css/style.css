@@ -1042,7 +1042,7 @@ ul {
   left: 0;
   top: 0;
   z-index: 999999999999;
-  background: var(--bs-dark);
+  background: #032928;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   width: 100%;
@@ -1051,6 +1051,14 @@ ul {
   transition: all 0.4s ease-in;
   align-items: center;
   justify-content: center;
+
+  /* background-image: url("https://wallpapercave.com/wp/wp6374451.jpg") !important; */
+  background-image: url("https://wallpapercave.com/wp/wp5449203.jpg") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  isolation: isolate;
+  background-attachment: fixed !important;
+
 }
 .preloader-inner .cancel-preloader {
   position: absolute;
@@ -1071,6 +1079,13 @@ ul {
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   transition: all 0.4s ease;
+}
+.preloader-inner::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8); /* Change opacity here */
+  z-index: -1;
 }
 .preloader-inner .cancel-preloader a:hover {
   background-color: var(--heading-color);
@@ -3446,7 +3461,7 @@ ul {
 .single-page-area .title-area {
   display: flex;
   background: var(--white-color, #fff);
-  border-radius: 0px 0px 30px 30px;
+  /* border-radius: 0px 0px 30px 30px; */
   box-shadow: 0px -12px 24px 0px rgba(0, 0, 0, 0.08);
   padding: 50px 20px 30px;
   align-items: center;
@@ -5214,7 +5229,7 @@ body.dark .single-input-wrap label {
   filter: brightness(1.3);
 }
 body.dark .single-input-wrap input {
-  background: #032928;
+  background: #03292896;
   color: var(--heading-color);
 }
 body.dark .single-input-wrap input::placeholder {
