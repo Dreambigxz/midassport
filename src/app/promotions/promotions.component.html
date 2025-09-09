@@ -6,7 +6,7 @@
       <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
       <h3>Promotions</h3>
       <div translate="no" *ngIf="storeData.store['wallet'] as walletData" class="balance">
-        {{walletData['init_currency']['symbol']}}{{walletData['balance']['new']|number:'1.1-1'}}
+        {{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['balance']['new'])|number:'1.1-1'}}
         <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
       </div>
   </div>

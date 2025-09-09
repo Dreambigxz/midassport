@@ -53,5 +53,10 @@ export class InviteRewardsComponent {
     return Math.min(progress, 100);
   }
 
+  currencyConverter(amount:any){
+    const payment_method = this.storeData.get('wallet').init_currency
+    return amount * payment_method.rate
+  }
+
 
 }

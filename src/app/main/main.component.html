@@ -33,11 +33,13 @@
         <div  class="media-body">
           <span class="profile-name">Hello, {{ storeData['store']['username'] }}</span>
           <div translate="no" class="balance title">
-            <h6>
+            <h6 class="main-balance mt-12">
+
+
               <!-- {{ walletData['base']['symbol'] }}{{ walletData['balance']['new'] | number: '1.2-2' }} -->
               {{ walletData['init_currency']['symbol'] }}{{ currencyConverter(walletData['balance']['new']) | number: '1.2-2' }}
             </h6>
-            <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span>
+            <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="Dollar Icon" /></span> -->
           </div>
 
         </div>
@@ -389,7 +391,7 @@
 
         <!-- Animated Amount -->
         <h1 class="text-success fw-bold mt-3 bonus-text">
-          $ {{ walletData.settings.sign_up_bonus }}
+          {{ walletData['init_currency']['symbol'] }}{{ currencyConverter(walletData.settings.sign_up_bonus)| number: '1.2-2' }}
         </h1>
 
         <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>

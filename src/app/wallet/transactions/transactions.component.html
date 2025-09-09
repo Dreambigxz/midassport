@@ -5,8 +5,8 @@
       <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
       <h3>Records</h3>
       <div translate="no" class="balance">
-        {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}}
-        <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+        {{walletData['init_currency']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}}
+        <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
       </div>
   </div>
 
@@ -15,11 +15,11 @@
           <ul>
               <li>
                   <span>Deposited</span>
-                  <h5>${{walletData.history.deposit}}</h5>
+                  <h5>{{walletData['init_currency']['symbol']}}{{currencyConverter(walletData.history.deposit)|number:'1.2-2'}}</h5>
               </li>
               <li>
                   <span>Withdrawn</span>
-                  <h5>${{walletData.history.withdraw}}</h5>
+                  <h5>{{walletData['init_currency']['symbol']}}{{currencyConverter(walletData.history.withdraw)|number:'1.2-2'}}</h5>
               </li>
           </ul>
       </div>

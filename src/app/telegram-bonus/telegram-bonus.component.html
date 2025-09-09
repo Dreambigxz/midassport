@@ -3,7 +3,7 @@
       <div class="modal-content p-3">
         <div class="modal-header">
           <div class="head-1">
-            <h5 *ngIf="storeData.store['wallet'] as walletData" class="modal-title">Claim ${{walletData.settings.sign_up_bonus}} Bonus</h5>
+            <h5 *ngIf="storeData.store['wallet'] as walletData" class="modal-title">Claim {{ walletData['init_currency']['symbol'] }}{{walletData.settings.sign_up_bonus| number: '1.2-2'}} Bonus</h5>
 
             <p class="text-warning">complete the below steps to Claim your bonus </p>
 

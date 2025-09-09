@@ -264,7 +264,7 @@ small {
 
 
 span.vip {
-  background: linear-gradient(90deg, #facc15, #f59e0b, #d97706);
+  background: linear-gradient(78deg, #99cc15, #99c547, #cc8806);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -335,4 +335,15 @@ span.vs-title {
 
 .mdc-snackbar__surface.mat-mdc-snackbar-surface {
     background: #032928 !important;
+}
+
+.balance {
+    background: #021e1d;
+    justify-content: space-around !important;
+    color: #ff699b;
+
+}
+h6.main-balance.mt-12 {
+    margin-top: 12px;
+    font-size: 1.rem;
 }

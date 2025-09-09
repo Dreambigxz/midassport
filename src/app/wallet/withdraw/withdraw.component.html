@@ -16,11 +16,11 @@
             <ul>
                 <li>
                     <span>Withdraw Balance</span>
-                    <h6 translate="no">{{walletData['base']['symbol']}}{{walletData['history']['withdraw']|number:'1.2-2'}}</h6>
+                    <h6 translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['history']['withdraw'])|number:'1.2-2'}}</h6>
                 </li>
                 <li>
                     <span>Current Balance</span>
-                    <h6 translate="no">{{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}} </h6>
+                    <h6 translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['balance']['new'])|number:'1.2-2'}} </h6>
                 </li>
             </ul>
           </div>

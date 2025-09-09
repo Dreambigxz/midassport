@@ -5,8 +5,8 @@
           <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
           <h3>Agent Rewards</h3>
           <div  translate="no" class="balance">
-            {{walletData['base']['symbol']}}{{walletData['balance']['new']|number:'1.2-2'}}
-            <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span>
+            {{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['balance']['new'])|number:'1.2-2'}}
+            <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
           </div>
       </div>
       <div class="container">
@@ -17,7 +17,7 @@
                       <div class="date secure"> ♻️ EARNINGS </div>
                       <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
                       <div class="blog-meta">
-                        <h4><span translate="no" class="amount">${{storeData.store['invite-rewards']?.total_earning|number:'1.1-1'}}</span></h4>
+                        <h4><span translate="no" class="amount">{{walletData['init_currency']['symbol']}}{{currencyConverter(storeData.store['invite-rewards']?.total_earning)|number:'1.1-1'}}</span></h4>
                         <!-- <span class="title"><h6>Level</h6> - </span><span class="amount">{{storeData.store['invite-rewards'].level}}</span> -->
                       </div>
 
@@ -50,7 +50,7 @@
                                     <div class="properties">
                                       <span>Level: {{i.id}} {{getEarning(i.id) ? '✅' : ''}}</span>
                                       <span>{{i.invites_required}} Invites</span>
-                                      <span>${{i.reward_amount | number:'1.0-0'}}</span>
+                                      <span>{{walletData['init_currency']['symbol']}}{{currencyConverter(i.reward_amount) | number:'1.0-0'}}</span>
                                     </div>
 
                                     <div class="progress-wrapper">
@@ -104,7 +104,7 @@
                                 <!-- {{tx.inia}} -->
                             </div>
                             <div class="amount-details">
-                                <h6>${{tx.amount|number:"1.2-2"}}</h6>
+                                <h6>{{walletData['init_currency']['symbol']}}{{currencyConverter(tx.amount)|number:"1.2-2"}}</h6>
                                 <span>{{tx.granted_at|date:'mediumDate'}}</span>
                             </div>
                         </li>

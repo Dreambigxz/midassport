@@ -3483,8 +3483,8 @@ ul {
   align-items: center;
   padding: 3px 3px 3px 11px;
   line-height: normal;
-  justify-content: space-between;
-  width: 90px;
+  justify-content: space-around;
+  width: 80px;
   margin-left: auto;
 }
 .single-page-area .title-area .balance span {
