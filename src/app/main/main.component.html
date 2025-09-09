@@ -391,7 +391,7 @@
 
         <!-- Animated Amount -->
         <h1 class="text-success fw-bold mt-3 bonus-text">
-          {{ walletData['init_currency']['symbol'] }}{{ currencyConverter(walletData.settings.sign_up_bonus)| number: '1.2-2' }}
+          {{ walletData['init_currency']['symbol'] }}{{ walletData.settings.sign_up_bonus| number: '1.2-2' }}
         </h1>
 
         <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">OK</button>
