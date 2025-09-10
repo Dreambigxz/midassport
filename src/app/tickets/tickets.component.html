@@ -188,8 +188,8 @@
                               <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
                             </div>
                             <ul class="bet-result">
-                              <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
-                              <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
+                              <li>🛄Stake:<span translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(ticket.stake_amount)|number:'1.1-1'}}</span></li>
+                              <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['init_currency']['symbol']}}{{currencyConverter(PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status))|number:'1.1-1'}}</span></li>
                               <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
                                 <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
                             </ul>
@@ -239,10 +239,9 @@
                                 <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
                               </div>
                               <ul class="bet-result">
-                                <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
-                                <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
+                                <li>🛄Stake:<span translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(ticket.stake_amount)|number:'1.1-1'}}</span></li>
+                                <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['init_currency']['symbol']}}{{currencyConverter(PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status))|number:'1.1-1'}}</span></li>
                                 <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
-                                  <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
                               </ul>
 
                               <div *ngIf="activeTicket===ticket.ticket_id" class="team-info">
@@ -285,10 +284,9 @@
                                 <span class="m-time">{{ticket.start_date|date:'medium'}}</span>
                               </div>
                               <ul class="bet-result">
-                                <li>🛄Stake:<span translate="no">{{walletData['base']['symbol']}}{{ticket.stake_amount|number:'1.1-1'}}</span></li>
-                                <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['base']['symbol']}}{{PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status)}}</span></li>
+                                <li>🛄Stake:<span translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(ticket.stake_amount)|number:'1.1-1'}}</span></li>
+                                <li>♻️Profit: <span class="potential_winning {{ticket.status}}">{{walletData['init_currency']['symbol']}}{{currencyConverter(PotentialWinning(ticket.stake_amount,ticket.market_odds,ticket.status))|number:'1.1-1'}}</span></li>
                                 <li>Market:<span class="m-value">{{ticket.market_value}}~<span class="m-odd">{{ticket.market_odds}}</span></span></li>
-                                  <!-- <li>♻️Profit: <span>{{ticket.market_odds}}</span></li> -->
                               </ul>
 
                               <div *ngIf="activeTicket===ticket.ticket_id" class="team-info">

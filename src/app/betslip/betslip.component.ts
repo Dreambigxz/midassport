@@ -180,7 +180,7 @@ export class BetslipComponent {
 
   stakeAll() {
     // for example, set betAmount to wallet balance
-    this.stakeAmount = (this.storeData.get('wallet')?.balance?.new)?.toFixed(3) || 0;
+    this.stakeAmount = this.currencyConverter((this.storeData.get('wallet')?.balance?.new)?.toFixed(3)) || 0;
     this.setProfit()
   }
 

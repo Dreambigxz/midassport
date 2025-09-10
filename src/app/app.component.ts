@@ -180,14 +180,4 @@ export class AppComponent {
     delete(localStorage['clientAction'])
   }
 
-  onCurrencyChange(event: Event) {
-    const selectedCode = (event.target as HTMLSelectElement).value;
-    console.log("Selected Currency Code:", selectedCode);
-
-    // Example: store it in walletData or trigger an API call
-    // const selectedCurrency = this.walletData.init_currencies.find(c => c.code === selectedCode);
-    // console.log("Selected Currency Object:", selectedCurrency);
-  }
-
-
 }
