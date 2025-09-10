@@ -64,7 +64,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   bonusAmount: number = 3;
 
-  activeTab: string = 'secured'; // default active tab
+  activeTab: string = "notStarted"//'secured'; // default active tab
 
   installApp(device:any) {
 
@@ -179,6 +179,7 @@ export class MainComponent implements OnInit, OnDestroy {
   categorizeMatches() {
 
     const cpgs = this.storeData.get('company_games');
+    let hasCpg = false
     this.fixtures = this.storeData.get('soccer');
     this.allMatches = this.fixtures//.fixtures.response;
 
@@ -213,6 +214,7 @@ export class MainComponent implements OnInit, OnDestroy {
       if (isSecured.length) {
         isSecured[0]['secured'] = true;
         sortedData['secured'].push(isSecured[0]);
+        hasCpg=true
       }
     });
 
@@ -240,7 +242,7 @@ export class MainComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         const notStarted = document.querySelector('.sports-slider-item.notStarted') as HTMLElement;
 
-        if (notStarted) {
+        if (notStarted&&!hasCpg) {
           this.activeTab='notStarted'
           notStarted.click();
 
