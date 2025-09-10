@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ElementRef, AfterViewInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -16,14 +16,17 @@ import { LoaderService } from '../reuseables/http-loader/loader.service';
 import { AuthService } from '../reuseables/auth/auth.service';
 
 type MatchCategory = 'upcoming' | 'notStarted' | 'live' | 'finished' | 'secured';
+import { CountdownPipe } from '../reuseables/pipes/countdown.pipe';
 
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, RouterLink, SpinnerComponent, TelegramBonusComponent],
+  imports: [CommonModule, RouterLink, SpinnerComponent, TelegramBonusComponent, CountdownPipe],
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'] ,
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 
 export class MainComponent implements OnInit, OnDestroy {
@@ -33,8 +36,6 @@ export class MainComponent implements OnInit, OnDestroy {
   router = inject(Router);
   // loaderService = inject(LoaderService)
   authService = inject(AuthService);
-
-
 
   parseInt = parseInt;
 
@@ -107,7 +108,7 @@ export class MainComponent implements OnInit, OnDestroy {
         if (this.telegramBonusModalActive) {
           console.log('Checking bindedTg');
 
-          !this.storeData.store['joined']?this.reqServerData.get(`main`).subscribe({
+          !this.storeData.store['joined']?this.reqServerData.get(`main/`).subscribe({
             next: res => {
               console.log({res});
               res.main.joined?this.closeModal('telegramBonusModal'):0;
@@ -242,6 +243,9 @@ export class MainComponent implements OnInit, OnDestroy {
         if (notStarted) {
           this.activeTab='notStarted'
           notStarted.click();
+
+          console.log(this.activeTab);
+
         }
       }, 1000); // wait a bit for DOM ready
     }
@@ -256,6 +260,11 @@ export class MainComponent implements OnInit, OnDestroy {
     timestamp = new Date(timestamp * 1000);
     const ampm = timestamp.getHours() >= 12 ? 'PM' : 'AM';
     return `${padNum(timestamp.getHours())}:${padNum(timestamp.getMinutes())} ${ampm}`;
+  }
+
+  setDate(timestamp: any) {
+    return new Date(timestamp * 1000);
+    // return start.getTime() - 24 * 60 * 60 * 1000
   }
 
   nextDayData(run_func = true) {
@@ -342,6 +351,16 @@ export class MainComponent implements OnInit, OnDestroy {
   currencyConverter(amount:any){
     const payment_method = this.storeData.get('wallet').init_currency
     return amount * payment_method.rate
+  }
+
+  onCurrencyChange(event: Event) {
+    const selectedCode = (event.target as HTMLSelectElement).value;
+    if (!selectedCode) return
+    console.log("Selected Currency Code:", selectedCode);
+
+    this.reqServerData.post('main/',{processor:'change_currency',code:selectedCode}).subscribe(
+
+    )
   }
 
 

@@ -156,7 +156,12 @@
                             <!-- <div class="m-time">
                               {{ticket.start_date|date}}
                             </div> -->
+
+                            <div *ngIf="ticket.unseen_settled" class="expected-settle-time">
+                              ⏳ Settles in {{ ticket.start_date | countdown:true | async}}
+                            </div>
                         </div>
+
                       </div>
                       <ng-template #noData>
                         <div class="empty-div">

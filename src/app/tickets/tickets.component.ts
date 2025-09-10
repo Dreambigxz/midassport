@@ -9,7 +9,7 @@ import { SpinnerComponent } from '../reuseables/http-loader/spinner.component';
 
 import { onScroll, loadMore, padNum, loadScript, dateDiff } from '../reuseables/helper';
 
-type TicketCategory = 'won' | 'loss' | 'cancel' | 'open'  | 'postponed'
+type TicketCategory = 'won' | 'loss' | 'cancel' | 'open'  | 'postponed' |"unseen_settled"
 type recordskey = 'true'|'false'
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -20,6 +20,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 
 import { RouterLink, Router } from '@angular/router';
+
+import { CountdownPipe } from '../reuseables/pipes/countdown.pipe';
 
 
 @Component({
@@ -32,6 +34,7 @@ import { RouterLink, Router } from '@angular/router';
     MatNativeDateModule,
     FormsModule,
     RouterLink,
+    CountdownPipe
 
   ],
   templateUrl: './tickets.component.html',
@@ -55,6 +58,7 @@ export class TicketsComponent {
     cancel:[],
     postponed:[],
     open:[],
+    unseen_settled:[]
 
   }
 
@@ -86,6 +90,8 @@ export class TicketsComponent {
   }
 
   activeTab : string = "running"
+
+
   ngOnInit(): void {
       loadScript('assets/js/main.js');
 
@@ -117,8 +123,14 @@ export class TicketsComponent {
       });
     });
 
+
+    this.categorizeTicketData['unseen_settled']=this.ticket?.filter((t:any) => {
+      return  t.unseen_settled === true;
+    });
+
     try {
       this.categorizeTicketData['postponed' as TicketCategory] = [...this.categorizeTicketData.postponed,...this.categorizeTicketData.cancel]
+      this.categorizeTicketData['open' as TicketCategory] = [...this.categorizeTicketData.open,...this.categorizeTicketData.unseen_settled]
 
     } catch (error) {}
 
@@ -180,6 +192,8 @@ export class TicketsComponent {
     })
 
   }
+
+
 
   currencyConverter(amount:any){
     const payment_method = this.storeData.get('wallet').init_currency

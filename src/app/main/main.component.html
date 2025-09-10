@@ -10,12 +10,28 @@
     <!-- Profile Area -->
     <div *ngIf="storeData.store['wallet'] as walletData" class="profile-area">
 
-      <div class="btn-wrap">
-        <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
-        <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">
-          <i class="ri-notification-3-line"></i>
-          <span class="badge">{{storeData.store['unreadNotification']}}</span>
-        </a>
+      <div class="top-header">
+        <div class="switch-currency">
+          <select (change)="onCurrencyChange($event)">
+            <ng-container *ngIf="!walletData.payment_method;else hasPayentethod">
+              <option value="">Select Currency</option>
+              <option *ngFor="let currency of walletData.init_currencies" [value]="currency.code">
+                {{ currency.name }} - {{ currency.code }}
+              </option>
+            </ng-container>
+            <ng-template #hasPayentethod>
+              <option value="">{{walletData.init_currency.name}} - {{walletData.init_currency.symbol}}</option>
+              </ng-template>
+          </select>
+
+        </div>
+        <div class="btn-wrap">
+          <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
+          <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">
+            <i class="ri-notification-3-line"></i>
+            <span class="badge">{{storeData.store['unreadNotification']}}</span>
+          </a>
+        </div>
       </div>
 
       <div class="media">
@@ -226,30 +242,43 @@
             id="events__matches"
             class="slider-content"
           >
-            <div *ngFor="let m of categorizedMatchesData.notStarted['display']" class="single-product-wrap">
-              <h6 class="title">{{ m.fixture.league.name }}</h6>
-              <div (click)="router.navigate(['/betslip', m.fixture.fixture.id])" class="details">
-                <div class="thumb">
-                  <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
-                  <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
+            <ng-container *ngFor="let m of categorizedMatchesData.notStarted['display']" >
+              <div
+                *ngIf="setDate(m.fixture.fixture.timestamp) | countdown | async as time"
+                  class="single-product-wrap"
+                >
+
+                <h6 class="title">{{ m.fixture.league.name }}</h6>
+                <div class="timer">
+                  <p>{{ time }}</p>
+
                 </div>
-                <div class="betting-wrap">
-
-                  <span class="vs-title">VS</span>
-
-                  <div class="time">
-                    <i class="fa fa-circle"></i>
-                    {{ setTime(m.fixture.fixture.timestamp) }}
+                <div (click)="router.navigate(['/betslip', m.fixture.fixture.id])" class="details">
+                  <div class="thumb">
+                    <img [src]="m.fixture.teams.home.logo" alt="Home Team Logo" />
+                    <h6 class="team-name">{{ m.fixture.teams.home.name }}</h6>
                   </div>
-                  <!-- <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
-                </div>
-                <div class="thumb">
-                  <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
-                  <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
-                </div>
-              </div>
-            </div>
+                  <div class="betting-wrap">
 
+                    <span class="vs-title">VS</span>
+
+                    <div class="time">
+                      <i class="fa fa-circle"></i>
+                      {{ setTime(m.fixture.fixture.timestamp) }}
+                    </div>
+                    <!-- <a [routerLink]="['/betslip', m.fixture.fixture.id]" class="btn btn-base">Bet Now</a> -->
+                  </div>
+                  <div class="thumb">
+                    <img [src]="m.fixture.teams.away.logo" alt="Away Team Logo" />
+                    <h6 class="team-name">{{ m.fixture.teams.away.name }}</h6>
+                  </div>
+
+                </div>
+
+
+              </div>
+
+              </ng-container>
             <button
               *ngIf="hasMore('notStarted')"
               (click)="loadMore('notStarted')"

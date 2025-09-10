@@ -347,3 +347,33 @@ h6.main-balance.mt-12 {
     margin-top: 12px;
     font-size: 1.rem;
 }
+.expected-settle-time {
+    position: relative;
+    margin-top: 12px;
+    color: #ff2020d1;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+
+element.style {
+}
+.timer {
+    position: relative;
+    text-align: right;
+    margin-bottom: 12px;
+  p {
+    color: #FF9800;
+    font-size: .733rem;
+    font-family: 'Orbitron', sans-serif
+  }
+}
+
+.top-header {
+    display: flex;
+    select{
+      padding:3px;
+      color: #FF9800;
+    }
+}
