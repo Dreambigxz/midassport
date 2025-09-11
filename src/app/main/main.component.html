@@ -15,12 +15,13 @@
           <select (change)="onCurrencyChange($event)">
             <ng-container *ngIf="!walletData.payment_method;else hasPayentethod">
               <option value="">Select Currency</option>
-               <div *ngFor="let currency of walletData.init_currencies">
-                  <option *ngIf="currency.code!=='TRON'"  [value]="currency.code">
+               <!-- <div *ngFor="let currency of walletData.init_currencies"> -->
+                  <option *ngFor="let currency of walletData.init_currencies" [value]="currency.code">
                     {{ currency.name }} - {{ currency.code }}
                   </option>
 
-                </div>
+                   <!-- *ngIf="currency.code!=='TRON'"  -->
+                <!-- </div> -->
 
             </ng-container>
             <ng-template #hasPayentethod>
