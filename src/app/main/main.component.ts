@@ -135,6 +135,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
     loadScript('assets/js/main.js');
 
+    console.log("HI");
+
+
   }
 
   ngOnDestroy(): void {

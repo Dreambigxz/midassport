@@ -2,7 +2,7 @@ import { Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
-import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { RouterLink, Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { RequestDataService } from '../reuseables/http-loader/request-data.service';
 import { StoreDataService } from '../reuseables/http-loader/store-data.service';
 
@@ -14,7 +14,9 @@ import {  loadScript , copyContent} from '../reuseables/helper';
 
 import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
+import { Location } from '@angular/common';
 
+import { filter } from 'rxjs/operators';
 
 import {
   trigger,
@@ -51,6 +53,9 @@ export class BetslipComponent {
   toast = inject(ToastService)
   reqConfirmation = inject(ConfirmationDialogService)
 
+  private location=inject(Location)
+  private router=inject(Router)
+
   fixtures=this.storeData.store['soccer']
   fixture:any
   fixtureID:any;
@@ -70,6 +75,8 @@ export class BetslipComponent {
 
     loadScript('assets/js/main.js');
 
+    // Watch for route changes
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {if (event.urlAfterRedirects.includes('betslip')) {this.setData()}});
 
     if (this.storeData.get('nextDayData')){
       this.fixtures = [...this.fixtures, ...this.storeData.store['nextDayData'] ]
@@ -90,6 +97,9 @@ export class BetslipComponent {
   setData(){
 
     const id = parseInt(this.route.snapshot.paramMap.get('id')!)
+
+    console.log('ID', id);
+
 
     const [secured] =  this.storeData.get('company_games').filter(
       (m: any) => m.fixtureID == id

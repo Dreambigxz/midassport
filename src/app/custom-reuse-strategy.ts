@@ -15,7 +15,7 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
     if (!path) return false;
 
     // ✅ Skip Transactions route (with or without filter param)
-    if (['transactions','tickets','login','register'].includes(path)) {
+    if (['transactions','tickets','login','register','betslip'].includes(path)) {
     //   console.log('KEEP Running><', path);
 
     // if (path.startsWith('transactions')) {
