@@ -38,15 +38,15 @@
                             <div class="widget-body sliding-tabs">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                   <li *ngIf="payWith&&payWith==='Crypto'||!payWith" class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Crypto <i class="fa fa-wallet"></i></button>
+                                    <button class="nav-link {{defaultCurrency!=='NGN'?'active':0}}" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Crypto <i class="fa fa-wallet"></i></button>
                                   </li>
                                   <li *ngIf="payWith&&payWith==='Local'||!payWith"  class="nav-item" role="presentation">
-                                    <button class="nav-link {{payWith&&payWith==='Local'?'active':0}}" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Bank Transfer <i class="fa fa-home"></i></button>
+                                    <button class="nav-link {{payWith&&payWith==='Local'||defaultCurrency==='NGN'?'active':0}}" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Bank Transfer <i class="fa fa-home"></i></button>
                                   </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                   <!-- crypto form selector >><< -->
-                                    <div *ngIf="methodView.Crypto.form as form" class="tab-pane fade {{!payWith?'show active':payWith&&payWith==='Crypto'?'show active':0}}" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div *ngIf="methodView.Crypto.form as form" class="tab-pane fade {{!payWith&&defaultCurrency!=='NGN'?'show active':payWith&&payWith==='Crypto'&&defaultCurrency!=='NGN'?'show active':0}}" id="home" role="tabpanel" aria-labelledby="home-tab">
 
                                       <i class="text-warning">Takes 0-5 Minutes - <span class="text-success">(Recommended)</span></i>
                                         <form [formGroup]="form" (ngSubmit)="onSubmit('create_deposit',form)">
@@ -89,40 +89,68 @@
                                         </form>
                                     </div>
                                     <!-- local form -->
-                                    <div *ngIf="methodView.Local.form as form" class="tab-pane fade {{payWith&&payWith==='Local'?'show active':0}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div *ngIf="methodView.Local.form as form" class="tab-pane fade {{payWith&&payWith==='Local'||defaultCurrency==='NGN'?'show active':0}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
-                                      <i class="text-warning">Takes 5 - 60 Minutes </i>
+                                      <i class="text-warning ">Takes 5 - 60 Minutes </i>
 
-                                        <form  [formGroup]="form" (ngSubmit)="onSubmit('create_deposit',form)">
-                                            <div class="payment-method-card">
-                                                <h6>Select Currency</h6>
+                                      <form [formGroup]="form" (ngSubmit)="onSubmit('create_deposit', form)">
+
+                                          <div *ngIf="defaultCurrency !== 'NGN';" class="payment-method-card">
+                                          <h6>Select Currency</h6>
+                                              <div class="single-input-wrap">
+
+                                              <!-- Dropdown only if NOT NGN -->
+                                              <select
+                                                      id="Local"
+                                                      class="single-selec w-100"
+                                                      formControlName="payment_method"
+                                                      (change)="changePaymentMethod($event)">
+                                                <option value="" disabled selected="true">Select</option>
+                                                <option *ngFor="let currency of storeData.store['init_currencies']?.slice(2); let i = index"
+                                                        [value]="currency.code">
+                                                  {{currency.name}}
+                                                </option>
+                                              </select>
+
+                                              <!-- Hidden input + message if NGN -->
+                                              <!-- <ng-template #ngnSelected>
+                                                <input type="hidden" formControlName="payment_method" value="NGN" />
+                                                <p class="text-success">Currency: Nigeria Naira (₦ NGN)</p>
+                                              </ng-template> -->
+
+                                              </div>
+                                          </div>
+
+
+                                            <div  *ngIf="methodView.Local['paymentMethod'] as local">
+                                              <div class="amount-wrap">
+                                                <div class="title-wrap">
+                                                  <h6>Amount To Deposit</h6>
+                                                  <span class="text-warning">Minimum: {{local.symbol}}{{local.minimum_deposit | number}} </span>
+                                                </div>
+                                                <span *ngIf="form.get('amount').valid" class="cvt-amount text-success">
+                                                  Eqv ≈ ${{local.cvtUSD | number:'1.2-2'}}
+                                                </span>
+
                                                 <div class="single-input-wrap">
-                                                  <select id="Local" class="single-selec w-100" formControlName='payment_method' (change)="changePaymentMethod($event)" >
-                                                      <option value="" disabled selected="true">Select</option>
-                                                      <option  *ngFor='let currency of storeData.store["init_currencies"]?.slice(2);let i=index' value="{{i+2}}">{{currency.name}}</option>
-                                                  </select>
+                                                  <input (keyup)="onAmountKeyup($event,local)"
+                                                         min="{{local.minimum_deposit}}"
+                                                         formControlName="amount"
+                                                         type="number"
+                                                         class="form-control"
+                                                         placeholder="{{local.symbol}} {{local.minimum_deposit | number}}" />
+                                                  <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">
+                                                    Minimum of {{local.symbol}}{{local.minimum_deposit | number}} required
+                                                  </small>
                                                 </div>
+                                              </div>
 
+                                              <button *ngIf="methodView.Local.form.get('amount')?.valid"
+                                                      class="btn btn-base w-100">Continue</button>
                                             </div>
+                                          </form>
 
-                                            <div *ngIf="methodView.Local['paymentMethod'] as local">
-                                                <div class="amount-wrap">
 
-                                                    <div class="title-wrap">
-                                                        <h6>Amount To Deposit </h6>
-                                                        <span class="text-warning">Minimum: {{local.symbol}}{{local.minimum_deposit|number}} </span>
-                                                    </div>
-                                                    <span *ngIf="form.get('amount').valid" class="cvt-amount text-success"> Eqv ≈ ${{local.cvtUSD|number:'1.2-2'}} </span>
-
-                                                    <div class="single-input-wrap">
-                                                        <input (keyup)="onAmountKeyup($event,local)" min="{{local.minimum_deposit}}" formControlName="amount" type="number" class="form-control" placeholder="{{local.symbol}} {{local.minimum_deposit|number}}">
-                                                        <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{local.symbol}}{{local.minimum_deposit|number}} required</small>
-
-                                                    </div>
-                                                </div>
-                                                <button *ngIf="methodView.Local.form.get('amount')?.valid" class="btn btn-base w-100">Continue</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -10,6 +10,8 @@ import { SpinnerComponent } from '../../reuseables/http-loader/spinner.component
 
 import { FormHandlerService } from '../../reuseables/http-loader/form-handler.service';
 import { AuthService } from '../../reuseables/auth/auth.service';
+import { UserLocationService } from '../../reuseables/user-location.service';
+
 import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
 
 
@@ -32,18 +34,28 @@ export class RegisterComponent {
   fb = inject(FormBuilder);
 
   invitedBy=this.storeData.get('invitedBy')
+  private geo = inject(UserLocationService)
 
   form = this.fb.group({
     username:['',[Validators.required]],
     email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      RefCode:[""]
+      RefCode:[""],
+      // geolocation:[""],
+      geolocation: this.fb.group({
+        country: [''],
+        code: [''],
+        flag: [''],
+        currency: ['']  // 👈 add currency code
+
+      })
       // referrer: ['']  // 👈 added here
 
   })
 
+  geolocation :any//= { country:"", code:"", flag:"" }
 
-  ngOnInit(): void {
+  async ngOnInit () {
     // Run JS file
     loadScript('assets/js/main.js');
     loadExternalScript()
@@ -71,6 +83,13 @@ export class RegisterComponent {
       })
     }
 
+    let geolocation = localStorage["geo"]
+    if (!geolocation) {
+       const { country, code, flag, currency } = await this.geo.getLocation();
+       localStorage["geo"]=JSON.stringify({country,code,flag,currency})
+       this.geolocation ={country,code,flag,currency}
+    }
+    else{this.geolocation = JSON.parse(geolocation)}
 
   }
 
@@ -79,6 +98,7 @@ export class RegisterComponent {
     if (this.RefCode) {
       this.form.patchValue({ RefCode: this.RefCode });
      }
+    this.form.patchValue({ geolocation: this.geolocation });
     this.formHandler.submitForm(this.form,'AUTHENTICATIONS', 'register/?showSpinner',  (res) => {
 
       if (res.status==='success') {

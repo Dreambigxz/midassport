@@ -23,6 +23,7 @@
     "@angular/service-worker": "^19.2.0",
     "angularx-qrcode": "^19.0.0",
     "bootstrap": "^5.3.7",
+    "ip-geolocation-api-javascript-sdk": "^2.0.1",
     "rxjs": "~7.8.0",
     "three": "^0.179.1",
     "tslib": "^2.3.0",

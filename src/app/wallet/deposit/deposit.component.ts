@@ -48,6 +48,7 @@ export class DepositComponent {
   method:any
 
   payWith:any
+  defaultCurrency:any
 
   methodView: Record<PaymentMethodGrp, any> = {
     'Crypto':{
@@ -84,13 +85,37 @@ export class DepositComponent {
     const selectedValue = selectElement.value;   // ← gets the selected value
 
     // const selectedValue = (event.target as HTMLSelectElement).value;
-    this.method=this.storeData.get('init_currencies')[parseInt(selectedValue)]
+
+    console.log({selectedValue}, this.storeData.get('init_currencies'));
+
+    // this.method=this.storeData.get('init_currencies')[parseInt(selectedValue)]
+    this.method = this.storeData.get('init_currencies').find((c:any) => c.code === selectedValue);
+
     this.paymentMethod = this.method
     this.methodView[selectedId as PaymentMethodGrp].paymentMethod=this.paymentMethod
+
+    console.log({selectedId}, this.method);
 
     this.setPaymentMethod(selectedId)
 
   }
+
+  defaultPaymentmethod() {
+    this.method = this.storeData.get('wallet').init_currency;
+    this.paymentMethod = this.method;
+
+    this.methodView["Local"].paymentMethod = this.paymentMethod;
+
+    // ✅ Set min deposit correctly
+    let minimum_deposit = this.storeData.get('wallet').settings.minimum_deposit;
+    this.methodView["Local"].paymentMethod["minimum_deposit"] =
+      minimum_deposit * this.paymentMethod.rate;
+
+    this.symbol = this.paymentMethod.symbol;
+
+    this.setPaymentMethod("Local");
+  }
+
 
   onPaymentSelect(event: Event): void {
     const target = event.target as HTMLElement;
@@ -142,6 +167,7 @@ export class DepositComponent {
 
   showInvoice(){
 
+    const wallet= this.storeData.get("wallet")
     if (this.storeData.get('hasMethod')) {this.payWith=this.storeData.get('payWith')}
 
     this.pendingDeposit = this.storeData.get('deposit')[0]
@@ -157,6 +183,22 @@ export class DepositComponent {
     }
 
     loadScript('assets/js/main.js');
+
+    console.log(wallet);
+
+    if (wallet.init_currency.code === 'NGN') {
+      console.log("SET DEFAULT NAIRA");
+      this.defaultCurrency = "NGN";
+
+      // ✅ Patch the Local form instead of this.form
+      this.methodView["Local"].form.patchValue({
+        payment_method: "NGN"
+      });
+
+      // ✅ Load NGN as default payment method
+      this.defaultPaymentmethod();
+    }
+
 
 
   }

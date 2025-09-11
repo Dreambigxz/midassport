@@ -6,6 +6,10 @@
           <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
             <h3>Create an Account</h3>
             <p *ngIf="invitedBy" class="text-success">You've been invited by {{invitedBy}}</p>
+
+            <div class="">
+              <img style="width:10%" src="{{geolocation?.flag}}" alt="">
+            </div>
             <div id="google_translate_element" class="custom-google-select text-warning">Change Language</div>
 
             <form  [formGroup]="form" (ngSubmit)="onSubmit()"  class="default-form-wrap">

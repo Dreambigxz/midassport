@@ -13,6 +13,7 @@ import { FormHandlerService } from '../../reuseables/http-loader/form-handler.se
 import { AuthService } from '../../reuseables/auth/auth.service';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
+import { UserLocationService } from '../../reuseables/user-location.service';
 
 @Component({
   selector: 'app-login',
@@ -41,14 +42,27 @@ export class LoginComponent  {
     password:['',[Validators.required]]
   })
 
+  geolocation:any
+  private geo = inject(UserLocationService)
 
-  ngOnInit(): void {
+
+
+
+  async ngOnInit()   {
     // Run JS file
     loadScript('assets/js/main.js');
     loadExternalScript()
     if (this.authService.checkLogin()) {
       this.router.navigate(['/main']); // or '/dashboard'
     }
+
+    let geolocation = localStorage["geo"]
+    if (!geolocation) {
+       const { country, code, flag } = await this.geo.getLocation();
+       localStorage["geo"]=JSON.stringify({country,code,flag})
+       this.geolocation ={country,code,flag}
+    }
+    else{this.geolocation = JSON.parse(geolocation)}
 
 
   }

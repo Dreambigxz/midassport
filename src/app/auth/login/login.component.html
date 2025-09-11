@@ -6,6 +6,9 @@
           <!-- <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a> -->
             <h3>LOGIN</h3>
             <p>Let’s us know what your name, email, and your password</p>
+
+            <img style="width:10%" src="{{geolocation?.flag}}" alt="">
+
             <div id="google_translate_element" class="custom-google-select text-warning">Change Language</div>
 
             <form [formGroup]="form" (ngSubmit)="onSubmit()"  class="default-form-wrap">
