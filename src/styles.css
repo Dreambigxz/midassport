@@ -377,3 +377,19 @@ element.style {
       color: #FF9800;
     }
 }
+
+#PredictionBoard{
+  .table {
+      color: var(--heading-color, #101010);
+      background: #03292873 !important;
+  }
+
+  .score {
+      font-size: 15px;
+  }
+  .odds {
+      font-size: 13px;
+      color: #ff699b;
+
+  }
+}

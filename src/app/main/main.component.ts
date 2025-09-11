@@ -64,7 +64,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   bonusAmount: number = 3;
 
-  activeTab: string = "notStarted"//'secured'; // default active tab
+  activeTab= "notStarted"//'secured'; // default active tab
 
   installApp(device:any) {
 
@@ -93,21 +93,22 @@ export class MainComponent implements OnInit, OnDestroy {
     ).subscribe((event: any) => {
       if (event.urlAfterRedirects === '/main') {
         this.startPolling();
+        // this.setTab(0)
+        this.activeTab=this.activeTab
+        const activeTab = document.querySelector('.sports-slider-item.'+this.activeTab) as HTMLElement;
+        activeTab.click()
+
       } else {
         this.stopPolling();
       }
     });
 
+
     // Watch for tab visibility
     document.addEventListener('visibilitychange', () => {
 
-      console.log(document.visibilityState);
-
       if (document.visibilityState === 'visible' && this.router.url === '/main') {
-
         this.startPolling();
-        console.log('PAGE NOW visible');
-
         if (this.telegramBonusModalActive) {
 
           !this.storeData.store['joined']?this.reqServerData.get(`main/`).subscribe({
@@ -121,8 +122,6 @@ export class MainComponent implements OnInit, OnDestroy {
             }
           }):this.closeModal('telegramBonusModal')
         }
-
-        this.setTab()
 
       } else {
         this.stopPolling();
@@ -246,15 +245,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
   }
 
-  setTab(){
+  setTab(timeout=1000){
     if (!this.categorizedMatchesData.secured.data.length) {
+
       setTimeout(() => {
         const notStarted = document.querySelector('.sports-slider-item.notStarted') as HTMLElement;
         if (notStarted) {
-          notStarted.click();
+          this.activeTab='notStarted'
           console.log(this.activeTab);
+          notStarted.click();
         }
-      }, 3000); // wait a bit for DOM ready
+      }, timeout); // wait a bit for DOM ready
     }else{
       this.activeTab='secured'
     }

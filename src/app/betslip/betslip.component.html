@@ -54,25 +54,25 @@
                           <th>FK Haugesund</th>
                         </tr> -->
                       </thead>
-                      <tbody>
+                      <tbody class="predictionRows">
                         <tr *ngFor="let row of predictionRows;let i = index" >
                         <!-- (click)="onRowClick(row,i)" (mouseenter)="onRowClick(row, i)"> -->
                           <td  (click)="onCellClick(row[0])" *ngIf="row[0]">
                             <div class="score-box">
-                              <div>⚽️{{ row[0].value }}</div>
-                              <div class="odds">♻️{{ row[0].odds }}</div>
+                              <div class="score">⚽️{{ row[0].value }}</div>
+                              <div class="odds">{{ row[0].odds }}💹</div>
                             </div>
                           </td>
                           <td (click)="onCellClick(row[1])" *ngIf="row[1]">
                             <div class="score-box">
-                              <div>⚽️{{ row[1].value }}</div>
-                              <div class="odds">♻️{{ row[1].odds }}</div>
+                              <div class="score">⚽️{{ row[1].value }}</div>
+                              <div class="odds">{{ row[1].odds }}💹</div>
                             </div>
                           </td>
                           <td (click)="onCellClick(row[2])" *ngIf="row[2]">
                             <div class="score-box">
-                              <div>⚽️{{ row[2].value }}</div>
-                              <div class="odds">♻️{{ row[2].odds }}</div>
+                              <div class="score">⚽️{{ row[2].value }}</div>
+                              <div class="odds">{{ row[2].odds }}💹</div>
                             </div>
                           </td>
                         </tr>

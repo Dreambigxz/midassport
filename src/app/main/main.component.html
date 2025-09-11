@@ -50,7 +50,8 @@
           </div>
           <br>
           <span
-            class="vip">VIP {{ walletData.vip }}
+            class="vip">VIP {{ storeData.store["vip"]?.level ?? 0 }}
+
           </span>
 
         </div>
@@ -152,7 +153,7 @@
       <h6 class="mb-3">⚽️ Market</h6>
 
       <div class="sports-slider slider-nav">
-        <div class="sports-slider-item" (click)="activeTab = 'secured'">
+        <div class="sports-slider-item secured" (click)="activeTab = 'secured'">
           <i class="fa fa-lock me-2"></i> Secured
         </div>
         <!-- <div class="sports-slider-item" (click)="activeTab = 'upcoming'">
@@ -161,10 +162,10 @@
         <div class="sports-slider-item notStarted" (click)="activeTab = 'notStarted'">
           <i class="fa fa-circle me-2" style="color: #ffa63d;"></i> Events
         </div>
-        <div class="sports-slider-item" (click)="activeTab = 'live'">
+        <div class="sports-slider-item live" (click)="activeTab = 'live'">
           <i class="fa fa-circle me-2" style="color: green;"></i> Live Now
         </div>
-        <div class="sports-slider-item" (click)="activeTab = 'finished'">
+        <div class="sports-slider-item finished" (click)="activeTab = 'finished'">
           <i class="fa fa-circle me-2" style="color: #999;"></i> Finished
         </div>
       </div>
