@@ -13,23 +13,27 @@
       <div class="top-header">
         <div class="switch-currency">
           <select (change)="onCurrencyChange($event)">
-            <ng-container *ngIf="!walletData.payment_method;else hasPayentethod">
+            <!-- Case: No payment method yet -->
+            <ng-container *ngIf="!walletData.payment_method; else hasPaymentMethod">
               <option value="">Select Currency</option>
-               <!-- <div *ngFor="let currency of walletData.init_currencies"> -->
-                  <option *ngFor="let currency of walletData.init_currencies" [value]="currency.code">
-                    {{ currency.name }} - {{ currency.code }}
-                  </option>
 
-                   <!-- *ngIf="currency.code!=='TRON'"  -->
-                <!-- </div> -->
-
+              <!-- Loop through currencies safely -->
+              <ng-container *ngFor="let currency of walletData.init_currencies">
+                <option *ngIf="currency.code !== 'TRON'" [value]="currency.code">
+                  {{ currency.name }} - {{ currency.code }}
+                </option>
+              </ng-container>
             </ng-container>
-            <ng-template #hasPayentethod>
-              <option value="">{{walletData.init_currency.name}} - {{walletData.init_currency.symbol}}</option>
-              </ng-template>
-          </select>
 
+            <!-- Case: Payment method already selected -->
+            <ng-template #hasPaymentMethod>
+              <option value="">
+                {{ walletData.init_currency.name }} - {{ walletData.init_currency.symbol }}
+              </option>
+            </ng-template>
+          </select>
         </div>
+
         <div class="btn-wrap">
           <a class="icon-btn" [routerLink]="['/search']"><i class="ri-search-line"></i></a>
           <a [routerLink]="['/notifications']" class="icon-btn {{storeData.store['unreadNotification']>0?'bell-ring':''}}">

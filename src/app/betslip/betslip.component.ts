@@ -142,7 +142,6 @@ export class BetslipComponent {
     const totalProfit = (this.stakeAmount * this.selectedScore.odds / 100 ).toFixed(2)
 
     this.totalProfit  = parseFloat(this.stakeAmount) + parseFloat(totalProfit)
-    console.log({totalProfit:this.totalProfit});
   }
 
   slipHandler(processor:string){

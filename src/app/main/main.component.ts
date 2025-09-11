@@ -100,13 +100,15 @@ export class MainComponent implements OnInit, OnDestroy {
 
     // Watch for tab visibility
     document.addEventListener('visibilitychange', () => {
+
+      console.log(document.visibilityState);
+
       if (document.visibilityState === 'visible' && this.router.url === '/main') {
 
         this.startPolling();
         console.log('PAGE NOW visible');
 
         if (this.telegramBonusModalActive) {
-          console.log('Checking bindedTg');
 
           !this.storeData.store['joined']?this.reqServerData.get(`main/`).subscribe({
             next: res => {
@@ -119,6 +121,8 @@ export class MainComponent implements OnInit, OnDestroy {
             }
           }):this.closeModal('telegramBonusModal')
         }
+
+        this.setTab()
 
       } else {
         this.stopPolling();
@@ -238,18 +242,21 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
       // 👇 ADD THIS: Switch to "Upcoming" if Secured is empty
+      this.setTab();
+
+  }
+
+  setTab(){
     if (!this.categorizedMatchesData.secured.data.length) {
       setTimeout(() => {
         const notStarted = document.querySelector('.sports-slider-item.notStarted') as HTMLElement;
-
-        if (notStarted&&!hasCpg) {
-          this.activeTab='notStarted'
+        if (notStarted) {
           notStarted.click();
-
           console.log(this.activeTab);
-
         }
-      }, 1000); // wait a bit for DOM ready
+      }, 3000); // wait a bit for DOM ready
+    }else{
+      this.activeTab='secured'
     }
   }
 
