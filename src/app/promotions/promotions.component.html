@@ -30,15 +30,33 @@
     </div>
 
     <div class="container">
+
+
+      <div class="item mt-4">
+          <div class="single-blog-card bg-secondary">
+              <!-- <div class="card-img"><img src="assets/img/blog/1.png" alt="img"></div> -->
+              <div class="card-details">
+                  <div class="secure text-white"> ♻️ Uncashed </div>
+                  <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
+                  <div *ngIf="storeData.store['wallet'] as walletData"  class="blog-meta">
+                    <h4><span class="amount">
+                      {{walletData['init_currency']['symbol']}}{{currencyConverter(this.storeData.store['refDir'].uncashed)| number:'1.2-2'}}</span></h4>
+                  </div>
+                  <span *ngIf="this.storeData.store['refDir'].uncashed" class="text-warning">Cahsing in {{nextWednesdayCountdown$ | async}}</span>
+              </div>
+          </div>
+      </div>
+
       <div class="item mt-4">
           <div class="single-blog-card">
               <!-- <div class="card-img"><img src="assets/img/blog/1.png" alt="img"></div> -->
               <div class="card-details">
-                  <div class="date secure"> ♻️ INCOME </div>
+                  <div class="date secure"> CASHED </div>
                   <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
                   <div *ngIf="storeData.store['wallet'] as walletData"  class="blog-meta">
                     <h4><span class="amount">
-                      {{walletData['init_currency']['symbol']}}{{(currencyConverter(ref.referral?.total_earning) || 0) + (ref.rebate?.total_earning || 0)| number:'1.4-4'}}</span></h4>
+                      {{walletData['init_currency']['symbol']}}{{currencyConverter(this.storeData.store['refDir'].cashed_commissions)| number:'1.4-4'}}</span></h4>
+                      <!-- {{walletData['init_currency']['symbol']}}{{(currencyConverter(ref.referral?.total_earning) || 0) + (ref.rebate?.total_earning || 0)| number:'1.4-4'}}</span></h4> -->
                     <!-- <span class="title">Inactive Surbodinate</span>:<span class="amount">0</span> -->
                   </div>
               </div>
@@ -82,7 +100,7 @@
                   </ul>
                   <div *ngIf="storeData.store['wallet'] as walletData" class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <span class="text-warning text-center">You earn {{ref.settings.percent.referral[0]}}% referral Commisson from members under level 1 and a {{ref.settings.percent.rebate[0]}}% Continues rebate bonus.</span>
+                        <span class="text-warning text-center">You earn {{ref.settings.percent.referral[0]}}% referral Commisson from members under level 1 and {{ref.settings.percent.rebate[0]}}% continues rebate bonus.</span>
 
                         <div  class="ba-all-page-inner mb-4">
                             <ul>
@@ -97,7 +115,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                      <span class="text-warning text-center">You earn {{ref.settings.percent.rebate[1]}}% rebate bonus from members under level 2 (x6).</span>
+                      <span class="text-warning text-center">You earn continues {{ref.settings.percent.rebate[1]}}% rebate bonus from members under level 2 .</span>
 
                       <div class="ba-all-page-inner mb-4">
                           <ul>
@@ -114,7 +132,7 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        <span class="text-warning text-center">You earn {{ref.settings.percent.rebate[2]}}% rebate bonus from members under level 3 (x6).</span>
+                        <span class="text-warning text-center">You earn continues {{ref.settings.percent.rebate[2]}}% rebate bonus from members under level 3.</span>
 
                         <div class="ba-all-page-inner mb-4">
                             <ul>

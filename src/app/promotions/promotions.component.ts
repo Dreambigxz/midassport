@@ -8,11 +8,16 @@ import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ToastService } from '../reuseables/toast/toast.service';
 
 import {  loadScript, copyContent } from '../reuseables/helper';
+import { CountdownPipe } from '../reuseables/pipes/countdown.pipe';
+import { Observable, interval } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-promotions',
   standalone: true,
-  imports: [CommonModule, RouterLink, SpinnerComponent, RouterOutlet],
+  imports: [CommonModule, RouterLink, SpinnerComponent, RouterOutlet, CountdownPipe],
   templateUrl: './promotions.component.html',
   styleUrl: './promotions.component.css'
 })
@@ -63,6 +68,39 @@ export class PromotionsComponent {
     const payment_method = this.storeData.get('wallet').init_currency
     return amount * payment_method.rate
   }
+
+  nextWednesday(): Date {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sunday, 3=Wednesday
+    let daysUntilWednesday = (3 - day + 7) % 7;
+    if (daysUntilWednesday === 0) daysUntilWednesday = 7; // always next, not today
+
+    const nextWed = new Date(now);
+    nextWed.setDate(now.getDate() + daysUntilWednesday);
+    nextWed.setHours(0, 0, 0, 0);
+    return nextWed;
+  }
+
+  countdown(target: Date): Observable<string> {
+    return interval(1000).pipe(
+      startWith(0),
+      map(() => {
+        const now = new Date().getTime();
+        const diff = target.getTime() - now;
+
+        if (diff <= 0) return "0d 0h 0m 0s";
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      })
+    );
+  }
+
+  nextWednesdayCountdown$ = this.countdown(this.nextWednesday());
 
 
 }
