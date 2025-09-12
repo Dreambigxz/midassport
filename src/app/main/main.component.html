@@ -50,8 +50,9 @@
           </div>
           <br>
           <span
-            class="vip">VIP {{ storeData.store["vip"]?.level ?? 0 }}
-
+            class="vip"
+            (click)="router.navigate(['/vip'])"
+              >{{ storeData.store["vip"] }}
           </span>
 
         </div>
@@ -93,6 +94,10 @@
       <div class="item"><img src="assets/img/banner/3.jpeg" alt="Banner 3" /></div>
     </div>
 
+    <div (click)="router.navigate(['/vip'])" class="text-right">
+      <button class="vip-btn" type="button" name="button"><span>Open Vip Earning 🏅</span></button>
+    </div>
+
 
     <!-- Quick Navigation -->
     <div class="icon-grid">
@@ -104,6 +109,10 @@
         <div class="icon-circle withdraw"><i class="fas fa-hand-holding-usd"></i></div>
         <div class="label">Withdraw</div>
       </div>
+      <!-- <div class="icon-item" (click)="router.navigate(['vip'])">
+        <div class="icon-circle vip"><i class="fas fa-exchange-alt"></i></div>
+        <div class="label">VIP</div>
+      </div> -->
       <div class="icon-item" (click)="router.navigate(['wallet', 'transactions'])">
         <div class="icon-circle transactions"><i class="fas fa-exchange-alt"></i></div>
         <div class="label">Transactions</div>

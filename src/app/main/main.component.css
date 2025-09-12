@@ -23,8 +23,8 @@
 .icon-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 3 per row */
-  gap: 1.5rem;
-  padding: 1rem;
+  gap: .4rem;
+  padding-top:  20px;
   text-align: center;
 }
 
@@ -66,10 +66,10 @@
 .logout          { background-color: #a60202; }
 
 /*  */
-.icon-grid {
+/* .icon-grid {
   gap: 1rem;
   padding: 1rem;
-}
+} */
 .load-more{
   border-radius: 12px;
 }
@@ -89,7 +89,15 @@ span.vip {
   font-size: 1.456rem;
 }
 
-.score.ng-tns-c1280852440-0 {
-    font-size: 15px;
-    color: #ff699b;
+button.vip-btn {
+    font-size: .8898rem;
+    border: navajowhite;
+    border-radius: 2px;
+    background: #34ff00;
+    color: #000;
+}
+
+.text-right {
+    display: flex;
+    justify-content: end;
 }

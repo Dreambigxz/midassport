@@ -1,0 +1,88 @@
+<app-spinner></app-spinner>
+
+  <div  *ngIf="storeData.store['wallet'] as walletData"  class="single-page-area">
+      <div class="title-area">
+          <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+          <h3>VIP</h3>
+          <div  translate="no" class="balance">
+            {{walletData['init_currency']['symbol']}}{{currencyConverter(walletData['balance']['new'])|number:'1.2-2'}}
+            <!-- <span><img src="assets/img/icon/dollar-sign.png" alt="img"></span> -->
+          </div>
+      </div>
+      <div class="container">
+          <div class="component-wrap mt-4">
+
+            <div class="streak-container p-4">
+              <!-- Header -->
+              <div class="streak-header mb-4 border-b pb-3">
+                <h4 class="text-2xl font-bold mb-2">Player Streak Statistics</h4>
+                <div  class="space-y-1 statistics-header bg-main text-white flex flex-col items-end p-3 rounded">
+                      <p><strong>Days Played:</strong> <span class="text-yellow text-end">{{ streak.days_played }}</span></p>
+                      <p><strong>Current VIP:</strong>
+                        <span [ngClass]="streak.vip" class="px-2 py-1 rounded text-white text-end">
+                          {{ streak.vip }}
+                        </span>
+                      </p>
+                      <p><strong>Daily Rate:</strong> <span class="text-green text-end">{{ streak.daily_rate | number:'1.2-2' }}%</span></p>
+                      <p><strong>Last Played:</strong> <span class="text-end">{{ streak.last_played | date:'medium' }}</span></p>
+                      <p><strong>Missed Days:</strong> <span class="text-red text-end">{{ streak.missed }}</span></p>
+                    </div>
+
+
+                <!-- Progress Bar -->
+                <!-- <div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+                  <div class="h-3 rounded-full bg-green-500" [style.width.%]="getProgressPercent()"></div>
+                </div> -->
+                <!-- <div class="widget-body">
+                  <div class="progress progress-lg mb-3" *ngIf="streak">
+                    <div
+                      class="progress-bar bg-primary"
+                      role="progressbar"
+                      [style.width.%]="getProgressPercent()"
+                      [attr.aria-valuenow]="getProgressPercent()"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      {{ getProgressPercent() | number:'1.0-0' }}%
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-sm text-gray-500 mt-1">Progress to next VIP</p> -->
+              </div>
+
+              <!-- History Table -->
+              <div class="streak-history">
+                <h3 class="text-lg font-semibold mb-2">Daily Performance</h3>
+                <div class="overflow-x-auto">
+                  <table class="table-auto w-full border border-gray-300 text-sm">
+                    <thead class="bg-gray-100">
+                      <tr>
+                        <th class="border px-2 py-1">Day</th>
+                        <th class="border px-2 py-1">Stake</th>
+                        <th class="border px-2 py-1">Profit</th>
+                        <th class="border px-2 py-1">Bonus</th>
+                        <th class="border px-2 py-1">VIP</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let entry of historyEntries">
+                        <td class="border px-2 py-1 font-semibold">{{ entry.day }}</td>
+                        <td class="border px-2 py-1">{{ currencyConverter(entry.stake_amount)|number:"1.2-2" }}</td>
+                        <td class="border px-2 py-1 text-green-600">{{ currencyConverter(entry.profit) | number:'1.2-2' }}</td>
+                        <td class="border px-2 py-1 text-blue-600">{{ entry.bonus | number:'1.2-2' }}</td>
+                        <td class="border px-2 py-1">
+                          <span [ngClass]="entry.vip" class="px-2 py-1 rounded text-white">
+                            {{ entry.vip }}
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+      </div>
+  </div>

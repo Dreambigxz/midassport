@@ -1,0 +1,35 @@
+/* VIP Badge Colors */
+.VIP0  { background-color: #111827; color: white!important; }   /* bg-gray-900 */
+.VIP1  { background-color: #10B981; color: white!important; }   /* bg-green-500 */
+.VIP2  { background-color: #3B82F6; color: white!important; }   /* bg-blue-500 */
+.VIP3  { background-color: #8B5CF6; color: white!important; }   /* bg-purple-500 */
+.VIP4  { background-color: #EC4899; color: white!important; }   /* bg-pink-500 */
+.VIP5  { background-color: #FBBF24; color: black!important; }   /* bg-yellow-400 */
+.VIP6  { background-color: #6366F1; color: white!important; }   /* bg-indigo-500 */
+.VIP7  { background-color: #EF4444; color: white!important; }   /* bg-red-500 */
+.VIP8  { background-color: #14B8A6; color: white!important; }   /* bg-teal-500 */
+.VIP9  { background-color: #F97316; color: white!important; }   /* bg-orange-500 */
+.VIP10 { background-color: #06B6D4; color: black!important; }   /* bg-cyan-400 */
+.VIP11 { background-color: #84CC16; color: black!important; }   /* bg-lime-400 */
+.VIP12 { background-color: #10B981; color: white!important; }   /* bg-emerald-500 */
+
+/* Optional: common badge styles */
+.VIP0, .VIP1, .VIP2, .VIP3, .VIP4, .VIP5,
+.VIP6, .VIP7, .VIP8, .VIP9, .VIP10, .VIP11, .VIP12 {
+  padding: 0.25rem 0.5rem; /* small padding */
+  border-radius: 0.375rem;  /* rounded corners like Tailwind */
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 2rem;
+}
+
+span.text-end {
+    float: right;
+}
+
+table {
+    caption-side: bottom;
+    border-collapse: collapse;
+    width: 100%;
+}

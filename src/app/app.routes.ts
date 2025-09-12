@@ -16,6 +16,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { InviteRewardsComponent } from "./promotions/invite-rewards/invite-rewards.component";
 import {NotificationsComponent} from './notifications/notifications.component'
 import {PaymentConfirmationComponent} from './payment-confirmation/payment-confirmation.component'
+import {VipComponent} from './vip/vip.component'
 import { authGuard } from './reuseables/auth/auth.guard';
 
 export const routes: Routes = [
@@ -62,6 +63,13 @@ export const routes: Routes = [
     path: 'invite-rewards',
     component: InviteRewardsComponent,
     title: 'Invite-Rewards',
+    canActivate: [authGuard]
+
+  },
+  {
+    path: 'vip',
+    component: VipComponent,
+    title: 'vip-Rewards',
     canActivate: [authGuard]
 
   },
