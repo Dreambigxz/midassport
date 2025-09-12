@@ -17,15 +17,15 @@
               <div class="streak-header mb-4 border-b pb-3">
                 <h4 class="text-2xl font-bold mb-2">Player Streak Statistics</h4>
                 <div  class="space-y-1 statistics-header bg-main text-white flex flex-col items-end p-3 rounded">
-                      <p><strong>Days Played:</strong> <span class="text-yellow text-end">{{ streak.days_played }}</span></p>
+                      <p><strong>Days Played:</strong> <span class="text-yellow text-end">{{ streak?.days_played }}</span></p>
                       <p><strong>Current VIP:</strong>
-                        <span [ngClass]="streak.vip" class="px-2 py-1 rounded text-white text-end">
-                          {{ streak.vip }}
+                        <span [ngClass]="streak?.vip" class="px-2 py-1 rounded text-white text-end">
+                          {{ streak?.vip }}
                         </span>
                       </p>
-                      <p><strong>Daily Rate:</strong> <span class="text-green text-end">{{ streak.daily_rate | number:'1.2-2' }}%</span></p>
-                      <p><strong>Last Played:</strong> <span class="text-end">{{ streak.last_played | date:'medium' }}</span></p>
-                      <p><strong>Missed Days:</strong> <span class="text-red text-end">{{ streak.missed }}</span></p>
+                      <p><strong>Daily Bonus:</strong> <span class="text-green text-end">{{ streak?.history['day'+streak.days_played].bonus | number:'1.2-2' }}%</span></p>
+                      <p><strong>Last Played:</strong> <span class="text-end">{{ streak?.last_played | date:'medium' }}</span></p>
+                      <p><strong>Missed Days:</strong> <span class="text-red text-end">{{ streak?.missed }}</span></p>
                     </div>
 
 
