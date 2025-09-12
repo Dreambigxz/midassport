@@ -52,7 +52,7 @@
           <span
             class="vip"
             (click)="router.navigate(['/vip'])"
-              >{{ storeData.store["vip"] }}
+              >{{ storeData.store["vip"]===0?"VIP0":storeData.store["vip"] }}
           </span>
 
         </div>
