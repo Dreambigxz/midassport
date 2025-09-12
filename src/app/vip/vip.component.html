@@ -23,7 +23,7 @@
                           {{ streak?.vip }}
                         </span>
                       </p>
-                      <p><strong>Daily Bonus:</strong> <span class="text-green text-end">{{ streak?.history['day'+streak.days_played].bonus | number:'1.2-2' }}%</span></p>
+                      <p><strong>Daily Bonus:</strong> <span class="text-green text-end">{{ (streak?.history['day' + streak?.days_played]?.bonus || 0) | number:'1.2-2' }}%</span></p>
                       <p><strong>Last Played:</strong> <span class="text-end">{{ streak?.last_played | date:'medium' }}</span></p>
                       <p><strong>Missed Days:</strong> <span class="text-red text-end">{{ streak?.missed }}</span></p>
                     </div>
