@@ -85,7 +85,7 @@ export class WithdrawComponent {
 
   initView(){
 
-    this.pendingPayment = this.storeData.store['withdraw'][0]
+    this.pendingPayment = this.storeData.get('withdraw')[0]
     if (this.storeData.get('hasMethod')) {
         this.payWith=this.storeData.get('payWith')
         this.setMethod(this.storeData.get('hasMethod'),this.payWith)
@@ -93,6 +93,42 @@ export class WithdrawComponent {
     if (this.pendingPayment) {
       this.activateTimer(new Date(this.pendingPayment.timestamp))
     }
+
+    this.defaultPaymentmethod()
+
+  }
+
+  defaultPaymentmethod() {
+
+    const wallet  = this.storeData.get('wallet')
+
+    if (wallet.init_currency.code === 'NGN') {
+      console.log("SET DEFAULT NAIRA");
+      this.defaultCurrency = "NGN";
+
+      // ✅ Patch the Local form instead of this.form
+      this.methodView["Local"].form.patchValue({
+        payment_method: "NGN"
+      });
+
+      // ✅ Load NGN as default payment method
+      // this.defaultPaymentmethod();
+    }
+
+
+    this.method = this.storeData.get('wallet').init_currency;
+    this.paymentMethod = this.method;
+
+    this.methodView["Local"].paymentMethod = this.paymentMethod;
+
+    // ✅ Set min deposit correctly
+    let minimum_withdraw = this.storeData.get('wallet').settings.minimum_withdraw;
+    this.methodView["Local"].paymentMethod["minimum_withdraw"] =
+      minimum_withdraw * this.paymentMethod.rate;
+
+    this.symbol = this.paymentMethod.symbol;
+
+    this.setMethod(this.method,"Local");
   }
 
   setMethod(method:any,payWith:any){
@@ -109,6 +145,8 @@ export class WithdrawComponent {
     }else{
       this.methodView[payWith as PaymentMethodGrp]['paymentMethod']['minimum_withdraw'] = minimum_withdraw*this.methodView[payWith as PaymentMethodGrp].paymentMethod.rate
     }
+
+
 
 
   }
@@ -238,6 +276,8 @@ export class WithdrawComponent {
   hours = 0;
   minutes = 0;
   seconds = 0;
+
+  defaultCurrency : any
 
   private timerSub!: Subscription;
 

@@ -67,7 +67,7 @@
                     <!-- {{tx.inia}} -->
                 </div>
                 <div class="amount-details">
-                    <h6>${{tx.amount|number:"1.2-2"}}</h6>
+                    <h6>{{walletData['init_currency']['symbol']}}{{currencyConverter(tx.amount)|number:"1.2-2"}}</h6>
                     <small>{{tx.timestamp|date:'short'}}</small>
                 </div>
             </li>

@@ -116,7 +116,6 @@ export class DepositComponent {
     this.setPaymentMethod("Local");
   }
 
-
   onPaymentSelect(event: Event): void {
     const target = event.target as HTMLElement;
 
@@ -183,8 +182,6 @@ export class DepositComponent {
     }
 
     loadScript('assets/js/main.js');
-
-    console.log(wallet);
 
     if (wallet.init_currency.code === 'NGN') {
       console.log("SET DEFAULT NAIRA");

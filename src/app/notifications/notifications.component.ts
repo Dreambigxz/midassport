@@ -17,6 +17,7 @@ export class NotificationsComponent {
 
   reqServerData = inject(RequestDataService);
   storeData = inject(StoreDataService);
+  history = window.history
 
   ngOnInit(){
 
@@ -26,7 +27,6 @@ export class NotificationsComponent {
       this.reqServerData.get('notifications/').subscribe({
         next:res=>{
           console.log(res);
-
         }
       })
     }
