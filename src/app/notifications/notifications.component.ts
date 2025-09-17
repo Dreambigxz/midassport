@@ -41,6 +41,7 @@ export class NotificationsComponent {
     // move from unseen → seen
     this.storeData.get('notification').seen.unshift(item);
     this.storeData.get('notification').unseen = this.storeData.get('notification').unseen.filter((n: any) => n.txref !== item.txref);
+    this.storeData.store['unreadNotification'] -= 1 
   }
 
 }
