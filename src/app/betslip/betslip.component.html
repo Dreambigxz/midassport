@@ -98,7 +98,7 @@
                 <div class="amount-wrap">
                   <div class="title-wrap">
                       <h6>Amount To Play</h6>
-                      <span translate="no">{{walletData['init_currency']['symbol']}}{{storeData.store['bet_settings']?.minimum}} - {{storeData.store['bet_settings']?.maximum|number}} </span>
+                      <span translate="no">{{walletData['init_currency']['symbol']}}{{currencyConverter(storeData.store['bet_settings']?.minimum)|number}} - {{currencyConverter(storeData.store['bet_settings']?.maximum)|number}} </span>
                   </div>
 
 
