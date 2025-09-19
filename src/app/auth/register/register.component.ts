@@ -37,19 +37,18 @@ export class RegisterComponent {
   private geo = inject(UserLocationService)
 
   form = this.fb.group({
-    username:['',[Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
+      username:['',[Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       RefCode:[""],
-      // geolocation:[""],
+      currency:[""],
       geolocation: this.fb.group({
         country: [''],
         code: [''],
         flag: [''],
         currency: ['']  // 👈 add currency code
 
-      })
-      // referrer: ['']  // 👈 added here
+      }),
 
   })
 
@@ -98,6 +97,9 @@ export class RegisterComponent {
     if (this.RefCode) {
       this.form.patchValue({ RefCode: this.RefCode });
      }
+
+     this.form.patchValue({ currency: this.geolocation.currency });
+
     this.form.patchValue({ geolocation: this.geolocation }); // when using the pwa geoloacation is not included on data sent why?
     // this.form.patchValue({ geolocation: JSON.stringify(this.geolocation) });
 
