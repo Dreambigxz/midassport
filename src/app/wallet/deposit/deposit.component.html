@@ -128,7 +128,7 @@
                                                   <h6>Amount To Deposit</h6>
                                                   <span class="text-warning">Minimum: {{local.symbol}}{{local.minimum_deposit | number}} </span>
                                                 </div>
-                                                <span *ngIf="form.get('amount').valid" class="cvt-amount text-success">
+                                                <span *ngIf="form.get('amount').valid&&defaultCurrency!=='NGN'" class="cvt-amount text-success">
                                                   Eqv ≈ ${{local.cvtUSD | number:'1.2-2'}}
                                                 </span>
 
@@ -169,16 +169,17 @@
                     <h6>Pending Payment</h6>
                     <div class="invoice ba-all-page-inner mb-4">
                         <ul>
-                            <li><a href="#">Invoice <span class="text-warning">#{{pendingDeposit.sessionID}}</span></a></li>
-                            <li><a href="#">Amount <span class="text amount">{{pendingDeposit.method}}{{pendingDeposit.init_amount|number:'1.2-2'}}</span></a></li>
-                            <li><a href="#">Created <span class="text-date">{{pendingDeposit.timestamp|date:'medium'}}</span></a></li>
+                            <li><a>Invoice <span class="text-warning">#{{pendingDeposit.sessionID}}</span></a></li>
+                            <li><a>Amount <span class="text amount">{{pendingDeposit.method}}{{pendingDeposit.init_amount|number:'1.2-2'}}</span></a></li>
+                            <li><a>Created <span class="text-date">{{pendingDeposit.timestamp|date:'medium'}}</span></a></li>
+                            <li *ngIf="pendingDeposit.generator==='awaiting_deposit_confirmation'"><a>Confirminng payment from bank <span class="text-confirmation timer">{{addHours(pendingDeposit.timestamp)|countdown|async}}</span></a></li>
                         </ul>
                     </div>
 
                     <div *ngIf="isLocalDeposit; else CryptoPaymentBlock" class="local__payment ba-all-page-inne">
-                      <p class="text-warning text-center">{{!pendingDeposit.proof?"Make Payment with any of the banking details bellow to complete your deposit request!":"Awaiting payment confirmation"}}</p>
+                      <!-- <p class="text-warning text-center">{{!pendingDeposit.proof?"Make Payment with any of the banking details bellow to complete your deposit request!":"Awaiting payment confirmation"}}</p> -->
 
-                      <div *ngIf="!pendingDeposit.proof" class="sports-wrap mt-4">
+                      <div *ngIf="!pendingDeposit.proof&&pendingDeposit.generator!=='awaiting_deposit_confirmation'" class="sports-wrap mt-4">
                           <div class="sports-slider slider-nav">
 
                               <div *ngFor="let bank of localBank" class="sports-slider-item">
@@ -190,9 +191,12 @@
                           <div class="sports-slider-wrap slider-for">
                               <div *ngFor="let bank of localBank" class="slider-content">
 
+                                  <div style="margin-top:12px;font-size:20px" class="text-warning mt-10 text-center">
+                                    <span class="text-info">NOTE:</span> COPY AND ATTACH THE REFERNCE NUMBER AS THE TRANSACTION REMARK.
+                                  </div>
                                 <div class="account ba-all-page-inner mb-4">
                                     <ul>
-                                        <li>
+                                      <li>
                                           <a>Account Number
                                             <span class="text">{{bank.account_number}}
                                               <svg (click)="copyContent(bank.account_number)" class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -203,11 +207,16 @@
                                         <!-- <li><a href="#">Amount <span class="text">{{pendingDeposit.method}}{{pendingDeposit.init_amount|number:'1.2-2'}}</span></a></li> -->
                                         <li><a>Account Holder <span class="text">{{bank.account_holder}}</span></a></li>
                                         <li><a>Bank Name <span class="text">{{bank.bank}}</span></a></li>
+                                        <li>
+                                            <a>Reference Num
+                                              <span class="text text-warning">{{pendingDeposit.sessionID}}
+                                                <svg (click)="copyContent(pendingDeposit.sessionID)" class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                              </span>
+                                          </a>
+                                        </li>
                                     </ul>
                                 </div>
                               </div>
-
-
                           </div>
                       </div>
                     </div>
@@ -232,7 +241,7 @@
 
                     </ng-template>
 
-                    <div *ngIf="isLocalDeposit"  class="mb-4">
+                    <div style="display:none;" *ngIf="isLocalDeposit"  class="mb-4">
                       <!-- Upload Wrapper -->
                           <div class="upload-wrapper mb-3">
                             <label for="fileInput">
@@ -251,9 +260,13 @@
                           <h6 style="display:flex;justify-content:center" *ngIf="!previewUrl">Upload Receipt</h6>
 
                     </div>
+
                     <div class="action-btn">
-                      <button (click)="CancelPayment('deposit')"  class="btn btn-base w-100 btn-danger">Cancel Deposit</button>
+                      <button *ngIf="isLocalDeposit&&pendingDeposit.generator!=='awaiting_deposit_confirmation'" (click)="paymentCompleted()"  class="btn btn-base w-100 btn-success mb-10 payed">Payment Completed</button>
+                      <button (click)="CancelPayment('deposit')"  class="btn btn-base w-100 btn-danger mt-12">Cancel Deposit</button>
                     </div>
+
+
 
                 </div>
             </div>

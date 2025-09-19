@@ -66,3 +66,12 @@ span.text {
 .upload-preview:hover {
   opacity: 0.8;
 }
+
+.payed {
+    margin-bottom: 12px;
+}
+
+.text-confirmation {
+  font-family: "Orbitron", sans-serif;
+  color: #b1184b;
+}

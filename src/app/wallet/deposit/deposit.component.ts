@@ -15,12 +15,14 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationDialogService } from '../../reuseables/modals/confirmation-dialog/confirmation-dialog.service';
 
 import { QRCodeComponent } from 'angularx-qrcode';
+import { CountdownPipe } from '../../reuseables/pipes/countdown.pipe';
+
 
 type PaymentMethodGrp = 'Local'|'Crypto'
 
 @Component({
   selector: 'app-deposit',
-  imports: [CommonModule,SpinnerComponent,ReactiveFormsModule,QRCodeComponent],
+  imports: [CommonModule,SpinnerComponent,ReactiveFormsModule,QRCodeComponent,CountdownPipe],
   templateUrl: './deposit.component.html',
   styleUrl: './deposit.component.css'
 })
@@ -258,9 +260,30 @@ export class DepositComponent {
 
   }
 
+  paymentCompleted(){
+
+    this.reqConfirmation.confirmAction(()=>{
+      console.log("TRU");
+      this.reqServerData.post("wallet/",{processor:"payment_completed"}).subscribe({next: res => this.showInvoice()})
+    }, 'Payment Completed', 'Are you sure you have made this payment ?' )
+  }
+
   currencyConverter(amount:any){
     const payment_method = this.storeData.get('wallet').init_currency
     return amount * payment_method.rate
   }
+
+  addHours(timestamp: any, hours: number = 1): number {
+    console.log("Original:", timestamp);
+
+    // Convert to Date object (timestamp could be number or string)
+    const date = new Date(timestamp);
+
+    // Add hours in ms
+    const updated = date.getTime() + hours * 60 * 60 * 1000;
+
+    return updated; // returns ms timestamp (UNIX in ms)
+  }
+
 
 }
