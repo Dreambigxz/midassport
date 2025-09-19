@@ -98,7 +98,12 @@ export class RegisterComponent {
     if (this.RefCode) {
       this.form.patchValue({ RefCode: this.RefCode });
      }
-    this.form.patchValue({ geolocation: this.geolocation });
+    this.form.patchValue({ geolocation: this.geolocation }); // when using the pwa geoloacation is not included on data sent why?
+    // this.form.patchValue({ geolocation: JSON.stringify(this.geolocation) });
+
+    this.form.updateValueAndValidity();
+
+
     this.formHandler.submitForm(this.form,'AUTHENTICATIONS', 'register/?showSpinner',  (res) => {
 
       if (res.status==='success') {

@@ -17,7 +17,6 @@ import { ConfirmationDialogService } from '../../reuseables/modals/confirmation-
 import { QRCodeComponent } from 'angularx-qrcode';
 import { CountdownPipe } from '../../reuseables/pipes/countdown.pipe';
 
-
 type PaymentMethodGrp = 'Local'|'Crypto'
 
 @Component({
@@ -35,7 +34,6 @@ export class DepositComponent {
   toast = inject(ToastService)
   reqConfirmation = inject(ConfirmationDialogService)
   window = window
-
 
   formHandler = inject(FormHandlerService);
   fb = inject(FormBuilder);
@@ -233,7 +231,6 @@ export class DepositComponent {
   defaultImage = 'assets/upload.png'; // Put your placeholder image in assets
   previewUrl: string | null = null;
   selectedFile: File | null = null;
-
 
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
