@@ -117,17 +117,21 @@
         <div class="icon-circle transactions"><i class="fas fa-exchange-alt"></i></div>
         <div class="label">Transactions</div>
       </div>
-      <div class="icon-item" (click)="router.navigate(['vip'])">
+      <!-- <div class="icon-item" (click)="router.navigate(['vip'])">
         <div class="icon-circle gift"><i class="fas fa-gift"></i></div>
         <div class="label">Rewards</div>
-      </div>
+      </div> -->
       <a class="icon-item" [href]="storeData.store['telegramHelp']" target="_blank" rel="noopener noreferrer">
         <div class="icon-circle help"><i class="fas fa-question-circle"></i></div>
         <div class="label">Help</div>
       </a>
       <a class="icon-item" [href]="storeData.store['telegramChannel']" target="_blank" rel="noopener noreferrer">
         <div class="icon-circle telegram"><i class="fab fa-telegram-plane"></i></div>
-        <div class="label">Telegram</div>
+        <div class="label">Channel</div>
+      </a>
+      <a class="icon-item" [href]="storeData.store['telegramGroup']" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle discussion"><i class="fas fa-users"></i></div>
+        <div class="label">Discussion</div>
       </a>
       <div
         class="icon-item"
