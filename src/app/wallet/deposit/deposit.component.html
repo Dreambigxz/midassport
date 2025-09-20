@@ -172,7 +172,7 @@
                             <li><a>Invoice <span class="text-warning">#{{pendingDeposit.sessionID}}</span></a></li>
                             <li><a>Amount <span class="text amount">{{pendingDeposit.method}}{{pendingDeposit.init_amount|number:'1.2-2'}}</span></a></li>
                             <li><a>Created <span class="text-date">{{pendingDeposit.timestamp|date:'medium'}}</span></a></li>
-                            <li *ngIf="pendingDeposit.generator==='awaiting_deposit_confirmation'"><a>Confirminng payment from bank <span class="text-confirmation timer">{{addHours(pendingDeposit.timestamp)|countdown|async}}</span></a></li>
+                            <li *ngIf="pendingDeposit.generator==='awaiting_deposit_confirmation'"><a>Confirming payment from bank <span class="text-confirmation timer">{{addHours(pendingDeposit.timestamp)|countdown|async}}</span></a></li>
                         </ul>
                     </div>
 
@@ -192,7 +192,7 @@
                               <div *ngFor="let bank of localBank" class="slider-content">
 
                                   <div style="margin-top:12px;font-size:20px" class="text-warning mt-10 text-center">
-                                    <span class="text-info">NOTE:</span> COPY AND ATTACH THE REFERNCE NUMBER AS THE TRANSACTION REMARK.
+                                    <span class="text-info">NOTE:</span> COPY AND ATTACH THE REFERENCE NUMBER AS THE TRANSACTION REMARK.
                                   </div>
                                 <div class="account ba-all-page-inner mb-4">
                                     <ul>
