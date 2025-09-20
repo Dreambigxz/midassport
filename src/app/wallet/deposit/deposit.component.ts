@@ -57,12 +57,14 @@ export class DepositComponent {
       'form':this.fb.group({
         payment_method: ['', [Validators.required]],
         amount: ['', [Validators.required, Validators.min]],
+        origin:[""]
       })
     },
     'Local':{
       'form':this.fb.group({
         payment_method: ['', [Validators.required]],
         amount: ['', [Validators.required, Validators.min]],
+        origin:[""]
       })
 
     },
@@ -70,6 +72,7 @@ export class DepositComponent {
 
   sendersForm = this.fb.group({
     senders_name: ['', [Validators.required]],
+    origin:[""]
   })
 
   setMetheod = this.methodView['Crypto']
@@ -77,6 +80,8 @@ export class DepositComponent {
   ngOnInit(): void {loadScript('assets/js/main.js');if (!this.storeData.get('deposit')){this.reqServerData.get("wallet?dir=start_deposit&showSpinner").subscribe({next: res =>this.showInvoice()})}else{this.showInvoice()}}
 
   onSubmit(processor:any,form:any): void {
+
+      form.patchValue({origin:window.location.origin})
       if (processor==="payment_completed"&&this.sendersForm.valid) {
 
         // close modal programmatically
@@ -89,7 +94,7 @@ export class DepositComponent {
           }
       }
 
-    this.formHandler.submitForm(form, processor, 'wallet/?showSpinner',  (res) => {
+      this.formHandler.submitForm(form, processor, 'wallet/?showSpinner',  (res) => {
       this.showInvoice()
       if(processor==="payment_completed"){
         location.reload()
