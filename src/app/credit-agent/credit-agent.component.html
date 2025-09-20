@@ -1,0 +1,56 @@
+<app-spinner></app-spinner>
+
+<div class="single-page-area">
+
+        <div class="title-area">
+            <a (click)="window.history.back()" class="btn back-page-btn"><i class="ri-arrow-left-s-line"></i></a>
+            <h3>Credit Agent</h3>
+            <div  (click)="router.navigate(['mainn'])" class="records balance">
+              Dashboard <i class="fa fa-home"></i>
+
+            </div>
+        </div>
+
+
+        <!-- <div class="container"> -->
+
+	<!-- PAGE CONTENT -->
+	<div class="container">
+
+    <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()"  class="default-form-wrap pd-top-130">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="single-input-wrap">
+                      <label><img src="assets/img/icon/profile.svg" alt="img"></label>
+                      <input formControlName="identifier" type="text" class="form-control" placeholder="Enter username / email address">
+                  </div>
+              </div>
+
+              <div class="col-md-12">
+                  <div class="single-input-wrap">
+                      <label>
+                        <!-- <img src="assets/img/icon/dollar-sign.png" alt="img"> -->
+                        💳
+                      </label>
+                      <input
+                       formControlName="amount"
+                       type="number"
+                         class="form-control" placeholder="Amount to credit">
+
+                  </div>
+              </div>
+          </div>
+          <button class="btn btn-base w-100">Credit</button>
+      </form>
+
+    </ng-template>
+
+  </div>
+
+</div>

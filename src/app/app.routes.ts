@@ -17,6 +17,7 @@ import { InviteRewardsComponent } from "./promotions/invite-rewards/invite-rewar
 import {NotificationsComponent} from './notifications/notifications.component'
 import {PaymentConfirmationComponent} from './payment-confirmation/payment-confirmation.component'
 import {VipComponent} from './vip/vip.component'
+import {CreditAgentComponent} from './credit-agent/credit-agent.component'
 import { authGuard } from './reuseables/auth/auth.guard';
 
 export const routes: Routes = [
@@ -126,6 +127,13 @@ export const routes: Routes = [
     path: 'confirm-payment',
     component: PaymentConfirmationComponent,
     title: 'Confirmation',
+    canActivate: [authGuard]
+
+  },
+  {
+    path: 'credit-agent',
+    component: CreditAgentComponent,
+    title: 'Credit-Agent',
     canActivate: [authGuard]
 
   },
