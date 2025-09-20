@@ -181,6 +181,12 @@ export class TicketsComponent {
     return result
   }
 
+  notStarted(timestamp:any){
+    const startDate = new Date(timestamp*1000)
+
+    return startDate > new Date()
+  }
+
   filterByDate() {
     const start = new Date(this.dateFrom);
     const stop = new Date(this.dateTo);
