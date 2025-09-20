@@ -17,6 +17,7 @@ import { ConfirmationDialogService } from '../../reuseables/modals/confirmation-
 import { QRCodeComponent } from 'angularx-qrcode';
 import { CountdownPipe } from '../../reuseables/pipes/countdown.pipe';
 
+
 type PaymentMethodGrp = 'Local'|'Crypto'
 
 @Component({

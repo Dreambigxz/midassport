@@ -27,7 +27,6 @@ export class CreditAgentComponent {
 
   public router = inject(Router)
 
-
   storeData = inject(StoreDataService)
   reqServerData = inject(RequestDataService)
   reqConfirmation = inject(ConfirmationDialogService)
@@ -40,22 +39,16 @@ export class CreditAgentComponent {
     amount:['',[Validators.required]]
   })
 
-
-
   ngOnInit():void{
-
     loadScript('assets/js/main.js');
-
   }
 
   onSubmit(){
-    this.formHandler.submitForm(this.form,'', 'credit-agent/?showSpinner',  (res) => {
 
-      if (res.status==='success') {
+    this.reqConfirmation.confirmAction(()=>{
+      this.formHandler.submitForm(this.form,'', 'credit-agent/?showSpinner',  (res) => {})
+    }, 'Credit User', 'Are you sure ?' )
 
-      }
-
-    })
   }
 
 
