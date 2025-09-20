@@ -160,7 +160,7 @@
                             <div *ngIf="ticket.unseen_settled" class="expected-settle-time">
                               ⏳ Settles in {{ ticket.start_date | countdown:true | async}}
                             </div>
-                            <div class="expected-settle-time"
+                            <div class="starts-time"
                                    *ngIf="(ticket.start_date | countdown:true | async) !== 'Started'">
                                 ⏳ Starts in {{ ticket.start_date | countdown:false | async }}
                               </div>
