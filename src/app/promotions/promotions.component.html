@@ -40,7 +40,11 @@
                   <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
                   <div *ngIf="storeData.store['wallet'] as walletData"  class="blog-meta">
                     <h4><span class="amount">
-                      {{walletData['init_currency']['symbol']}}{{currencyConverter(this.storeData.store['refDir'].uncashed)| number:'1.2-2'}}</span></h4>
+                      {{ walletData['init_currency']['symbol'] }}
+                        {{ currencyConverter(this.storeData.store['refDir'].uncashed)
+                           | number:(walletData['init_currency']['code'] === 'USD' ? '1.4-4' : '1.2-2') }}
+
+                    </span></h4>
                   </div>
                   <span *ngIf="this.storeData.store['refDir'].uncashed" class="text-warning">Cahsing in {{nextWednesdayCountdown$ | async}}</span>
               </div>
@@ -55,7 +59,11 @@
                   <!-- <a class="card-title" href="blog-details.html">The Best MMA Bets of the Week</a> -->
                   <div *ngIf="storeData.store['wallet'] as walletData"  class="blog-meta">
                     <h4><span class="amount">
-                      {{walletData['init_currency']['symbol']}}{{currencyConverter(this.storeData.store['refDir'].cashed_commissions)| number:'1.4-4'}}</span></h4>
+                      {{ walletData['init_currency']['symbol'] }}
+                        {{ currencyConverter(this.storeData.store['refDir'].cashed_commissions)
+                           | number:(walletData['init_currency']['code'] === 'USD' ? '1.4-4' : '1.2-2') }}
+
+                    </span></h4>
                       <!-- {{walletData['init_currency']['symbol']}}{{(currencyConverter(ref.referral?.total_earning) || 0) + (ref.rebate?.total_earning || 0)| number:'1.4-4'}}</span></h4> -->
                     <!-- <span class="title">Inactive Surbodinate</span>:<span class="amount">0</span> -->
                   </div>
