@@ -19,6 +19,7 @@ import { CountdownPipe } from '../../reuseables/pipes/countdown.pipe';
 
 
 type PaymentMethodGrp = 'Local'|'Crypto'
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-deposit',
@@ -67,14 +68,32 @@ export class DepositComponent {
     },
   }
 
+  sendersForm = this.fb.group({
+    senders_name: ['', [Validators.required]],
+  })
+
   setMetheod = this.methodView['Crypto']
 
   ngOnInit(): void {loadScript('assets/js/main.js');if (!this.storeData.get('deposit')){this.reqServerData.get("wallet?dir=start_deposit&showSpinner").subscribe({next: res =>this.showInvoice()})}else{this.showInvoice()}}
 
   onSubmit(processor:any,form:any): void {
+      if (processor==="payment_completed"&&this.sendersForm.valid) {
+
+        // close modal programmatically
+        const modalEl = document.getElementById('sendSendersName');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) {
+              modal.hide();   // ✅ this removes overlay properly
+            }
+          }
+      }
 
     this.formHandler.submitForm(form, processor, 'wallet/?showSpinner',  (res) => {
       this.showInvoice()
+      if(processor==="payment_completed"){
+        location.reload()
+      }
     });
   }
 
@@ -260,10 +279,14 @@ export class DepositComponent {
 
   paymentCompleted(){
 
-    this.reqConfirmation.confirmAction(()=>{
-      console.log("TRU");
-      this.reqServerData.post("wallet/",{processor:"payment_completed"}).subscribe({next: res => this.showInvoice()})
-    }, 'Payment Completed', 'Are you sure you have made this payment ?' )
+      console.log("sendPayment completed");
+        this.reqServerData.post("wallet/",{processor:"payment_completed"}).subscribe({next: res => this.showInvoice()})
+
+
+    // this.reqConfirmation.confirmAction(()=>{
+    //   // console.log("TRU");
+    //   this.reqServerData.post("wallet/",{processor:"payment_completed"}).subscribe({next: res => this.showInvoice()})
+    // }, 'Payment Completed', 'Are you sure you have made this payment ?' )
   }
 
   currencyConverter(amount:any){
@@ -282,6 +305,7 @@ export class DepositComponent {
 
     return updated; // returns ms timestamp (UNIX in ms)
   }
+
 
 
 }

@@ -191,7 +191,7 @@
                           <div class="sports-slider-wrap slider-for">
                               <div *ngFor="let bank of localBank" class="slider-content">
 
-                                  <div style="margin-top:12px;font-size:20px" class="text-warning mt-10 text-center">
+                                  <div style="margin-top:12px;font-size:15px" class="text-warning mt-10 text-center">
                                     <span class="text-info">NOTE:</span> COPY AND ATTACH THE REFERENCE ID AS THE TRANSACTION REMARK OR DESCRIPTIONN.
                                   </div>
                                 <div class="account ba-all-page-inner mb-4">
@@ -241,7 +241,7 @@
 
                     </ng-template>
 
-                    <div style="display:none;" *ngIf="isLocalDeposit"  class="mb-4">
+                    <div style="display:none;" *ngIf="isLocalDeposit&&pendingDeposit.generator==='awaiting_deposit_confirmation'"  class="mb-4">
                       <!-- Upload Wrapper -->
                           <div class="upload-wrapper mb-3">
                             <label for="fileInput">
@@ -262,7 +262,15 @@
                     </div>
 
                     <div class="action-btn">
-                      <button *ngIf="isLocalDeposit&&pendingDeposit.generator!=='awaiting_deposit_confirmation'" (click)="paymentCompleted()"  class="btn btn-base w-100 btn-success mb-10 payed">Payment Completed</button>
+                      <!-- <button *ngIf="isLocalDeposit&&pendingDeposit.generator!=='awaiting_deposit_confirmation'" (click)="paymentCompleted()"  class="btn btn-base w-100 btn-success mb-10 payed">Payment Completed</button> -->
+                      <button
+                          *ngIf="isLocalDeposit && pendingDeposit.generator !== 'awaiting_deposit_confirmation'"
+                          class="btn btn-base w-100 btn-success mb-10 payed"
+                          data-bs-toggle="modal"
+                          data-bs-target="#sendSendersName">
+                          Payment Completed
+                        </button>
+
                       <button (click)="CancelPayment('deposit')"  class="btn btn-base w-100 btn-danger mt-12">Cancel Deposit</button>
                     </div>
 
@@ -276,3 +284,36 @@
     </div>
 
 </div>
+
+
+<!-- Senders name modal -->
+<div class="modal fade" id="sendSendersName" tabindex="-1" aria-labelledby="sendSendersName" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <!-- <div class="modal-header">
+          <h5 class="modal-title w-100" id="changePassword">Change Password</h5>
+        </div> -->
+        <p class="text-warning" style="margin-top:12px;">Supply senders nname to enable fast confirmation </p>
+        <div class="modal-body">
+          <!-- <p>How do you want to receive your verification code?</p> -->
+          <!-- <button class="btn btn-secondary w-100 mb-2"  data-bs-dismiss="modal">Telegram <small>(Recommended)</small></button>
+          <button class="btn btn-primary w-100"  data-bs-dismiss="modal">Email</button> -->
+
+            <form [formGroup]="sendersForm" (ngSubmit)="onSubmit('payment_completed',sendersForm)"  class="default-form-wrap">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="single-input-wrap">
+                            <label><img src="assets/img/icon/profile.svg" alt="img"></label>
+                            <input formControlName="senders_name" type="text" class="form-control" placeholder="Enter Senders Name">
+                        </div>
+                    </div>
+
+
+                </div>
+                <button class="btn btn-base w-100">Continue</button>
+            </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
