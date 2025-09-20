@@ -1,7 +1,7 @@
 let checkInterval = null;
 let userToken = null;
 let vapidPublicKey = null;
-baseUrl = "https://midassport-7dcbdba7377b.herokuapp.com/api";
+baseUrl = "https://gball-bd565bb2756c.herokuapp.com/api";
 
 async function fetchApi(url,method,body) {
   console.log('FETCHING<<>>', {url,method,body});
@@ -157,7 +157,6 @@ function startChecking() {
 
 // message listener
 self.addEventListener('message', async (event) => {
-  console.log({event});
   if (!event.data)return //not client
   if (event.data.type === 'SET_TOKEN') {
     userToken = event.data.token;

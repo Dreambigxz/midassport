@@ -42,7 +42,7 @@ export class AppComponent {
   subscribed = false;
 
   checkOpenBetInterval: number | null= null
-  siteName='MIDAS SPORT⚽️'
+  siteName='GOLDENBALL⚽️'
   private lastTokenSent: string | null = null;
   private openBet: string | null = null;
   private swRegistration: ServiceWorkerRegistration | null = null;
