@@ -48,7 +48,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private intervalId: any;
   private isPolling = false;
-  batchSize = 5;
+  batchSize = 50;
 
   loadData: { [key: string]: any } = {};
   categorizedMatchesData: Record<MatchCategory, any> = {
@@ -134,8 +134,6 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     loadScript('assets/js/main.js');
-
-    console.log("HI");
 
 
   }

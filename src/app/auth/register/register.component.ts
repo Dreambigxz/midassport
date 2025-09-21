@@ -105,7 +105,6 @@ export class RegisterComponent {
 
     this.form.updateValueAndValidity();
 
-
     this.formHandler.submitForm(this.form,'AUTHENTICATIONS', 'register/?showSpinner',  (res) => {
 
       if (res.status==='success') {
@@ -119,8 +118,6 @@ export class RegisterComponent {
       }
       // this.showInvoice()
     });
-
-
 
   }
 
