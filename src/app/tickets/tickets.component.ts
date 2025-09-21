@@ -151,21 +151,20 @@ export class TicketsComponent {
       this.reqServerData.post('bet/?showSpinner',{ticket_id:ticket.ticket_id,processor:'cancel_bet'}).subscribe({
         next: res =>{
            this.categorizeTicket();
-           console.log({res});
 
-           if ('serviceWorker' in navigator && res.status === "success") {
-             navigator.serviceWorker.ready.then(registration => {
-               const bets = res.main.betDir.ticket.filter((bet: any) =>
-                 bet.status === 'open'
-               )
-
-               // Send bets to the active SW
-               if (registration.active) {
-                 registration.active.postMessage({ type: 'removeBetFromDB', betId:ticket.id });
-                 console.log('Sent bets to service worker');
-               }
-             });
-           }
+           // if ('serviceWorker' in navigator && res.status === "success") {
+           //   navigator.serviceWorker.ready.then(registration => {
+           //     const bets = res.main.betDir.ticket.filter((bet: any) =>
+           //       bet.status === 'open'
+           //     )
+           //
+           //     // Send bets to the active SW
+           //     if (registration.active) {
+           //       registration.active.postMessage({ type: 'removeBetFromDB', betId:ticket.id });
+           //       console.log('Sent bets to service worker');
+           //     }
+           //   });
+           // }
 
          }
       })
@@ -182,8 +181,8 @@ export class TicketsComponent {
   }
 
   notStarted(timestamp:any){
-    const startDate = new Date(timestamp*1000)
 
+    const startDate = new Date(timestamp)
     return startDate > new Date()
   }
 

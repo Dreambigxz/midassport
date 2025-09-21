@@ -108,7 +108,7 @@
                       (keyup)="setBetAmount($event)"
                       type="digit"
                       class="form-control"
-                      placeholder="{{walletData['init_currency']['symbol']}} {{storeData.store['bet_settings']?.minimum}}"
+                      placeholder="{{walletData['init_currency']['symbol']}} {{currencyConverter(storeData.store['bet_settings']?.minimum)}}"
                       [(ngModel)]="stakeAmount">
                      <button (click)="stakeAll()" class="btn btn-outline-primary me-2" >ALL</button>
                     </div>
@@ -137,7 +137,7 @@
                   </div> -->
 
                   <div class="mt-3">
-                    <button appButtonLoader (click)="slipHandler('place_bet')" *ngIf="stakeAmount>=storeData.store['bet_settings']?.minimum" class="btn btn-base w-100" >Trade Now</button>
+                    <button appButtonLoader (click)="slipHandler('place_bet')" *ngIf="stakeAmount>=currencyConverter(storeData.store['bet_settings']?.minimum)" class="btn btn-base w-100" >Trade Now</button>
                   </div>
 
                   <div class="mt-3">

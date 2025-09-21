@@ -147,10 +147,9 @@
                             <span (click)="activeTicket=ticket.ticket_id" *ngIf="activeTicket!==ticket.ticket_id" class="btn btn-outline-dark btn-sm ng-tns-c880506055-0">Show Score ▼</span>
 
 
-                            <button  (click)="CancelTicket(ticket)" *ngIf="CanCancel(ticket);else statusBlock"><i class="fa fa-trash"></i></button>
+                            <button  (click)="CancelTicket(ticket)" *ngIf="notStarted(ticket.start_date);else statusBlock"><i class="fa fa-trash"></i></button>
                             <ng-template #statusBlock>
-                              <button class="status">🟡</button>
-
+                              <button class="status-live">🟡</button>
                               </ng-template>
 
                             <!-- <div class="m-time">
@@ -160,10 +159,15 @@
                             <div *ngIf="ticket.unseen_settled" class="expected-settle-time">
                               ⏳ Settles in {{ ticket.start_date | countdown:true | async}}
                             </div>
-                            <div  class="starts-time"
+                            <div class="starts-time"
                                    *ngIf="notStarted(ticket.start_date)">
                                 ⏳ Starts in {{ ticket.start_date | countdown:false | async }}
-                              </div>
+                            </div>
+                            <div class="starts-time"
+                                 *ngIf="!notStarted(ticket.start_date) && !ticket.unseen_settled">
+                                 Live
+                                 <!-- <span class="loader-icon">⚽️</span> -->
+                            </div>
                         </div>
 
                       </div>
