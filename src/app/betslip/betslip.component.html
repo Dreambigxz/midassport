@@ -60,19 +60,19 @@
                           <td  (click)="onCellClick(row[0])" *ngIf="row[0]">
                             <div class="score-box">
                               <div class="score">⚽️{{ row[0].value }}</div>
-                              <div class="odds">{{ row[0].odds }}💹</div>
+                              <div class="odds">{{ row[0].odds|number:"1.2-2" }}💹</div>
                             </div>
                           </td>
                           <td (click)="onCellClick(row[1])" *ngIf="row[1]">
                             <div class="score-box">
                               <div class="score">⚽️{{ row[1].value }}</div>
-                              <div class="odds">{{ row[1].odds }}💹</div>
+                              <div class="odds">{{ row[1].odds|number:"1.2-2" }}💹</div>
                             </div>
                           </td>
                           <td (click)="onCellClick(row[2])" *ngIf="row[2]">
                             <div class="score-box">
                               <div class="score">⚽️{{ row[2].value }}</div>
-                              <div class="odds">{{ row[2].odds }}💹</div>
+                              <div class="odds">{{ row[2].odds|number:"1.2-2" }}💹</div>
                             </div>
                           </td>
                         </tr>
@@ -90,7 +90,7 @@
                   <h6 class="title">{{fixture.fixture.league.name}}</h6>
                   <ul class="bet-result">
                       <li>⚽️Score: <span>{{selectedScore.value}}</span></li>
-                      <li>♻️Profit: <span>{{selectedScore.odds}}</span></li>
+                      <li>♻️Profit: <span>{{selectedScore.odds|number:"1.2-2"}}</span></li>
                       <li>💹Total Return: <span translate="no" class="total-return">{{walletData['init_currency']['symbol']}}<span>{{totalProfit|number}}</span></span></li>
                   </ul>
                   <!-- <button><i class="ri-close-line"></i></button> -->
