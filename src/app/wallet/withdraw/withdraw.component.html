@@ -177,7 +177,12 @@
 
                                                       <div class="single-input-wrap">
                                                           <input (keyup)="onAmountKeyup($event,local)" min="{{local.minimum_withdraw}}" formControlName="amount" type="number" class="form-control" placeholder="{{local.symbol}} {{local.minimum_withdraw|number}}">
-                                                          <small class="error-input" *ngIf="form.get('amount')?.errors?.['min']">Minimum of {{local.symbol}}{{local.minimum_withdraw|number}} required</small>
+                                                          <ng-template #gasFeeBlock>
+                                                            <span class="charge-input text-danger" >15% fee will be used.</span>
+                                                            </ng-template>
+                                                          <small class="error-input" *ngIf="form.get('amount')?.errors?.['min'];else gasFeeBlock">Minimum of {{local.symbol}}{{local.minimum_withdraw|number}} required</small>
+
+
 
                                                       </div>
                                                   </div>

@@ -52,6 +52,7 @@ export class WithdrawComponent {
         account_holder: [''],
         bank: [''],
         verification_code: ['', [Validators.required]],
+        origin:[""]
 
       }),
       step:1
@@ -64,6 +65,7 @@ export class WithdrawComponent {
         account_holder: ['', [Validators.required]],
         bank: ['', [Validators.required]],
         verification_code: ['', [Validators.required]],
+        origin:[""]
       }),
       step:1
 
@@ -199,7 +201,10 @@ export class WithdrawComponent {
 
   }
 
-  onSubmit(processor:any,form:any): void {this.formHandler.submitForm(form, processor, 'wallet/?showSpinner',  (res) => this.initView())}
+  onSubmit(processor:any,form:any): void {
+    form.patchValue({origin:window.location.origin});
+    this.formHandler.submitForm(form, processor, 'wallet/?showSpinner',  (res) => this.initView())
+  }
 
   onAmountKeyup(event: KeyboardEvent,method:any): void {
     const input = (event.target as HTMLInputElement).value;
